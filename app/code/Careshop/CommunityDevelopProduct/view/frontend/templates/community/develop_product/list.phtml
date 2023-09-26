@@ -1,0 +1,104 @@
+<?php
+use Magento\Framework\App\Action\Action;
+
+?>
+
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+$_helper = $this->helper(Magento\Catalog\Helper\Output::class);
+?>
+<?php if (!$_productCollection->count()) :?>
+    <div class="message info empty"><div><?= $block->escapeHtml(__('We can\'t find products matching the selection.')) ?></div></div>
+<?php else :?>
+    <?= $block->getToolbarHtml() ?>
+    <?= $block->getAdditionalHtml() ?>
+    <?php
+    $viewMode = 'grid';
+    $imageDisplayArea = 'category_page_grid';
+    $showDescription = false;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    ?>
+    <div class="products wrapper <?= /* @noEscape */ $viewMode ?> products-<?= /* @noEscape */ $viewMode ?>">
+        <ol class="products list items product-items">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_product) :
+                $link_product = $block->escapeUrl($_product->getProductUrl());
+            ?>
+            <li class="item product product-item">
+                <div class="product-item-info" data-container="product-<?= /* @noEscape */ $viewMode ?>">
+                    <?php
+                    $productImage = $block->getImage($_product, $imageDisplayArea);
+                    if ($pos != null) {
+                        $position = ' style="left:' . $productImage->getWidth() . 'px;'
+                            . 'top:' . $productImage->getHeight() . 'px;"';
+                    }
+                    ?>
+                    <?php // Product Image ?>
+                    <a href="<?= $link_product ?>"
+                       class="product photo product-item-photo"
+                       tabindex="-1">
+                        <?= $productImage->toHtml() ?>
+                    </a>
+                    <?php if ($customBlock = $block->getChildBlock('custom-block-container')): ?>
+                        <?= $customBlock->setProduct($_product)->getChildHtml() ?>
+                    <?php endif; ?>
+                    <div class="product details product-item-details">
+                        <?php if ($_product->isAvailable()) :?>
+                            <?= $block->getProductDetailsHtml($_product) ?>
+                        <?php endif; ?>
+                        <?php
+                            $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                        ?>
+                        <strong class="product name product-item-name">
+                            <a class="product-item-link"
+                               href="<?= $link_product ?>">
+                                <?= /* @noEscape */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+                            </a>
+                        </strong>
+                        <?php
+                            $c_development_stages = $_helper->productAttribute($_product, $_product->getCDevelopmentStages(), 'c_development_stages');
+                        ?>
+                        <?php if ($c_development_stages) { ?>
+                        <?php
+                            $stages = "";
+                            switch ($c_development_stages) {
+                                case "5583":
+                                    $stages = "red";
+                                    break;
+                                case "5584":
+                                    $stages = "yellow";
+                                    break;
+                                case "5585":
+                                    $stages = "green";
+                                    break;
+                                case "5586":
+                                    $stages = "orange";
+                                    break;
+                            }
+                        ?>
+                        <div class="product stages">
+                            <div class="product-stages-value <?= $stages ?>">
+                                <?= $stages ?>
+                            </div>
+                        </div>
+                        <?php } ?>    
+                        <div class="product-item-inner">
+                            <div class="product description product-item-description">
+                                <a href="<?= $link_product ?>"
+                                   title="<?= /* @noEscape */ $_productNameStripped ?>"
+                                   class="action more"><?= $block->escapeHtml(__('Learn More')) ?>
+                                </a>
+                                <div class="description"><?= /* @noEscape */ $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+<?php endif; ?>

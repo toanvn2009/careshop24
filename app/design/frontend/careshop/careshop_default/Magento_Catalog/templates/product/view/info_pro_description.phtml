@@ -1,0 +1,14 @@
+<?php
+$_product = $block->getProduct();
+$_helper = $this->helper(Magento\Catalog\Helper\Output::class);
+?>
+<div class="product-info-list-description-detail">
+	<div class="product-detail-short-description-fixed">
+		<strong><?= $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description'); ?></strong>
+	</div>
+	<div class="product-detail-description-fixed">
+		<div class="button-more-description-product-page"><a href="#"><?= __('Show More');?></a></div>
+		<div class="button-less-description-product-page no-display"><a href="#"><?= __('Show Less');?></a></div>
+		<div class="show-hide-less-more-description-product-page no-display"><?= ($_helper->productAttribute($_product, $_product->getDescription(), 'description')); ?></div>
+	</div>
+</div>

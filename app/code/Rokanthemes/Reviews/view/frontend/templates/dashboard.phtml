@@ -1,0 +1,41 @@
+<?php 
+	$listAlls = $block->getReviews(); 
+?>
+<div class="rokan-reviews">
+	<div class="rokan-review-action block-action">
+		<a href="<?= $block->escapeUrl($this->getUrl('reviews/index/index')) ?>" class="active action btn darken"><?php echo __('Ready To Review / Improve') ?></a>
+		<a href="<?= $block->escapeUrl($this->getUrl('reviews/customer/published')) ?>"" class="action btn grey"><?php echo __('Published') ?></a>
+	</div>
+<?php
+	if(count($listAlls) > 0){
+?>
+	<div class="rokan-review products-grid">
+		<ol class="product-items">
+			<?php foreach ($listAlls as $_item){ ?>
+				<li class="product-item">
+					<div class="info">
+						<span><?php echo $block->getTitelHeader($_item); ?></span>
+					</div>
+					<div class="product-item-info">
+						<div class="items-review-infor">
+							<div class="product-photo">
+								<img src="<?php echo $block->getImage($_item); ?>" />
+							</div>
+							<div class="product-item-info">
+								<p class="product-item-name"><?php echo $block->getName($_item); ?></p>
+							</div>
+						</div>
+						<div class="action">
+							<?php echo $block->getAction($_item); ?> 
+						</div>
+					</div>
+				</li>
+			<?php } ?>
+		</ol>
+	</div>
+<?php }else{ ?>
+	<div class="rokan-review-slider">	
+		<p class="note-msg"><?php echo __('There are no products matching the selection.') ?></p>
+	</div>
+<?php } ?>
+</div>

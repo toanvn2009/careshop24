@@ -1,0 +1,67 @@
+<?php
+	$params = $block->getRequest()->getParams();
+?>
+<div class="rokan-reviews">
+	<div class="rokan-review-action block-action">
+		<a href="<?= $block->escapeUrl($this->getUrl('reviews/index/index')) ?>" class="active action btn darken"><?php echo __('Ready To Review / Improve') ?></a>
+		<a href="<?= $block->escapeUrl($this->getUrl('reviews/customer/published')) ?>"" class="action btn grey"><?php echo __('Published') ?></a>
+	</div>
+	<div class="rokan-review-action-ready">
+		<div class="ready-review-action">
+			<a href="<?= $block->escapeUrl($this->getUrl('reviews/customer/review/id/'.$params['id'])) ?>"><?php echo __('Ready To Review') ?></a>
+		</div>
+		<div class="published-review-action">
+			<a class="active" href="<?= $block->escapeUrl($this->getUrl('reviews/customer/improve/id/'.$params['id'])) ?>"><?php echo __('Ready To Improve') ?></a>
+		</div>
+	</div>
+	<div class="rokan-review-form">
+		<div class="ready-review-product-info">
+			<div class="product-image">
+				<img src="<?php echo $block->getProductImage(); ?>" />
+			</div>
+			<div class="product-name">
+				<?php echo $block->getProductName(); ?>
+			</div>
+			<div class="product-date-order">
+				<span><?php echo __('Date of purchase : ') ?></span><span class="date"><?php echo $block->getPurchase(); ?></span>
+			</div>
+		</div>
+		<div class="ready-review-form">
+			<div class="block review">
+				<form action="<?= $block->escapeUrl($this->getUrl('reviews/customer/improvePost/id/'.$block->getPostId($params['id']))) ?>" data-mage-init='{"validation":{}}' class="form review-form" method="post" id="form-validate" enctype="multipart/form-data" autocomplete="off">
+					<?php echo $this->getBlockHtml('formkey')?>     
+					<input type="hidden" name="entity_simple_id" value="<?php echo $params['id'] ?>">
+					<fieldset class="fieldset review-fieldset" data-hasrequired="* Required Fields"> 
+						<div class="review-field-summary">
+							<div class="field review-field-summary required">
+								<label for="summary_field" class="label"><span><?php echo __('Improvement Title') ?></span></label>
+								<div class="control">
+									<input type="text" name="title" id="summary_field" class="input-text" data-validate="{required:true}" aria-required="true" placeholder="Example: Adding Function on....">
+								</div>
+							</div>
+							<div class="field review-field-text required">
+								<label for="review_field" class="label"><span><?php echo __('Improvement Idea') ?></span></label>
+								<div class="control">
+									<textarea name="detail" id="review_field" cols="5" rows="3" data-validate="{required:true}" aria-required="true" placeholder="Example: I bought the products amonth ago and iwant to add functionality on...."></textarea>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<div class="actions-toolbar review-form-actions">
+						<div class="primary actions-primary">
+							<button type="submit" class="action submit primary"><span><?php echo __('Post For Improvement') ?></span></button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<script type="text/x-magento-init">
+			{
+				"#form-validate": {
+					"Magento_Review/js/error-placement": {},
+					"Magento_Review/js/validate-review": {}
+				}
+			}
+			</script>
+		</div>
+	</div>
+</div>

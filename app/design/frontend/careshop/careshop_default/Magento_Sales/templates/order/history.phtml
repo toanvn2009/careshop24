@@ -1,0 +1,188 @@
+<?php 
+	$_orders = $block->getOrders(); 
+	$_imagehelper = $this->helper("Magento\Catalog\Helper\Image");
+	$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+	$url = strstr($actual_link, "?", true);
+	$params_url = $block->getRequest()->getParams();
+?>
+<div class="order-list">
+	<div class="order-list-tabs block-action">
+		<?php if(isset($params_url['status'])){ ?>
+			<a class="btn darken <?php if($params_url['status'] != 'complete' && $params_url['status'] != 'processing' && $params_url['status'] != 'returned'){echo 'active';}?>" href="<?= $url ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('All Orders')) ?></span></a>
+			<a class="darken btn <?php if(isset($params_url['status']) && $params_url['status'] == 'complete'){echo 'active';}?>" href="<?= $url.'?status=complete' ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('Complete')) ?></span></a>
+			<a class="darken btn <?php if(isset($params_url['status']) && $params_url['status'] == 'processing'){echo 'active';}?>" href="<?= $url.'?status=processing' ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('Shipping')) ?></span></a>
+			<a class="darken btn <?php if(isset($params_url['status']) && $params_url['status'] == 'returned'){echo 'active';}?>" href="<?= $url.'?status=returned' ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('Returned')) ?></span></a>
+		<?php }else{ ?>
+			<a class="btn darken <?php if(!isset($params_url['status'])){echo 'active';}?>" href="<?= $actual_link ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('All Orders')) ?></span></a>
+			<a class="darken btn <?php if(isset($params_url['status']) && $params_url['status'] == 'complete'){echo 'active';}?>" href="<?= $actual_link.'?status=complete' ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('Complete')) ?></span></a>
+			<a class="darken btn <?php if(isset($params_url['status']) && $params_url['status'] == 'processing'){echo 'active';}?>" href="<?= $actual_link.'?status=processing' ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('Shipping')) ?></span></a>
+			<a class="darken btn <?php if(isset($params_url['status']) && $params_url['status'] == 'returned'){echo 'active';}?>" href="<?= $actual_link.'?status=returned' ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('Returned')) ?></span></a>
+		<?php } ?>
+	</div>
+</div>
+<?= $block->getChildHtml('info') ?>
+<?php if ($_orders && count($_orders)) : ?>
+    <div class="table-wrapper orders-history products-grid">
+        <div class="order-items history product-items" id="my-orders">
+            <?php foreach ($_orders as $_order) : ?>
+				<div class="list-orders product-item">
+					<div class="orders-h info">
+						<div class="orders-h-info">
+							<div class="order-id">
+								<?php if(isset($params_url['status'])){ ?>
+									<?= $block->escapeHtmlAttr(__('Order')) ?> : <a href="<?= $block->escapeUrl($block->getViewUrl($_order).'?status='.$params_url['status']) ?>">#<?= $block->escapeHtml($_order->getRealOrderId()) ?></a>
+								<?php }else{ ?>
+									<?= $block->escapeHtmlAttr(__('Order')) ?> : <a href="<?= $block->escapeUrl($block->getViewUrl($_order)) ?>">#<?= $block->escapeHtml($_order->getRealOrderId()) ?></a>
+								<?php } ?>
+								
+							</div>
+							<div class="order-date">
+								<?= $block->escapeHtmlAttr(__('Placed on')) ?> <?= /* @noEscape */ date("d M Y", strtotime($_order->getCreatedAt())) ?>
+							</div>
+						</div>
+						<div class="order-date">
+							<?php if(isset($params_url['status'])){ ?>
+								<a href="<?= $block->escapeUrl($block->getViewUrl($_order).'?status='.$params_url['status']) ?>" class="action view">
+									<span><?= $block->escapeHtml(__('MANAGE')) ?></span>
+								</a>
+							<?php }else{ ?>
+								<a href="<?= $block->escapeUrl($block->getViewUrl($_order).'?status='.$_order->getStatus()) ?>" class="action view">
+									<span><?= $block->escapeHtml(__('MANAGE')) ?></span>
+								</a>
+							<?php } ?>
+						</div>
+					</div>
+					<div class="order-list">
+						<?php $orderItems = $_order->getAllVisibleItems(); ?>
+						<?php foreach ($orderItems as $_item) : ?>
+							<?php	
+								$productId = $_item->getProductId();
+								$product = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getLoadProductById($productId);
+								$result = [];
+								$options = $_item->getProductOptions();
+								if ($options) {
+									if (isset($options['options'])) {
+										$result = array_merge($result, $options['options']);
+									}
+									if (isset($options['additional_options'])) {
+										$result = array_merge($result, $options['additional_options']);
+									}
+									if (isset($options['attributes_info'])) {
+										$result = array_merge($result, $options['attributes_info']);
+									}
+								}
+							?>
+							<?php if(isset($params_url['status']) && $params_url['status'] == 'returned'){ ?>
+								<?php 
+									$id_item = $_item->getItemId();
+									$data_query = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getSalesOrderItemByItemId($id_item);
+									if($data_query){
+										$id_item = $data_query['item_id'];
+									}
+									$data_query_rm = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getAmastyRmaRequestItem($id_item);
+									if($data_query_rm){ ?>
+										<div class="items  product-item">
+											<div class="info-product product-item-info">
+												<?php $_image = $_imagehelper->init($product, 'category_page_grid')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(400); ?>
+												<div class="image-product product-photo">
+													<a href="#" class="product-item-photo">
+														<img src="<?= $_image->getUrl(); ?>" alt="<?= $_image->getLabel() ?>" />
+													</a>
+												</div>
+												<div class="product-name product-item-info">
+													<a title="<?= $this->escapeHtml($product->getName()) ?>"
+														href="<?= $product->getProductUrl(); ?>"
+														class="product-item-link">
+														<?= $this->escapeHtml($product->getName()) ?>
+													</a>
+													<?php if ($result): ?>
+														<dl>
+															<?php foreach ($result as $option): ?>
+																<dt><strong><em><?= /* @escapeNotVerified */  $option['label'] ?></em></strong></dt>
+																<dd>
+																	<?= /* @escapeNotVerified */  nl2br($option['value']) ?>
+																</dd>
+															<?php endforeach; ?>
+														</dl>
+													<?php endif; ?>
+												</div>
+											</div>
+										</div>
+								<?php } ?>
+							<?php }else{ ?>
+								<div class="items product-item">
+									<div class="info-product product-item-info">
+										<?php $_image = $_imagehelper->init($product, 'category_page_grid')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(400); ?>
+										<div class="image-product product-photo">
+											<a href="#" class="product-item-photo">
+												<img src="<?= $_image->getUrl(); ?>" alt="<?= $_image->getLabel() ?>" />
+											</a>
+										</div>
+										<div class="product-name product-item-info">
+											<a title="<?= $this->escapeHtml($product->getName()) ?>"
+												href="<?= $product->getProductUrl(); ?>"
+												class="product-item-link">
+												<?= $this->escapeHtml($product->getName()) ?>
+											</a>
+											<?php if ($result): ?>
+												<dl>
+													<?php foreach ($result as $option): ?>
+														<dt><strong><em><?= /* @escapeNotVerified */  $option['label'] ?></em></strong></dt>
+														<dd>
+															<?= /* @escapeNotVerified */  nl2br($option['value']) ?>
+														</dd>
+													<?php endforeach; ?>
+												</dl>
+											<?php endif; ?>
+										</div>
+									</div>
+								</div>
+							<?php } ?>
+						<?php endforeach; ?>
+					</div>
+					<div class="order-f">
+						<?php 
+							if(isset($params_url['status']) && $params_url['status'] == 'returned'){
+								$data_query = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getAmastyRmaRequest($_order->getEntityId());
+								$Status = ''.__('Returned').'';
+								if(isset($data_query['created_at'])){
+									$order_date = ''.__('Returned on').' '.date("d M Y", strtotime($data_query['created_at']));
+								}
+								else{
+									$order_date = ''.__('Returned on');
+								}
+							}else{
+								if($_order->getStatus() == 'pending'){ 
+									$Status = ''.__('Pending').'';
+									$order_date = ''.__('Placed on').' '.date("d M Y", strtotime($_order->getCreatedAt())).'';
+								}elseif($_order->getStatus() == 'complete'){
+									$Status = ''.__('Delivered').'';
+									$order_date = ''.__('Esimated Delivered on').' '.date("d M Y", strtotime($_order->getUpdatedAt())).'';
+								}elseif($_order->getStatus() == 'processing'){
+									$Status = ''.__('Shipping').'';
+									$order_date = ''.__('Delivered on').' '.date("d M Y", strtotime($_order->getUpdatedAt())).'';
+								}else{
+									$Status = $_order->getStatusLabel();	
+									$order_date = ''.date("d M Y", strtotime($_order->getUpdatedAt())).'';
+								}
+							}
+						?>
+						<div class="order-date">
+							<?= $order_date ?> 
+						</div>
+						<div class="order-Status">
+							<span class="status"><?= $block->escapeHtmlAttr(__('Status')) ?> : </span><?= $block->escapeHtml($Status) ?>
+						</div>
+					</div>
+				</div>
+				
+				
+			<?php endforeach; ?>
+        </div>
+    </div>
+    <?php if ($block->getPagerHtml()) : ?>
+        <div class="order-products-toolbar toolbar bottom"><?= $block->getPagerHtml() ?></div>
+    <?php endif ?>
+<?php else : ?>
+    <div class="message info empty"><span><?= $block->escapeHtml(__('You have placed no orders.')) ?></span></div>
+<?php endif ?>

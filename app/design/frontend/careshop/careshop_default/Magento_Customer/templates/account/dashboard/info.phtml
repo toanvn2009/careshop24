@@ -1,0 +1,267 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Customer\Block\Account\Dashboard\Info $block */
+?>
+<div class="block block-dashboard-info">
+    <div class="block-title"><strong><?= $block->escapeHtml(__('Account Information')) ?></strong></div>
+    <div class="block-content">
+        <div class="box box-information">
+            <strong class="box-title">
+                <span><?= $block->escapeHtml(__('Contact Information')) ?></span>
+            </strong>
+            <div class="box-content">
+                <p>
+                    <span class="title"><?php echo __('Title:') ?></span>
+                    <span class="value">
+                        <?php
+                            if($block->getCustomer()->getGender() == 1)
+                                echo __('Mr');
+                            else
+                                echo __('Mrs');
+                        ?>
+                    </span>
+                </p>
+                <p>
+                    <span class="title"><?php echo __('Name:') ?></span>
+                    <span class="value">
+                        <?php
+                            echo $block->escapeHtml($block->getName());
+                        ?>
+                    </span>
+                </p>
+                <p>
+                    <span class="title"><?php echo __('Email:') ?></span>
+                    <span class="value">
+                        <?php
+                            echo $block->escapeHtml($block->getCustomer()->getEmail());
+                        ?>
+                    </span>
+                </p>
+                <p>
+                    <?php
+                    $date_string = $block->getCustomer()->getDob();
+                    if($date_string)
+                    {
+                    ?>
+                    <span class="title"><?php echo __('Date of Birth:') ?></span>
+                    <span class="value">
+                        <?php
+                            
+                                $date_array = explode("-",$date_string);
+                            
+                                echo $date_array[1].'/'.$date_array[2].'/'.$date_array[0];
+                        ?>
+                    </span>
+                    <?php
+                    }
+                    ?>
+                </p>
+                <?php if($block->getCustomer()->getCustomAttribute('phone')): ?>
+                <p>
+                    <span class="title"><?php echo __('Phone Number:') ?></span>
+                    <span class="value">
+                        <?php
+                            echo $block->getCustomer()->getCustomAttribute('phone')->getValue();
+                        ?>
+                    </span>
+                </p>
+                <?php endif; ?>
+                <?php if($block->getCustomer()->getCustomAttribute('language')): ?>
+                <p class="language">
+                    <span class="title"><?php echo __('Language:') ?></span>
+                    <span class="value">
+                        <?php
+                            echo $block->getCustomer()->getCustomAttribute('language')->getValue();
+                        ?>
+                    </span>
+                </p>
+                <?php endif; ?>
+                <?= $block->getChildHtml('customer.account.dashboard.info.extra'); ?>
+            </div>
+            <div class="box-actions">
+                <a class="action edit" href="<?= $block->escapeUrl($block->getUrl('customer/account/edit')) ?>">
+                    <span><?= $block->escapeHtml(__('Edit')) ?></span>
+                </a>
+                <a href="<?= $block->escapeUrl($block->getChangePasswordUrl()) ?>" class="action change-password">
+                    <?= $block->escapeHtml(__('Change Password')) ?>
+                </a>
+            </div>
+        </div>
+        <?php if ($block->isNewsletterEnabled()) : ?>
+            <div class="box box-newsletter">
+                <strong class="box-title">
+                    <span><?= $block->escapeHtml(__('Newsletter')) ?></span>
+                </strong>
+                <div class="box-content">
+                    <p>
+                        <!-- <?php if ($block->getIsSubscribed()) : ?>
+                            <?= $block->escapeHtml(__('You are subscribed to "General Subscription".')) ?>
+                        <?php else : ?>
+                            <?= $block->escapeHtml(__('You aren\'t subscribed to our newsletter.')) ?>
+                        <?php endif; ?> -->
+                        <div class="field choice">
+                            <input type="checkbox" name="is_subscribed" id="subscription" value="1" title="I want to receive your Newsletter." class="checkbox" <?php if($block->getIsSubscribed()) echo 'checked'; ?>>
+                            <label for="subscription" class="label"><span>I want to receive your Newsletter. </span></label>
+                        </div>
+                    </p>
+                </div>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+<div id="popup-modal">
+    <h3>Unsubscribing from our newsletter will remove you from our mailing list, and you will no longer receive any updates or promotions from us.</h3>
+</div>
+<script type="text/javascript">
+    // require(["jquery"], function($) {
+    //     $(document).ready(function() {
+    //         $(document).on("click" , '#subscription', function(event){
+    //             var subscription;
+    //             if($( this ).prop('checked'))
+    //             {
+    //                 subscription = 1;
+    //             }else{
+    //                 subscription = 0;
+    //             }
+    //             var form = $(document.createElement('form'));
+    //             $(form).attr("action", "<?php echo $block->getUrl('newsletter/manage/save'); ?>");
+    //             $(form).attr("method", "POST");
+
+    //             var input = $("<input>")
+    //                 .attr("type", "hidden")
+    //                 .attr("name", "is_subscribed")
+    //                 .val(subscription);
+
+    //             $(form).append($(input));
+
+    //             var formkeys = $("[name='form_key']");
+    //             var formkey = '';
+
+    //             formkeys.each(function( index ) {
+    //                 formkey = $( this ).val();
+    //             });
+
+    //             var input = $("<input>")
+    //                 .attr("type", "hidden")
+    //                 .attr("name", "form_key")
+    //                 .val(formkey);
+
+    //             $(form).append($(input));
+
+    //             form.appendTo(document.body)
+
+    //             if(subscription == 0){
+    //                 $(form).submit();
+    //             }else{
+                    
+    //             }
+    //         });
+    //     });
+    // });
+
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                modalClass: 'modal-popup-confirm-unsubscribe',
+                responsive: true,
+                innerScroll: true,
+                title: 'Are you sure you want to unsubscribe?',
+                buttons: [{
+                    text: $.mage.__('Cancel'),
+                    class: 'popup-cancel-unsubscribe',
+                    click: function () {
+                        this.closeModal();
+                    }
+                },
+                {
+                    text: $.mage.__('Unsubscribe'),
+                    class: 'popup-confirm-unsubscribe',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }
+                ]
+            };
+
+            var popup = modal(options, $('#popup-modal'));
+
+            // $("#subscription").click(function(event) {
+            //     if($('#subscription').prop("checked")){
+            //         $('#popup-modal').modal('openModal');
+            //     }
+            // });
+
+            $(document).ready(function() {
+                var form, form_active = 1;
+                var subscription;
+
+                $(document).on("click" , '#subscription', function(event){
+                    if(form_active){
+                        if($( this ).prop('checked'))
+                        {
+                            subscription = 1;
+                        }else{
+                            subscription = 0;
+                        }
+                        form = $(document.createElement('form'));
+                        $(form).attr("action", "<?php echo $block->getUrl('newsletter/manage/save'); ?>");
+                        $(form).attr("method", "POST");
+
+                        var input = $("<input>")
+                            .attr("type", "hidden")
+                            .attr("name", "is_subscribed")
+                            .val(subscription);
+
+                        $(form).append($(input));
+
+                        var formkeys = $("[name='form_key']");
+                        var formkey = '';
+
+                        formkeys.each(function( index ) {
+                            formkey = $( this ).val();
+                        });
+
+                        var input = $("<input>")
+                            .attr("type", "hidden")
+                            .attr("name", "form_key")
+                            .val(formkey);
+
+                        $(form).append($(input));
+                    }
+
+                    if(subscription == 0){
+                        if(form_active == 1){
+                            form.appendTo(document.body);
+                            form_active = 0;
+                        }
+                        $('#popup-modal').modal('openModal');
+                    }else{
+                        form.appendTo(document.body);
+
+                        $(form).submit();
+                    }
+                });
+
+                $(document).on("click" , '.popup-confirm-unsubscribe', function(event){
+                    $(form).submit();
+                });
+
+                $(document).on("click" , '.popup-cancel-unsubscribe', function(event){
+                    $('#subscription').prop('checked', true);
+                });
+            });
+        }
+    );
+</script>

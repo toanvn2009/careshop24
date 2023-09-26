@@ -1,0 +1,300 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="community_author" resource="default" engine="innodb" comment="Community Author Table">
+        <column xsi:type="int" name="user_id" unsigned="false" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="false" nullable="false" identity="false"
+                comment="Customer ID" default="0"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="255" comment="Name"/>
+        <column xsi:type="varchar" name="url_key" nullable="true" length="255" comment="Url Key"/>
+        <column xsi:type="varchar" name="email" nullable="true" length="255" comment="Email"/>
+        <column xsi:type="varchar" name="facebook_link" nullable="true" length="255" comment="Facebook Link"/>
+        <column xsi:type="varchar" name="twitter_link" nullable="true" length="255" comment="Twitter Link"/>
+        <column xsi:type="smallint" name="type" unsigned="false" nullable="false" identity="false"
+                default="0" comment="Type"/>
+        <column xsi:type="smallint" name="status" unsigned="false" nullable="false" identity="false"
+                default="0" comment="Status"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Modification Time"/>
+        <column xsi:type="text" name="short_description" nullable="true" comment="Short Description"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="user_id"/>
+        </constraint>
+        <index referenceId="COMMUNITY_AUTHOR_NAME_URL_KEY_EMAIL_CONTENT" indexType="fulltext">
+            <column name="name"/>
+            <column name="url_key"/>
+            <column name="email"/>
+        </index>
+    </table>
+    <table name="community_category" resource="default" engine="innodb" comment="Community Author Table">
+        <column xsi:type="int" name="category_id" unsigned="false" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="int" name="parent_id" unsigned="false" nullable="false" identity="false" comment="Parent ID" default="0"/>
+        <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false" comment="position" default="0"/>
+        <column xsi:type="int" name="level" unsigned="false" nullable="false" identity="false" comment="level" default="0"/>
+        <column xsi:type="int" name="children_count" unsigned="false" nullable="false" identity="false" comment="children_count" default="0"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="255" comment="Name"/>
+        <column xsi:type="text" name="description" nullable="true" comment="Description"/>
+        <column xsi:type="varchar" name="store_ids" nullable="true" length="255" comment="Store Ids"/>
+        <column xsi:type="varchar" name="url_key" nullable="true" length="255" comment="Url Key"/>
+        <column xsi:type="smallint" name="enabled" unsigned="false" nullable="false" identity="false"
+                default="0" comment="enabled"/>
+        <column xsi:type="varchar" name="meta_title" nullable="true" length="255" comment="meta_title"/>
+        <column xsi:type="text" name="meta_description" nullable="true" comment="meta_description"/>
+        <column xsi:type="text" name="meta_keywords" nullable="true" comment="meta_keywords"/>
+        <column xsi:type="varchar" name="meta_robots" nullable="true" length="255" comment="meta_robots"/>
+        <column xsi:type="varchar" name="path" nullable="true" length="255" comment="path"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Modification Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="category_id"/>
+        </constraint>
+    </table>
+    <table name="community_comment" resource="default" engine="innodb" comment="Community _comment">
+        <column xsi:type="int" name="comment_id" unsigned="false" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="int" name="idea_id" unsigned="false" nullable="false" identity="false" comment="Idea ID" default="0"/>
+        <column xsi:type="int" name="entity_id" unsigned="false" nullable="false" identity="false" comment="User comment Id" default="0"/>
+        <column xsi:type="smallint" name="has_reply" unsigned="false" nullable="false" identity="false" comment="has_reply" default="0"/>
+        <column xsi:type="smallint" name="is_reply" unsigned="false" nullable="false" identity="false" comment="is_reply" default="0"/>
+        <column xsi:type="smallint" name="status" unsigned="false" nullable="false" identity="false" comment="status" default="0"/>
+        <column xsi:type="int" name="reply_id" unsigned="false" nullable="false" identity="false" comment="reply_id" default="0"/>
+        <column xsi:type="text" name="content" nullable="true" comment="content"/>
+        <column xsi:type="varchar" name="store_ids" nullable="true" length="255" comment="Store Ids"/>
+        <column xsi:type="varchar" name="user_name" nullable="true" length="255" comment="user_name"/>
+        <column xsi:type="varchar" name="user_email" nullable="true" length="255" comment="user_email"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Modification Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="comment_id"/>
+        </constraint>
+        <index referenceId="COMMUNITY_IDEA_ID" indexType="btree">
+            <column name="idea_id"/>
+        </index>
+        <index referenceId="COMMUNITY_CUSTOMER_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+    </table>
+    <table name="community_comment_like" resource="default" engine="innodb" comment="Community _comment_like">
+        <column xsi:type="int" name="like_id" unsigned="false" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="int" name="comment_id" unsigned="false" nullable="false" identity="false" comment="comment_id" default="0"/>
+        <column xsi:type="int" name="entity_id" unsigned="false" nullable="false" identity="false" comment="User comment Id" default="0"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="like_id"/>
+        </constraint>
+        <index referenceId="COMMUNITY_COMMENT_LIKE_COMMENT_ID" indexType="btree">
+            <column name="comment_id"/>
+        </index>
+        <index referenceId="COMMUNITY_COMMENT_LIKE_CUSTOMER_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+    </table>
+    <table name="community_idea" resource="default" engine="innodb" comment="Community idea">
+        <column xsi:type="int" name="idea_id" unsigned="false" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="int" name="author_id" unsigned="false" nullable="false" identity="false" comment="author_id" default="0"/>
+        <column xsi:type="smallint" name="enabled" unsigned="false" nullable="false" identity="false" comment="enabled" default="0"/>
+        <column xsi:type="int" name="views" unsigned="false" nullable="false" identity="false" comment="views" default="0"/>
+        <column xsi:type="int" name="in_rss" unsigned="false" nullable="false" identity="false" comment="in_rss" default="0"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="255" comment="name"/>
+        <column xsi:type="text" name="post_content" nullable="true" comment="post_content"/>
+        <column xsi:type="varchar" name="image" nullable="true" length="255" comment="image"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Modification Time"/>
+        <column xsi:type="timestamp" name="publish_date" on_update="false" nullable="true" default="CURRENT_TIMESTAMP"
+                comment="publish_date"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="idea_id"/>
+        </constraint> 
+    </table>
+    <table name="community_idea_category" resource="default" engine="innodb" comment="Community idea_category">
+        <column xsi:type="int" name="category_id" unsigned="false" nullable="false" identity="false"
+                comment="Category ID"/>
+        <column xsi:type="int" name="idea_id" unsigned="false" nullable="false" identity="false" comment="idea_id" default="0"/>
+        <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false" comment="position" default="0"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="category_id"/>
+            <column name="idea_id"/>
+        </constraint>
+        <index referenceId="COMMUNITY_IDEA_CATEGORY_IDEA_ID" indexType="btree">
+            <column name="idea_id"/>
+        </index>
+        <index referenceId="COMMUNITY_IDEA_CATEGORY_CATEGORY" indexType="btree">
+            <column name="category_id"/>
+        </index>
+    </table>
+    <table name="community_idea_history" resource="default" engine="innodb" comment="Community idea_history">
+        <column xsi:type="int" name="history_id" unsigned="false" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="int" name="idea_id" unsigned="false" nullable="false" identity="false" comment="idea_id" default="0"/>
+        <column xsi:type="int" name="author_id" unsigned="false" nullable="false" identity="false" comment="author_id" default="0"/>
+        <column xsi:type="int" name="views" unsigned="false" nullable="false" identity="false" comment="views" default="0"/>
+        <column xsi:type="smallint" name="enabled" unsigned="false" nullable="false" identity="false" comment="enabled" default="0"/>
+        <column xsi:type="int" name="in_rss" unsigned="false" nullable="false" identity="false" comment="in_rss" default="0"/>
+        <column xsi:type="smallint" name="allow_comment" unsigned="false" nullable="false" identity="false" comment="allow_comment" default="0"/>
+        <column xsi:type="int" name="modifier_id" unsigned="false" nullable="false" identity="false" comment="modifier_id" default="0"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="255" comment="name"/>
+        <column xsi:type="text" name="short_description" nullable="true" comment="short_description"/>
+        <column xsi:type="text" name="post_content" nullable="true" comment="post_content"/>
+        <column xsi:type="varchar" name="store_ids" nullable="true" length="255" comment="Store Ids"/>
+        <column xsi:type="varchar" name="image" nullable="true" length="255" comment="image"/>
+        <column xsi:type="varchar" name="url_key" nullable="true" length="255" comment="url_key"/>
+        <column xsi:type="varchar" name="meta_title" nullable="true" length="255" comment="meta_title"/>
+        <column xsi:type="text" name="meta_description" nullable="true" comment="meta_description"/>
+        <column xsi:type="text" name="meta_keywords" nullable="true" comment="meta_keywords"/>
+        <column xsi:type="varchar" name="meta_robots" nullable="true" length="255" comment="meta_robots"/>
+        <column xsi:type="varchar" name="category_ids" nullable="true" length="255" comment="category_ids"/>
+        <column xsi:type="varchar" name="tag_ids" nullable="true" length="255" comment="tag_ids"/>
+        <column xsi:type="varchar" name="topic_ids" nullable="true" length="255" comment="topic_ids"/>
+        <column xsi:type="text" name="layout" nullable="true" comment="layout"/>
+        <column xsi:type="text" name="product_ids" nullable="true" comment="product_ids"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Modification Time"/>
+        <column xsi:type="timestamp" name="publish_date" on_update="false" nullable="true" default="CURRENT_TIMESTAMP"
+                comment="publish_date"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="history_id"/>
+        </constraint>
+        <index referenceId="COMMUNITY_IDEA_AUTHOR_ID" indexType="btree">
+            <column name="author_id"/>
+        </index>
+    </table>
+    <table name="community_idea_like" resource="default" engine="innodb" comment="Community idea_like">
+        <column xsi:type="int" name="like_id" unsigned="false" nullable="false" identity="false"
+                comment="Category ID"/>
+        <column xsi:type="int" name="idea_id" unsigned="false" nullable="false" identity="false" comment="idea_id" default="0"/>
+        <column xsi:type="int" name="entity_id" unsigned="false" nullable="false" identity="false" comment="entity_id" default="0"/>
+        <column xsi:type="int" name="action" unsigned="false" nullable="false" identity="false" comment="action" default="0"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="like_id"/>
+        </constraint>
+        <index referenceId="COMMUNITY_IDEA_LIKE_IDEA_ID" indexType="btree">
+            <column name="idea_id"/>
+        </index>
+        <index referenceId="COMMUNITY_IDEA_LIKE_ENTITY_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+    </table>
+    <table name="community_idea_product" resource="default" engine="innodb" comment="Community idea_product">
+        <column xsi:type="int" name="idea_id" unsigned="false" nullable="false" identity="false"
+                comment="Idea ID"/>
+        <column xsi:type="int" name="entity_id" unsigned="false" nullable="false" identity="false" comment="entity_id" default="0"/>
+        <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false" comment="action" default="0"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="idea_id"/>
+            <column name="entity_id"/>
+        </constraint>
+        <index referenceId="COMMUNITY_IDEA_PRODUCT_IDEA_ID" indexType="btree">
+            <column name="idea_id"/>
+        </index>
+        <index referenceId="COMMUNITY_IDEA_PRODUCT_ENTITY_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+    </table>
+    <table name="community_idea_tag" resource="default" engine="innodb" comment="Community idea_tag">
+        <column xsi:type="int" name="tag_id" unsigned="false" nullable="false" identity="false"
+                comment="Tag ID"/>
+        <column xsi:type="int" name="idea_id" unsigned="false" nullable="false" identity="false" comment="entity_id" default="0"/>
+        <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false" comment="action" default="0"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="tag_id"/>
+            <column name="idea_id"/>
+        </constraint>
+        <index referenceId="COMMUNITY_IDEA_TAG_IDEA_ID" indexType="btree">
+            <column name="idea_id"/>
+        </index>
+        <index referenceId="COMMUNITY_IDEA_TAG_TAG_ID" indexType="btree">
+            <column name="tag_id"/>
+        </index>
+    </table>
+    <table name="community_idea_traffic" resource="default" engine="innodb" comment="Community idea_traffic">
+        <column xsi:type="int" name="traffic_id" unsigned="false" nullable="false" identity="false"
+                comment="traffic_id"/>
+        <column xsi:type="int" name="idea_id" unsigned="false" nullable="false" identity="false" comment="entity_id" default="0"/>
+        <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false" comment="action" default="0"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="traffic_id"/>
+            <column name="idea_id"/>
+        </constraint>
+        <index referenceId="COMMUNITY_IDEA_TRAFFIC_IDEA_ID" indexType="btree">
+            <column name="idea_id"/>
+        </index>
+        <index referenceId="COMMUNITY_IDEA_TRAFFIC_TRAFFIC_ID" indexType="btree">
+            <column name="traffic_id"/>
+        </index>
+    </table>
+    <table name="community_idea_topic" resource="default" engine="innodb" comment="Community idea_topic">
+        <column xsi:type="int" name="topic_id" unsigned="false" nullable="false" identity="false"
+                comment="topic_id"/>
+        <column xsi:type="int" name="idea_id" unsigned="false" nullable="false" identity="false" comment="entity_id" default="0"/>
+        <column xsi:type="int" name="position" unsigned="false" nullable="false" identity="false" comment="action" default="0"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="topic_id"/>
+            <column name="idea_id"/>
+        </constraint>
+        <index referenceId="COMMUNITY_IDEA_TRAFFIC_IDEA_ID" indexType="btree">
+            <column name="idea_id"/>
+        </index>
+        <index referenceId="COMMUNITY_IDEA_TRAFFIC_TRAFFIC_ID" indexType="btree">
+            <column name="topic_id"/>
+        </index>
+    </table>
+
+    <table name="community_tag" resource="default" engine="innodb" comment="Community community_tag">
+        <column xsi:type="int" name="tag_id" unsigned="false" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="smallint" name="enabled" unsigned="false" nullable="false" identity="false" comment="enabled" default="0"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="255" comment="name"/>
+        <column xsi:type="varchar" name="url_key" nullable="true" length="255" comment="url_key"/>
+        <column xsi:type="text" name="description" nullable="true" comment="description"/>
+        <column xsi:type="varchar" name="store_ids" nullable="true" length="255" comment="Store Ids"/>
+        <column xsi:type="varchar" name="meta_title" nullable="true" length="255" comment="meta_title"/>
+        <column xsi:type="text" name="meta_description" nullable="true" comment="meta_description"/>
+        <column xsi:type="text" name="meta_keywords" nullable="true" comment="meta_keywords"/>
+        <column xsi:type="varchar" name="meta_robots" nullable="true" length="255" comment="meta_robots"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Modification Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="tag_id"/>
+        </constraint>
+    </table>
+
+    <table name="community_topic" resource="default" engine="innodb" comment="Community _topic">
+        <column xsi:type="int" name="topic_id" unsigned="false" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="smallint" name="enabled" unsigned="false" nullable="false" identity="false" comment="enabled" default="0"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="255" comment="name"/>
+        <column xsi:type="text" name="description" nullable="true" comment="description"/>
+        <column xsi:type="varchar" name="store_ids" nullable="true" length="255" comment="Store Ids"/>
+        <column xsi:type="varchar" name="url_key" nullable="true" length="255" comment="url_key"/>
+        <column xsi:type="varchar" name="meta_title" nullable="true" length="255" comment="meta_title"/>
+        <column xsi:type="text" name="meta_description" nullable="true" comment="meta_description"/>
+        <column xsi:type="text" name="meta_keywords" nullable="true" comment="meta_keywords"/>
+        <column xsi:type="varchar" name="meta_robots" nullable="true" length="255" comment="meta_robots"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Modification Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="topic_id"/>
+        </constraint>
+    </table>
+</schema>

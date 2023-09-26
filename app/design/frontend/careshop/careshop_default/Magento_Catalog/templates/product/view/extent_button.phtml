@@ -1,0 +1,110 @@
+<?php
+$_product = $block->getProduct();
+$pricingHelper = $this->helper(\Magento\Framework\Pricing\Helper\Data::class);
+$finalPriceModel = ($_product->getId() == 114) ? 129 : $_product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+?>
+<div class="button-extra-container-fixed">
+	<div class="button-included-product-set"><button><?= __('Included in Product Set');?></button></div>
+</div>
+<div id="id-product-included-product-sets" style="display:none;" class="container-product-included-product-sets">
+    <h4 class="btn"><?= __('Included in Product Set');?></h4>
+    <div class="fixed-content-included-product-sets<?= ($_product->getId() == '1145') ? ' fixed-content-included-product-sets-4-functional-boxer' : '' ?>">
+        <div class="fixed-list-item-included-product-sets">
+        <?php
+            $ro_configurable = $this->helper(\Rokanthemes\RokanBase\Helper\Configurablepro::class);
+            $relatedProducts = $ro_configurable->getRelatedProduct($_product->getId());
+            $total_price = ($_product->getId() == '1145') ? 0 : $finalPriceModel;
+            if(!empty($relatedProducts)){
+                $i = 0;
+                foreach ($relatedProducts as $relatedProduct) { $i ++;
+                    $product_load = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getLoadProductById($relatedProduct['linked_product_id']);
+                    $total_price = $total_price + $product_load->getPrice();
+                ?>
+                    <div class="container-item-list-product-sets">
+                        <?php if($_product->getId() == '1145'){ ?>
+                        <div class="title-fixed-boxers">
+                            <?php if($i == 1){ ?>
+                            <span><?php echo __('1 Boxer') ?></span>
+                            <?php } ?>
+                            <?php if($i == 2){ ?>
+                            <span><?php echo __('2 Boxers') ?></span>
+                            <?php } ?>
+                            <?php if($i == 3){ ?>
+                            <span><?php echo __('3 Boxers') ?></span>
+                            <?php } ?>
+                            <?php if($i == 4){ ?>
+                            <span><?php echo __('4 Boxers') ?></span>
+                            <?php } ?>
+                        </div>
+                        <?php } ?>
+                        <div class="img-item-product-list">
+                            <img title="<?= $product_load->getName(); ?>" alt="<?= $product_load->getName(); ?>" src="<?= $this->helper('Rokanthemes\RokanBase\Helper\Data')->getUrlProductImage($product_load, 'product_base_image' ,200,200); ?>">
+                        </div>
+                        <div class="price-name-item-product-list">
+                            <div class="price-item-product-list"><?= $pricingHelper->currency($product_load->getPrice() , true, false);?></div>
+                            <div class="name-item-product-list"><?= $product_load->getName(); ?></div>
+                        </div>
+                    </div>
+                    <?php if($_product->getId() != '1145'){ ?>
+                    <div class="product-set-icon-plus"><i class="fa fa-plus"></i></div>
+                    <?php }else{ ?>
+                    <div class="product-set-icon-plus"><i class="fa fa-plus" style="display: none;"></i></div>
+                    <?php } ?>
+                <?php }
+            } ?>
+            <?php if($_product->getId() != '1145'){ ?>
+            <div class="container-item-list-product-sets">
+                <div class="img-item-product-list">
+                    <img title="<?= $_product->getName(); ?>" alt="<?= $_product->getName(); ?>" src="<?= $this->helper('Rokanthemes\RokanBase\Helper\Data')->getUrlProductImage($_product, 'product_base_image' ,200,200); ?>">
+                </div>
+                <div class="price-name-item-product-list">
+                    <div class="price-item-product-list"><?= $pricingHelper->currency($finalPriceModel , true, false);?></div>
+                    <div class="name-item-product-list"><?= $_product->getName(); ?></div>
+                </div>
+            </div>
+            <?php } ?>
+        </div>
+        <div class="total-product-sets">
+            <?php if($_product->getId() != '1145'){ ?>
+            <span class="btn"><?= __('Total value');?> = <?= $pricingHelper->currency($total_price , true, false);?></span>
+            <?php }else{ ?>
+            <span class="btn"><?= __('Total value');?> = CHF 169.00 - 42.25</span>
+            <h3>CARESHOP PRICE = CHF 42.25 - 69.00</h3>
+            <?php } ?>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options_productset = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                modalClass: 'see-detail-modal-included-product-sets',
+                title: '',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            var popup_product_set = modal(options_productset, $('#id-product-included-product-sets'));
+            $(".button-included-product-set button").on('click',function(){ 
+                $("#id-product-included-product-sets").modal("openModal");
+                return false;
+            });
+
+        }
+    );
+</script>

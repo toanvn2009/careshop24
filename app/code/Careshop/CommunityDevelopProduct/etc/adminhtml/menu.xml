@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!--
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Careshop_CommunityDevelopProduct::community_develop_group" title="Community Develop Group" module="Careshop_CommunityDevelopProduct" sortOrder="10" resource="Careshop_CommunityDevelopProduct::community_develop_group" parent="Careshop_Community::community"/>
+        <add id="Careshop_CommunityDevelopProduct::develop" title="Manage Develop" module="Careshop_CommunityDevelopProduct" sortOrder="10" action="communitydevelop/develop" resource="Careshop_CommunityDevelopProduct::develop" parent="Careshop_CommunityDevelopProduct::community_develop_group"/>
+        <add id="Careshop_CommunityDevelopProduct::develop_forum" title="Manage Develop Forum" module="Careshop_CommunityDevelopProduct" sortOrder="15" action="communitydevelop/forum" resource="Careshop_CommunityDevelopProduct::develop_forum" parent="Careshop_CommunityDevelopProduct::community_develop_group"/>
+    </menu>
+</config>

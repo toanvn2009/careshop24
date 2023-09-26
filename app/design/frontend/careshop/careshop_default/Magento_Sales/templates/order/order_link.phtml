@@ -1,0 +1,21 @@
+<?php
+	$actual_link = $block->escapeUrl($this->getUrl('sales/order/history'));
+	$params_url = $block->getRequest()->getParams(); 
+?>
+<?php /** @var $block \Magento\Sales\Block\Order\Info */ ?>
+
+<div class="order-list">
+	<div class="order-list-tabs block-action">
+		<?php if(isset($params_url['status'])){ ?>
+			<a class="btn darken <?php if($params_url['status'] != 'complete' && $params_url['status'] != 'processing' && $params_url['status'] != 'returned'){echo 'active';}?>" href="<?= $actual_link ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('All Orders')) ?></span></a>
+			<a class="darken btn <?php if(isset($params_url['status']) && $params_url['status'] == 'complete'){echo 'active';}?>" href="<?= $actual_link.'?status=complete' ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('Delivered')) ?></span></a>
+			<a class="darken btn <?php if(isset($params_url['status']) && $params_url['status'] == 'processing'){echo 'active';}?>" href="<?= $actual_link.'?status=processing' ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('Shipping')) ?></span></a>
+			<a class="darken btn <?php if(isset($params_url['status']) && $params_url['status'] == 'returned'){echo 'active';}?>" href="<?= $actual_link.'?status=returned' ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('Returned')) ?></span></a>
+		<?php }else{ ?>
+			<a class="btn darken active" href="<?= $actual_link ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('All Orders')) ?></span></a>
+			<a class="darken btn <?php if(isset($params_url['status']) && $params_url['status'] == 'complete'){echo 'active';}?>" href="<?= $actual_link.'?status=complete' ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('Complete')) ?></span></a>
+			<a class="darken btn <?php if(isset($params_url['status']) && $params_url['status'] == 'processing'){echo 'active';}?>" href="<?= $actual_link.'?status=processing' ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('Shipping')) ?></span></a>
+			<a class="darken btn <?php if(isset($params_url['status']) && $params_url['status'] == 'returned'){echo 'active';}?>" href="<?= $actual_link.'?status=returned' ?>"><span class="order-tab-item"><?= $block->escapeHtml(__('Returned')) ?></span></a>
+		<?php } ?>
+	</div>
+</div>

@@ -1,0 +1,31 @@
+<?php
+$helper = $this->helper('\Rokanthemes\Instagram\Helper\Data');
+$enable = $helper->getConfig('instagramsection/instagramgroup/active');
+$userId = $helper->getConfig('instagramsection/instagramgroup/userid');
+$accessToken = $helper->getConfig('instagramsection/instagramgroup/accesstoken');
+$imageResolution = $helper->getConfig('instagramsection/instagramgroup/selectimageresolution');
+$imageNumber = $this->getData('numberimage');
+$instagramFeedsDataArray = [
+    'https://www.instagram.com/p/B_uITc4jfOZ/',
+    'https://www.instagram.com/p/B_uISZ-DzLs/',
+    'https://www.instagram.com/p/B_uIRUtDMJs/',
+    'https://www.instagram.com/p/B_uIQVJj7g_/',
+    'https://www.instagram.com/p/B_uIPKpjRxD/',
+    'https://www.instagram.com/p/B_uIOA3D5wZ/',
+    'https://www.instagram.com/p/B_uIM_9DW4G/',
+    'https://www.instagram.com/p/B_uIL9eDum1/',
+    'https://www.instagram.com/p/B_uIKzCDEa-/',
+    'https://www.instagram.com/p/B_uIJsMjIb9/',
+];
+?>
+
+<div class="cp-ftitle">
+    <h3><?= $this->getData('title'); ?></h3>
+    <p class="description"><?= $this->getData('description'); ?></span></p>
+    <a class="visible-xs cp-toggle collapsed" data-toggle="collapse" data-target="#cpcolumninstagram">
+        <span></span>
+    </a>
+</div>
+<div class="cp-fcontent">
+    <!-- LightWidget WIDGET --><script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script><iframe src="//lightwidget.com/widgets/32214d1f6afa57cc981f399add56d709.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;"></iframe>
+</div>

@@ -1,0 +1,8 @@
+<div class="order-info">
+	<div class="order-date">
+		<?= $block->escapeHtmlAttr(__('Placed on')) ?> <?= /* @noEscape */ date("d M Y", strtotime($block->getOrder()->getCreatedAt())) ?>
+	</div>
+	<div class="order-total">
+		<?= $block->escapeHtmlAttr(__('Total : ')) ?> <?= /* @noEscape */ $this->helper('Magento\Framework\Pricing\Helper\Data')->currency($block->getOrder()->getBaseGrandTotal(),true,false); ?>
+	</div>
+</div>

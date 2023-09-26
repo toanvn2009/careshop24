@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="breadcrumbs" remove="true"/>
+        <move element="product.info.list.description.detail" destination="product.container.right" before="-"/>
+        <move element="product.info.media" destination="product.container.left" before="-"/>
+    </body>
+</page>

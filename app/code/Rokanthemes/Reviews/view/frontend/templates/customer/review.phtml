@@ -1,0 +1,131 @@
+<?php
+	$params = $block->getRequest()->getParams();
+?>
+<div class="rokan-reviews">
+	<div class="rokan-review-action block-action">
+		<a href="<?= $block->escapeUrl($this->getUrl('reviews/index/index')) ?>" class="active action btn darken"><?php echo __('Ready To Review / Improve') ?></a>
+		<a href="<?= $block->escapeUrl($this->getUrl('reviews/customer/published')) ?>"" class="action btn grey"><?php echo __('Published') ?></a>
+	</div>
+	<div class="rokan-review-action-ready">
+		<div class="ready-review-action">
+			<a class="active" href="<?= $block->escapeUrl($this->getUrl('reviews/customer/review/id/'.$params['id'])) ?>"><?php echo __('Ready To Review') ?></a>
+		</div>
+		<div class="published-review-action">
+			<a href="<?= $block->escapeUrl($this->getUrl('reviews/customer/improve/id/'.$params['id'])) ?>"><?php echo __('Ready To Improve') ?></a>
+		</div>
+	</div>
+	<div class="rokan-review-form">
+		<div class="ready-review-product-info">
+			<div class="product-image">
+				<img src="<?php echo $block->getProductImage(); ?>" />
+			</div>
+			<div class="product-name">
+				<?php echo $block->getProductName(); ?>
+			</div>
+			<div class="product-date-order">
+				<span><?php echo __('Date of purchase : ') ?></span><span class="date"><?php echo $block->getPurchase(); ?></span>
+			</div>
+		</div>
+		<div class="ready-review-form">
+			<div class="block review">
+				<form action="<?= $block->escapeUrl($this->getUrl('reviews/customer/reviewPost/id/'.$block->getPostId($params['id']))) ?>" data-mage-init='{"validation":{}}' class="form review-form" method="post" id="form-validate" enctype="multipart/form-data" autocomplete="off">
+					<?php echo $this->getBlockHtml('formkey')?>     
+					<input type="hidden" name="entity_simple_id" value="<?php echo $params['id'] ?>">
+					<fieldset class="fieldset review-fieldset" data-hasrequired="* Required Fields"> 
+						<fieldset class="field required review-field-ratings">
+							<legend class="label"><span><?php echo __('Product Review') ?></span></legend><br>
+							<div class="control">
+								<div class="nested" id="product-review-table">
+									<div class="field choice review-field-rating">
+										<div class="control review-control-vote">
+											<input type="radio" name="ratings[2]" id="Rating_1" value="6" class="radio" data-validate="{ 'rating-required':true}" aria-labelledby="Rating_rating_label Rating_1_label" aria-required="true">
+											<label class="rating-1" for="Rating_1" title="1 star" id="Rating_1_label">
+												<span>1 star</span>
+											</label> 
+											<input type="radio" name="ratings[2]" id="Rating_2" value="7" class="radio" data-validate="{ 'rating-required':true}" aria-labelledby="Rating_rating_label Rating_2_label" aria-required="true">
+											<label class="rating-2" for="Rating_2" title="2 stars" id="Rating_2_label">
+												<span>2 stars</span>
+											</label>
+											<input type="radio" name="ratings[2]" id="Rating_3" value="8" class="radio" data-validate="{ 'rating-required':true}" aria-labelledby="Rating_rating_label Rating_3_label" aria-required="true">
+											<label class="rating-3" for="Rating_3" title="3 stars" id="Rating_3_label">
+												<span>3 stars</span>
+											</label>
+											<input type="radio" name="ratings[2]" id="Rating_4" value="9" class="radio" data-validate="{ 'rating-required':true}" aria-labelledby="Rating_rating_label Rating_4_label" aria-required="true">
+											<label class="rating-4" for="Rating_4" title="4 stars" id="Rating_4_label">
+												<span>4 stars</span>
+											</label>
+											<input type="radio" name="ratings[2]" id="Rating_5" value="10" class="radio" data-validate="{ 'rating-required':true}" aria-labelledby="Rating_rating_label Rating_5_label" aria-required="true">
+											<label class="rating-5" for="Rating_5" title="5 stars" id="Rating_5_label">
+												<span>5 stars</span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<input type="hidden" name="validate_rating" class="validate-rating" value="" aria-required="true">
+							</div>
+							<span><?php echo __('Click here to rate!') ?></span>
+						</fieldset>
+						<div class="review-field-summary">
+							<div class="field review-field-summary required">
+								<label for="summary_field" class="label"><span><?php echo __('Review Title') ?></span></label>
+								<div class="control">
+									<input type="text" name="title" id="summary_field" class="input-text" data-validate="{required:true}" aria-required="true" placeholder="Example: High end product">
+								</div>
+							</div>
+							<div class="field review-field-text required">
+								<label for="review_field" class="label"><span><?php echo __('Review') ?></span></label>
+								<div class="control">
+									<textarea name="detail" id="review_field" cols="5" rows="3" data-validate="{required:true}" aria-required="true" placeholder="Example: I bought the products amonth ago and it was really great product..."></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="review-field-other-activity">
+							<div class="field review-field-text">
+								<label for="review_field" class="label"><span><?php echo __('Other activity, if not listed above:') ?></span></label>
+								<div class="control">
+									<input type="text" name="other_activity" id="other_activity" class="input-text">
+								</div>
+							</div>
+						</div>
+						<div class="review-field-other-activity">
+							<div class="need_infor">
+								<div class="field review-field-summary required">
+									<label for="nickname" class="label"><span><?php echo __('Nick name') ?></span></label>
+									<div class="control">
+										<input type="text" name="nickname" id="nickname" class="input-text" data-validate="{required:true}" aria-required="true" placeholder="Example: jacke27">
+									</div>
+								</div>
+								<div class="field review-field-summary required">
+									<label for="location" class="label"><span><?php echo __('Location') ?></span></label>
+									<div class="control">
+										<input type="text" name="location" id="location" class="input-text" data-validate="{required:true}" aria-required="true" placeholder="Example: NewYork, NY">
+									</div>
+								</div>
+							</div>
+							<div class="field review-field-summary required">
+								<label for="email" class="label"><span><?php echo __('Email') ?></span></label>
+								<div class="control">
+									<input type="text" name="email" id="email" class="input-text" data-validate="{required:true}" aria-required="true" placeholder="Example: example@gmail.com">
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<p class="mgs"><?php echo __('You may receive emails regarding this submission. Any emails will include the ability to opt-out of future communications.') ?></p>
+					<div class="actions-toolbar review-form-actions">
+						<div class="primary actions-primary">
+							<button type="submit" class="action submit primary"><span><?php echo __('Post Review') ?></span></button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<script type="text/x-magento-init">
+			{
+				"#form-validate": {
+					"Magento_Review/js/error-placement": {},
+					"Magento_Review/js/validate-review": {}
+				}
+			}
+			</script>
+		</div>
+	</div>
+</div>

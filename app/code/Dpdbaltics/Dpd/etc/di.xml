@@ -1,0 +1,253 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="AdeoWeb\Dpd\Api\LocationRepositoryInterface" type="AdeoWeb\Dpd\Model\LocationRepository"/>
+    <preference for="AdeoWeb\Dpd\Api\Data\LocationInterface" type="AdeoWeb\Dpd\Model\Data\Location"/>
+    <preference for="AdeoWeb\Dpd\Api\Data\LocationSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+
+    <preference for="AdeoWeb\Dpd\Api\Data\PickupPointInterface"
+                type="AdeoWeb\Dpd\Model\PickupPoint"/>
+    <preference for="AdeoWeb\Dpd\Api\Data\PickupPointSearchResultsInterface"
+                type="Magento\Framework\Api\SearchResults"/>
+    <preference for="AdeoWeb\Dpd\Api\PickupPointRepositoryInterface"
+                type="AdeoWeb\Dpd\Model\PickupPointRepository"/>
+    <preference for="AdeoWeb\Dpd\Api\PickupPointManagementInterface"
+                type="AdeoWeb\Dpd\Model\PickupPointManagement"/>
+    <preference for="AdeoWeb\Dpd\Api\PrintLabelManagementInterface"
+                type="AdeoWeb\Dpd\Model\PrintLabelManagement"/>
+
+    <preference for="AdeoWeb\Dpd\Api\Data\Shipping\DeliveryOptionsInterface"
+                type="AdeoWeb\Dpd\Model\Shipping\DeliveryOptions"/>
+
+    <preference for="AdeoWeb\Dpd\Api\DeliveryTimeManagementInterface"
+                type="AdeoWeb\Dpd\Model\DeliveryTimeManagement"/>
+    <preference for="AdeoWeb\Dpd\Api\CallCourierManagementInterface"
+                type="AdeoWeb\Dpd\Model\CallCourierManagement"/>
+    <preference for="AdeoWeb\Dpd\Api\CollectionRequestManagementInterface"
+                type="AdeoWeb\Dpd\Model\CollectionRequestManagement"/>
+    <preference for="AdeoWeb\Dpd\Api\CloseManifestManagementInterface"
+                type="AdeoWeb\Dpd\Model\CloseManifestManagement"/>
+    <preference for="AdeoWeb\Dpd\Api\CancelParcelsManagementInterface"
+                type="AdeoWeb\Dpd\Model\CancelParcelsManagement"/>
+
+    <preference for="AdeoWeb\Dpd\Model\Service\ServiceInterface"
+                type="AdeoWeb\Dpd\Model\Service\Dpd"/>
+
+    <preference for="AdeoWeb\Dpd\Model\App\Request\DataPersistorInterface"
+                type="AdeoWeb\Dpd\Model\App\Request\DataPersistor"/>
+
+    <preference for="AdeoWeb\Dpd\Model\Provider\PickupPoint\AllowedWeightsInterface"
+                type="AdeoWeb\Dpd\Model\Provider\PickupPoint\AllowedWeights"/>
+
+    <preference for="AdeoWeb\Dpd\Model\Provider\MetaData\ModuleMetaDataInterface"
+                type="AdeoWeb\Dpd\Model\Provider\MetaData\ModuleMetaData"/>
+
+    <preference for="AdeoWeb\Dpd\Model\Adminhtml\File\CreatePdfProcessorInterface"
+                type="AdeoWeb\Dpd\Model\Adminhtml\File\CreatePdfProcessor"/>
+
+    <preference for="Magento\Shipping\Block\Adminhtml\Order\Packaging\Grid"
+                type="AdeoWeb\Dpd\Model\Shipping\Block\Adminhtml\Order\Packaging\Grid"/>
+
+    <virtualType name="dpdApiLogger" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers"  xsi:type="array">
+                <item name="debug" xsi:type="object">AdeoWeb\Dpd\Logger\Handler\Dpd</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="AdeoWeb\Dpd\Model\Service\ServiceInterface">
+        <arguments>
+            <argument name="logger" xsi:type="object">dpdApiLogger</argument>
+        </arguments>
+    </type>
+
+    <type name="AdeoWeb\Dpd\Model\Carrier">
+        <arguments>
+            <argument name="methodFactoryPool" xsi:type="object">DpdMethodFactoryPool</argument>
+        </arguments>
+    </type>
+
+    <type name="AdeoWeb\Dpd\Plugin\Model\ShippingInformationManagement">
+        <arguments>
+            <argument name="methodFactoryPool" xsi:type="object">DpdMethodFactoryPool</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="DpdMethodFactoryPool" type="AdeoWeb\Dpd\Model\Carrier\MethodFactoryPool">
+        <arguments>
+            <argument name="methodFactories" xsi:type="array">
+                <item name="classic" xsi:type="object">AdeoWeb\Dpd\Model\Carrier\Method\ClassicFactory</item>
+                <item name="pickup" xsi:type="object">AdeoWeb\Dpd\Model\Carrier\Method\PickupFactory</item>
+                <item name="saturday" xsi:type="object">AdeoWeb\Dpd\Model\Carrier\Method\SaturdayFactory</item>
+                <item name="sameday" xsi:type="object">AdeoWeb\Dpd\Model\Carrier\Method\SamedayFactory</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <virtualType name="DpdClassicMethodRestrictionsConfig" type="AdeoWeb\Dpd\Config\Restrictions">
+        <arguments>
+            <argument name="method" xsi:type="const">AdeoWeb\Dpd\Model\Carrier\Method\Classic::CODE</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DpdPickupMethodRestrictionsConfig" type="AdeoWeb\Dpd\Config\Restrictions">
+        <arguments>
+            <argument name="method" xsi:type="const">AdeoWeb\Dpd\Model\Carrier\Method\Pickup::CODE</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DpdSaturdayMethodRestrictionsConfig" type="AdeoWeb\Dpd\Config\Restrictions">
+        <arguments>
+            <argument name="method" xsi:type="const">AdeoWeb\Dpd\Model\Carrier\Method\Saturday::CODE</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="DpdSamedayMethodRestrictionsConfig" type="AdeoWeb\Dpd\Config\Restrictions">
+        <arguments>
+            <argument name="method" xsi:type="const">AdeoWeb\Dpd\Model\Carrier\Method\Sameday::CODE</argument>
+        </arguments>
+    </virtualType>
+
+    <type name="AdeoWeb\Dpd\Model\Carrier\Method\Classic">
+        <arguments>
+            <argument name="restrictionsConfig" xsi:type="object">DpdClassicMethodRestrictionsConfig</argument>
+        </arguments>
+    </type>
+    <type name="AdeoWeb\Dpd\Model\Carrier\Method\Pickup">
+        <arguments>
+            <argument name="restrictionsConfig" xsi:type="object">DpdPickupMethodRestrictionsConfig</argument>
+        </arguments>
+    </type>
+    <type name="AdeoWeb\Dpd\Model\Carrier\Method\Saturday">
+        <arguments>
+            <argument name="restrictionsConfig" xsi:type="object">DpdSaturdayMethodRestrictionsConfig</argument>
+            <argument name="validators" xsi:type="array">
+                <item name="timeframe" xsi:type="object">AdeoWeb\Dpd\Model\Carrier\Validator\Timeframe</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="AdeoWeb\Dpd\Model\Carrier\Method\Sameday">
+        <arguments>
+            <argument name="restrictionsConfig" xsi:type="object">DpdSamedayMethodRestrictionsConfig</argument>
+            <argument name="validators" xsi:type="array">
+                <item name="timeframe" xsi:type="object">AdeoWeb\Dpd\Model\Carrier\Validator\Timeframe</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="AdeoWeb\Dpd\Helper\Locale\LatvianLocaleSortProcessor"
+                 type="AdeoWeb\Dpd\Helper\Locale\LocaleSortProcessor">
+        <arguments>
+            <argument name="order" xsi:type="string">
+                AaĀāBbCcČčDdEeĒēFfGgĢgHhIiĪīJjKkĶķLlĻļMmNnŅņOoPpRrSsŠšTtUuŪūVvZzŽž
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AdeoWeb\Dpd\Helper\Locale\EstonianLocaleSortProcessor"
+                 type="AdeoWeb\Dpd\Helper\Locale\LocaleSortProcessor">
+        <arguments>
+            <argument name="order" xsi:type="string">
+                AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsŠšZzŽžTtUuVvWwÕõÄäÖöÜüXxYy
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AdeoWeb\Dpd\Helper\Locale\LithuanianLocaleSortProcessor"
+                 type="AdeoWeb\Dpd\Helper\Locale\LocaleSortProcessor">
+        <arguments>
+            <argument name="order" xsi:type="string">
+                aAąĄbBcCčdDeEęĘėĖfFgGhHiIįĮyYjJkKlLmMnNoOpPrRsSšŠtTuUųŲūŪvVzZžŽ
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="AdeoWeb\Dpd\Helper\Locale\EnglishLocaleSortProcessor"
+                 type="AdeoWeb\Dpd\Helper\Locale\LocaleSortProcessor">
+        <arguments>
+            <argument name="order" xsi:type="string">
+                AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="AdeoWeb\Dpd\Model\PickupPointManagement">
+        <arguments>
+            <argument name="searchCriteriaBuilder" xsi:type="object">
+                AdeoWeb\Dpd\Model\PickupPoint\SearchCriteria\Builder\PickupPoint
+            </argument>
+            <argument name="localeSortProcessor" xsi:type="array">
+                <item name="LV" xsi:type="object">AdeoWeb\Dpd\Helper\Locale\LatvianLocaleSortProcessor</item>
+                <item name="EE" xsi:type="object">AdeoWeb\Dpd\Helper\Locale\EstonianLocaleSortProcessor</item>
+                <item name="LT" xsi:type="object">AdeoWeb\Dpd\Helper\Locale\LithuanianLocaleSortProcessor</item>
+                <item name="EN" xsi:type="object">AdeoWeb\Dpd\Helper\Locale\EnglishLocaleSortProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="AdeoWeb\Dpd\Model\PickupPointFactory">
+        <arguments>
+            <argument name="typeResolver" xsi:type="object">AdeoWeb\Dpd\Model\PickupPoint\Resolver\Type</argument>
+        </arguments>
+    </type>
+
+    <type name="AdeoWeb\Dpd\Model\Carrier\Method\AbstractMethod">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="country" xsi:type="object">AdeoWeb\Dpd\Model\Carrier\Validator\Country</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="dpd_pickup_point_update" xsi:type="object">
+                    AdeoWeb\Dpd\Console\Command\PickupPoint\Update
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="AdeoWeb\Dpd\Model\ResourceModel\Location\Grid\Collection"
+                 type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">adeoweb_dpd_location</argument>
+            <argument name="resourceModel" xsi:type="string">
+                AdeoWeb\Dpd\Model\ResourceModel\Location\Collection
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="adeoweb_dpd_location_grid_data_source" xsi:type="string">
+                    AdeoWeb\Dpd\Model\ResourceModel\Location\Grid\Collection
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Checkout\Model\ShippingInformationManagement">
+        <plugin name="adeoweb_dpd_shipping_information_management"
+                type="AdeoWeb\Dpd\Plugin\Model\ShippingInformationManagement"/>
+    </type>
+    <type name="Magento\Checkout\Block\Checkout\LayoutProcessor">
+        <plugin name="adeoweb_dpd_checkout_layoutprocessor"
+                type="AdeoWeb\Dpd\Plugin\Block\Checkout\LayoutProcessor"/>
+    </type>
+    <type name="Magento\Sales\Block\Adminhtml\Order\View">
+        <plugin name="adeoweb_dpd_sales_block_adminhtml_order_view"
+                type="AdeoWeb\Dpd\Plugin\Block\Adminhtml\Order\View"/>
+    </type>
+    <type name="Magento\Shipping\Block\Adminhtml\View\Form">
+        <plugin name="adeoweb_dpd_shipping_block_adminhtml_view_form"
+                type="AdeoWeb\Dpd\Plugin\Block\Adminhtml\View\Form"/>
+    </type>
+    <type name="Magento\Sales\Model\AdminOrder\Create">
+        <plugin name="adeoweb_dpd_adminorder_create" type="AdeoWeb\Dpd\Plugin\Model\AdminOrder\Create"/>
+    </type>
+    <type name="Magento\Shipping\Controller\Adminhtml\Order\Shipment\PrintLabel">
+        <plugin name="adeoweb_dpd_adminorder_shipment_printlabel"
+                type="AdeoWeb\Dpd\Plugin\Controller\Adminhtml\Order\Shipment\PrintLabel"/>
+    </type>
+    <type name="Magento\Quote\Model\ShippingMethodManagement">
+        <plugin name="shipping_method_management"
+                type="AdeoWeb\Dpd\Plugin\Model\ShippingMethodManagement" disabled="false"/>
+    </type>
+</config>

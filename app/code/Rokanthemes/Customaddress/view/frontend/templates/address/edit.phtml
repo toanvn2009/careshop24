@@ -1,0 +1,335 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Customer\Block\Address\Edit $block */
+$helper = $this->helper('Rokanthemes\Customaddress\Helper\Data');
+?>
+<?php $_company = $block->getLayout()->createBlock(\Magento\Customer\Block\Widget\Company::class) ?>
+<?php $_telephone = $block->getLayout()->createBlock(\Magento\Customer\Block\Widget\Telephone::class) ?>
+<?php $_fax = $block->getLayout()->createBlock(\Magento\Customer\Block\Widget\Fax::class) ?>
+<form class="form-address-edit"
+      action="<?= $block->escapeUrl($block->getSaveUrl()) ?>"
+      method="post"
+      id="form-validate"
+      enctype="multipart/form-data"
+      data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>">
+    <fieldset class="fieldset about_you">
+        <legend class="legend"><span><?= $block->escapeHtml(__('About you')) ?></span></legend><br>
+        <?= $block->getBlockHtml('formkey') ?>
+        <input type="hidden" name="success_url" value="<?= $block->escapeUrl($block->getSuccessUrl()) ?>">
+        <input type="hidden" name="error_url" value="<?= $block->escapeUrl($block->getErrorUrl()) ?>">
+        <?php if($block->getAddress()->getId()): ?>
+            <button type="button" rel="#" class="delete_address" title="Delete">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 16 18" fill="none">
+                <path d="M3 18C2.45 18 1.979 17.804 1.587 17.412C1.195 17.02 0.999333 16.5493 1 16V3H0V1H5V0H11V1H16V3H15V16C15 16.55 14.804 17.021 14.412 17.413C14.02 17.805 13.5493 18.0007 13 18H3ZM13 3H3V16H13V3ZM5 14H7V5H5V14ZM9 14H11V5H9V14Z" fill="#0D0D0D"/>
+                </svg>
+                <span><?= __('Delete') ?></span>
+            </button>
+        <?php endif; ?>
+        <?php if ($_company->isEnabled()) : ?>
+            <?= $_company->setCompany($block->getAddress()->getCompany())->toHtml() ?>
+        <?php endif ?>
+        
+        <div class="field gender">
+            <label for="gender_field" class="label"><span><?= $block->escapeHtml(__('Title')) ?></span></label>
+            <?php if($block->getAddress()->getCustomAttribute("gender_field")) $gender = $block->getAddress()->getCustomAttribute("gender_field")->getValue(); else $gender = '1'; ?>
+            <div class="control">
+                <label class="label">
+                    <input type="radio" name="gender_field" value="1" class="radio" <?php if ($gender === '1' || empty($gender)) : ?>checked="checked"<?php endif; ?>>
+                    <?= __('Mr') ?>
+                </label>
+                <label class="label">
+                    <input type="radio" name="gender_field" value="2" class="radio" <?php if ($gender === '2') : ?>checked="checked"<?php endif; ?>>
+                    <?= __('Mrs') ?>
+                </label>
+            </div>
+        </div>
+
+        <?= $block->getNameBlockHtml() ?> 
+
+        <?php if ($_fax->isEnabled()) : ?>
+            <?= $_fax->setFax($block->getAddress()->getFax())->toHtml() ?>
+        <?php endif ?>
+
+    </fieldset>
+    <fieldset class="fieldset adress">
+        <legend class="legend"><span><?= $block->escapeHtml(__('Address')) ?></span></legend><br>
+        <?php $_streetValidationClass = $this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('street'); ?>
+        <div class="field street required">
+            <label for="street_1" class="label">
+                <span><?= /* @noEscape */ __('Street and number') ?></span>
+            </label>
+            <div class="control">
+                <input type="text"
+                       name="street[]"
+                       value="<?= $block->escapeHtmlAttr($block->getStreetLine(1)) ?>"
+                       title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('street') ?>"
+                       id="street_1"
+                       class="input-text <?= $block->escapeHtmlAttr($_streetValidationClass) ?>"/>
+                <!-- <div class="nested">
+                    <?php $_streetValidationClass = trim(str_replace('required-entry', '', $_streetValidationClass)); ?>
+                    <?php for ($_i = 1, $_n = $this->helper(\Magento\Customer\Helper\Address::class)->getStreetLines(); $_i < $_n; $_i++) : ?>
+                        <div class="field additional">
+                            <label class="label" for="street_<?= /* @noEscape */ $_i + 1 ?>">
+                                <span><?= $block->escapeHtml(__('Street Address %1', $_i + 1)) ?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" name="street[]"
+                                       value="<?= $block->escapeHtmlAttr($block->getStreetLine($_i + 1)) ?>"
+                                       title="<?= $block->escapeHtmlAttr(__('Street Address %1', $_i + 1)) ?>"
+                                       id="street_<?= /* @noEscape */ $_i + 1 ?>"
+                                       class="input-text <?= $block->escapeHtmlAttr($_streetValidationClass) ?>">
+                            </div>
+                        </div>
+                    <?php endfor; ?>
+                </div> -->
+            </div>
+        </div>
+
+        <?php if ($this->helper(\Magento\Customer\Helper\Address::class)->isVatAttributeVisible()) : ?>
+            <div class="field taxvat">
+                <label class="label" for="vat_id">
+                    <span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('vat_id') ?></span>
+                </label>
+                <div class="control">
+                    <input type="text"
+                           name="vat_id"
+                           value="<?= $block->escapeHtmlAttr($block->getAddress()->getVatId()) ?>"
+                           title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('vat_id') ?>"
+                           class="input-text <?= $block->escapeHtmlAttr($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('vat_id')) ?>"
+                           id="vat_id">
+                </div>
+            </div>
+        <?php endif; ?>
+        <div class="field zip required">
+            <label class="label" for="zip">
+                <span><?= /* @noEscape */ __('Zip code') ?></span>
+            </label>
+            <div class="control">
+                <input type="text"
+                       name="postcode"
+                       value="<?= $block->escapeHtmlAttr($block->getAddress()->getPostcode()) ?>"
+                       title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('postcode') ?>"
+                       id="zip"
+                       class="input-text validate-zip-international <?= $block->escapeHtmlAttr($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('postcode')) ?>">
+                <div role="alert" class="message warning" style="display:none">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        <div class="field city required">
+            <label class="label" for="city"><span><?= /* @noEscape */ __('Town or City') ?></span></label>
+            <div class="control">
+                <input type="text"
+                       name="city"
+                       value="<?= $block->escapeHtmlAttr($block->getAddress()->getCity()) ?>"
+                       title="<?= $block->escapeHtmlAttr(__('City')) ?>"
+                       class="input-text <?= $block->escapeHtmlAttr($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('city')) ?>"
+                       id="city">
+            </div>
+        </div>
+        <!-- <div class="field region required">
+            <label class="label" for="region_id">
+                <span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?></span>
+            </label>
+            <div class="control">
+                <select id="region_id" name="region_id"
+                        title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>"
+                        class="validate-select region_id" <?= /* @noEscape */ !$block->getConfig('general/region/display_all') ? ' disabled="disabled"' : '' ?>>
+                    <option value=""><?= $block->escapeHtml(__('Please select a region, state or province.')) ?></option>
+                </select>
+                <input type="text"
+                       id="region"
+                       name="region"
+                       value="<?= $block->escapeHtmlAttr($block->getRegion()) ?>"
+                       title="<?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('region') ?>"
+                       class="input-text validate-not-number-first <?= $block->escapeHtmlAttr($this->helper(\Magento\Customer\Helper\Address::class)->getAttributeValidationClass('region')) ?>"<?= !$block->getConfig('general/region/display_all') ? ' disabled="disabled"' : '' ?>/>
+            </div>
+        </div> -->
+        
+        <div class="field country required">
+            <label class="label" for="country"><span><?= /* @noEscape */ $block->getAttributeData()->getFrontendLabel('country_id') ?></span></label>
+            <div class="control">
+                <?= $block->getCountryHtmlSelect() ?>
+            </div>
+        </div>
+
+        <!-- <?php if ($block->isDefaultBilling()) : ?>
+            <div class="message info">
+                <span><?= $block->escapeHtml(__("It's a default billing address.")) ?></span>
+            </div>
+        <?php elseif ($block->canSetAsDefaultBilling()) : ?>
+            <div class="field choice set billing">
+                <input type="checkbox" id="primary_billing" name="default_billing" value="1" class="checkbox">
+                <label class="label" for="primary_billing">
+                    <span><?= $block->escapeHtml(__('Use as my default billing address')) ?></span>
+                </label>
+            </div>
+        <?php else : ?>
+            <input type="hidden" name="default_billing" value="1" />
+        <?php endif; ?>
+
+        <?php if ($block->isDefaultShipping()) : ?>
+            <div class="message info">
+                <span><?= $block->escapeHtml(__("It's a default shipping address.")) ?></span>
+            </div>
+        <?php elseif ($block->canSetAsDefaultShipping()) : ?>
+            <div class="field choice set shipping">
+                <input type="checkbox" id="primary_shipping" name="default_shipping" value="1" class="checkbox">
+                <label class="label" for="primary_shipping">
+                    <span><?= $block->escapeHtml(__('Use as my default shipping address')) ?></span>
+                </label>
+            </div>
+        <?php else : ?>
+            <input type="hidden" name="default_shipping" value="1">
+        <?php endif; ?> -->
+    </fieldset>
+
+    <fieldset class="fieldset contact_info">
+        <legend class="legend"><span><?= $block->escapeHtml(__('Contact info')) ?></span></legend><br>
+        
+        <div class="field email">
+            <label class="label" for="email_field"><span><?php echo __('Email') ?></span></label>
+            <div class="control">
+                <input type="text" name="email_field" data-validate="{required:true, 'validate-email':true}" value="<?php if($block->getAddress()->getCustomAttribute("email_field")) echo $block->getAddress()->getCustomAttribute("email_field")->getValue(); ?>"/>
+            </div>
+        </div>
+
+        <?php if ($_telephone->isEnabled()) : ?>
+            <?= $_telephone->setTelephone($block->getAddress()->getTelephone())->toHtml() ?>
+        <?php endif ?>
+    </fieldset>
+
+    <div class="actions-toolbar">
+        <div class="primary">
+            <a class="action back" href="<?= $block->escapeUrl($block->getUrl('customer/account')) ?>">
+                <span><?= $block->escapeHtml(__('Cancel')) ?></span>
+            </a>
+        </div>
+        <div class="secondary">
+            <button type="submit"
+                    class="action save primary"
+                    data-action="save-address"
+                    title="<?= $block->escapeHtmlAttr(__('Save')) ?>">
+                <span><?= $block->escapeHtml(__('Save')) ?></span>
+            </button>
+        </div>
+    </div>
+</form>
+<script type="text/x-magento-init">
+    {
+        "#form-validate": {
+            "addressValidation": {
+                "postCodes": <?= /* @noEscape */ $block->getPostCodeConfig()->getSerializedPostCodes(); ?>
+            }
+        },
+        "#country": {
+            "regionUpdater": {
+                "optionalRegionAllowed": <?= /* @noEscape */ $block->getConfig('general/region/display_all') ? 'true' : 'false' ?>,
+                "regionListId": "#region_id",
+                "regionInputId": "#region",
+                "postcodeId": "#zip",
+                "form": "#form-validate",
+                "regionJson": <?= /* @noEscape */ $this->helper(\Magento\Directory\Helper\Data::class)->getRegionJson() ?>,
+                "defaultRegion": "<?= (int) $block->getRegionId() ?>",
+                "countriesWithOptionalZip": <?= /* @noEscape */ $this->helper(\Magento\Directory\Helper\Data::class)->getCountriesWithOptionalZip(true) ?>
+            }
+        }
+    }
+</script>
+<script type="text/javascript">
+    require(["jquery"], function($) {
+        $(".nav.items .item").first().addClass('current');
+        var text;
+        $(".nav.items .item").first().children().each(function( index ) {
+            text = $( this ).text();
+        });
+        $(".nav.items .item").first().html("<strong>"+text+"</strong>");
+    });
+</script>
+<?php
+    if($block->getAddress()->getId()):
+    $confirm_message = "";
+    $confirm_message .= $block->getAddress()->getFirstname().' ';
+    $confirm_message .= $block->getAddress()->getLastname().', ';
+    $confirm_message .= $block->getStreetLine(1).', ';
+    $confirm_message .= $block->escapeHtmlAttr($block->getAddress()->getPostcode()).' ';
+    $confirm_message .= $block->getAddress()->getCity().', ';
+    
+    $country = $helper->getCountryByCode($block->getAddress()->getCountryId());
+    $confirm_message .= $country;
+
+    if($block->getAddress()->getCustomAttribute("email_field"))
+        $confirm_message .= ', '.$block->getAddress()->getCustomAttribute("email_field")->getValue();
+    if($block->getAddress()->getTelephone())
+        $confirm_message .= ', '.$block->getAddress()->getTelephone();
+    $delete_address_URL = $block->getUrl('customer/address/delete').'id/'.$block->getAddress()->getId().'/form_key/';
+?>
+<script type="text/javascript">
+    require(["jquery"], function($) {
+        var formkeys = $("[name='form_key']");
+        var formkey = '';
+
+        formkeys.each(function( index ) {
+            formkey = $( this ).val();
+        });
+        var delete_URL = "<?php echo $delete_address_URL; ?>"+formkey;
+        $(document).ready(function() {
+            $(document).on("click" , '.popup-delete-address', function(event){
+                window.location.href = delete_URL;
+            });
+        });
+    });
+</script>
+
+<div id="popup-modal">
+    <h3><?php echo $confirm_message; ?></h3>
+</div>
+
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                modalClass: 'modal-popup-delete-address',
+                responsive: true,
+                innerScroll: true,
+                title: '<?= __('Are you sure you want to delete this address?') ?>',
+                buttons: [{
+                    text: $.mage.__('Cancel'),
+                    class: 'popup-cancel-address',
+                    click: function () {
+                        this.closeModal();
+                    }
+                },
+                {
+                    text: $.mage.__('Delete'),
+                    class: 'popup-delete-address',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }
+                ]
+            };
+
+            var popup = modal(options, $('#popup-modal'));
+
+            $(".form-address-edit .delete_address").click(function(event) {
+                $('#popup-modal').modal('openModal');
+            });
+        }
+    );
+</script>
+<?php
+    endif;
+?>

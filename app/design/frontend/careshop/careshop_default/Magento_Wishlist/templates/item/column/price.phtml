@@ -1,0 +1,16 @@
+<?php
+/** @var \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Cart $block */
+/** @var \Magento\Framework\Pricing\Helper\Data $priceHelper */
+$priceHelper = $this->helper('Magento\Framework\Pricing\Helper\Data');
+?>
+
+<div class="product-item-price">
+    <?php foreach ($block->getChildNames() as $childName) : ?>
+        <?= /* @noEscape */ $block->getLayout()->renderElement($childName, false) ?>
+    <?php endforeach;?>
+    <?php $originalPrice = $block->getItem()->getProduct()->getData('original_price'); ?>
+    <p class="original-price">
+        <span><?= $block->escapeHtml(__('Instead of:')) ?></span>
+        <?= $block->escapeHtml($priceHelper->currency($originalPrice, true, false)) ?>
+    </p>
+</div>

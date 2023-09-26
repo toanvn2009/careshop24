@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+    <script src="my-script"/>
+</head>
+    <body>
+    	<!-- Start custom header -->
+		<referenceContainer name="header.container">
+            <block class="Magento\Framework\View\Element\Template" name="careshop.header" template="Magento_Theme::html/header_custom.phtml" before="-"/>
+        </referenceContainer>
+        <move element="currency" destination="careshop.header"/>
+        <move element="logo" destination="careshop.header"/>
+        <move element="store_language" destination="careshop.header"/>
+        <move element="top.search" destination="careshop.header"/>
+        <move element="minicart" destination="careshop.header"/>
+        <move element="store.menu" destination="careshop.header"/>
+		<!-- End custom header -->
+
+		<!-- Start custom footer -->
+		<referenceContainer name="footer-container">
+            <block class="Magento\Framework\View\Element\Template" name="careshop.footer.otherpage" template="Magento_Theme::html/footer_custom_other.phtml" before="-"/>
+        </referenceContainer>
+		<!-- End custom footer -->
+		
+		<!-- Start move all content footer core to careshop.footer.otherpage -->
+		<move element="store_switcher" destination="careshop.footer.otherpage"/>
+		<move element="footer_links" destination="careshop.footer.otherpage"/>
+		<move element="copyright" destination="careshop.footer.otherpage"/>
+		<move element="form.subscribe" destination="careshop.footer.otherpage"/>
+		<!-- End move all content footer core to careshop.footer.otherpage -->
+		
+		<!-- Start remove report.bugs -->
+		<referenceBlock name="report.bugs" remove="true"/>
+		<referenceBlock name="skip_to_content" remove="true"/>
+		<referenceBlock name="top.links" remove="true"/>
+		<referenceBlock name="compare-link-wrapper" remove="true"/>
+		<referenceBlock name="wishlist-link-wrapper" remove="true"/>
+		<referenceBlock name="header.links" remove="true"/>
+		<referenceBlock name="navigation.sections" remove="true"/>
+		<!-- End remove report.bugs -->
+		
+		<referenceContainer name="after.body.start"> 
+            <block class="Magento\Framework\View\Element\Template" name="common.color.type" template="Magento_Theme::html/common_color_type.phtml" before="-" cacheable="false"/>
+        </referenceContainer>
+        <referenceContainer name="columns"> 
+            <block class="Magento\Framework\View\Element\Template" name="product.info.popup.ifame.detail" template="Magento_Theme::html/popup_ifame.phtml" after="main" />
+        </referenceContainer>
+    </body>
+</page>

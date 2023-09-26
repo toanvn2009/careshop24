@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+        <referenceContainer name="columns.top">
+            <block class="Careshop\CommunityIdea\Block\Product\Developer" name="community.product.talent" template="Careshop_CommunityTalentProduct::list_tab.phtml" />
+        </referenceContainer>
+        <referenceBlock name="category.products.list"> 
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Careshop_CommunityTalentProduct::community/talent_product/list.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="breadcrumbs"> 
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Careshop_CommunityTalentProduct::community/talent_product/breadcrumbs.phtml</argument>
+            </action>
+        </referenceBlock>
+	</body>
+</page>

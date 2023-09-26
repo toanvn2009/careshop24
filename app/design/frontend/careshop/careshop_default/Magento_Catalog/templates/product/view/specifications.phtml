@@ -1,0 +1,6 @@
+<?php
+$_product = $block->getProduct();
+?>
+<div class="container-product-tab-specifications">
+	<?= $this->helper('Magento\Catalog\Helper\Output')->productAttribute($_product, $_product->getSpecifications(), 'specifications'); ?>
+</div>

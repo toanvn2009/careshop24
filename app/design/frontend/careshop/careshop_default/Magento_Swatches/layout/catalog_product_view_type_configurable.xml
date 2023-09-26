@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="content">
+            <block class="Magento\Swatches\Block\Product\Renderer\Configurablecustom" name="product.info.options.swatches.custom.fixed" template="Magento_Swatches::product/view/renderer_custom.phtml" before="-">
+                <arguments>
+                    <argument name="configurable_view_model"
+                              xsi:type="object">Magento\Swatches\ViewModel\Product\Renderer\Configurable</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <move element="product.info.options.swatches.custom.fixed" destination="product.container.left" before="product.info.media.image.custom" after="product.info.main"/>
+    </body>
+</page>

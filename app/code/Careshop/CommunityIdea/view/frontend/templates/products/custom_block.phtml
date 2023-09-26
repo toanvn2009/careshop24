@@ -1,0 +1,12 @@
+<?php 
+$_product = $block->getProduct();
+
+?>
+<?php if ($_product->getAttributeSetId() == 15) : ?>
+
+<div class="product-social">
+    <div class="product-like"><i class="fa fa-thumbs-up"></i></div>
+    <div class="product-view"><?= ($_product->getId())  ? $_product->getViews(): 0 ?><i class="fa fa-eye"></i></div>
+    <div class="product-commenting"><i class="fa fa-commenting"></i></div>
+</div>
+<?php endif; ?>

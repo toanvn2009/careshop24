@@ -1,0 +1,70 @@
+<div class="footer-container">
+	<div class="footer-top">
+		<div class="footer-newsletter"><div class="container"><?= $this->getChildHtml("subscribe"); ?></div></div>
+		<div class="container">
+			<div class="container-inner">
+					<div class="footer-static_text footer-careshop">
+						<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_static_text')->toHtml(); ?>
+					</div>
+					<div class="footer-static_link">
+						<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_static_link')->toHtml(); ?>
+					</div>
+					<div class="footer-static_payment">
+						<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_static_payment')->toHtml(); ?>
+					</div>
+					<div class="footer-static_social footer-careshop">
+						<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_static_social')->toHtml(); ?>
+					</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer-bottom">
+		<div class="container">
+			<div class="container-inner">
+				<div class="bottom_link">
+					<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_bottom_link')->toHtml(); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="coming-soon-pupup-container-fixed" style="display:none;">
+	<div class="fixed-content-pupup-coming-soon">
+		<h4><?= __('We are nearly complete.');?></h4>
+		<p>This function will be coming soon!</p>
+	</div>
+</div>
+<script type="text/javascript">
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options_coming_soon = {
+                type: 'popup',
+                responsive: true,
+                modalClass: 'see-detail-modal-coming-soon-fixed',
+                innerScroll: true,
+                title: '<?= __('COMING SOON');?>',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            var popup_coming_soon = modal(options_coming_soon, $('#coming-soon-pupup-container-fixed'));
+            $(".coming-soon-click a").on('click',function(){ 
+                $("#coming-soon-pupup-container-fixed").modal("openModal");
+                return false;
+            });
+
+        }
+    );
+</script>

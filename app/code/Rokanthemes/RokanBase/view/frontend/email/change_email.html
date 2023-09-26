@@ -1,0 +1,20 @@
+<!--@subject {{trans "Careshop - Confirm your email address"}}  @-->
+{{template config_path="design/email/header_template"}}
+<table width="100%">
+    <tr class="email-intro" style="font-family: Roboto; font-size: 21.5px;">
+        <td>
+            <p>
+                <p style="margin-bottom: 20px;"><b>{{trans "Hello : %customer_name" customer_name=$customer_name}}</b></p>
+                </br>
+                <p style="margin-bottom: 20px;">{{trans "To protect your privacy on Careshop, we now require a confirm email address."}}</p>
+                </br>
+                <p>{{trans "Please click on the following link or copy and paste the link into your browser to confirm your email:"}}</p>
+                <p style="margin-bottom: 20px;"><a href="{{var url}}">careshop.ch/en/customeraccount/approveemail</a></p>
+                </br>
+                <p>{{trans "Kind regards"}}</p>
+                <p>{{trans "Careshop"}}</p>
+            </p>
+        </td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

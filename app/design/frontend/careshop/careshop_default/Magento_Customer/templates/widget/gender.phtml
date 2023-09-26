@@ -1,0 +1,22 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Customer\Block\Widget\Gender $block */
+?>
+<div class="field gender">
+    <label for="gender" class="label"><span><?= $block->escapeHtml(__('Title')) ?></span></label>
+    <?php $gender = $block->getGender(); ?>
+    <div class="control">
+        <label class="label">
+            <input type="radio" name="gender" value="1" class="radio" <?php if ($gender === '1' || empty($gender)) : ?>checked="checked"<?php endif; ?>>
+            <?= __('Mr') ?>
+        </label>
+        <label class="label">
+            <input type="radio" name="gender" value="2" class="radio" <?php if ($gender === '2') : ?>checked="checked"<?php endif; ?>>
+            <?= __('Mrs') ?>
+        </label>
+    </div>
+</div>

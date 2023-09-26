@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--Grid collection-->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="community_develop_listing_data_source" xsi:type="string">Careshop\CommunityDevelopProduct\Model\ResourceModel\Develop\Grid\Collection</item>
+                <item name="community_develop_forum_listing_data_source" xsi:type="string">Careshop\CommunityDevelopProduct\Model\ResourceModel\Forum\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Careshop\CommunityDevelopProduct\Model\ResourceModel\Develop\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">community_develop</argument>
+            <argument name="resourceModel" xsi:type="string">Careshop\CommunityDevelopProduct\Model\ResourceModel\Develop</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Careshop\CommunityDevelopProduct\Model\ResourceModel\Forum\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">community_develop_forum</argument>
+            <argument name="resourceModel" xsi:type="string">Careshop\CommunityDevelopProduct\Model\ResourceModel\Forum</argument>
+        </arguments>
+    </virtualType>
+</config>

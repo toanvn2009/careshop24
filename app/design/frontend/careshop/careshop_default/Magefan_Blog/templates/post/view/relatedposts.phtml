@@ -1,0 +1,59 @@
+<?php if ($block->displayPosts()) { ?>
+    <?php $postCollection = $block->getPostCollection(); ?>
+    <?php if (count($postCollection)) { ?>
+    <div class="block-relatedposts-container-detailpage">
+        <div class="block-title title">
+            <strong id="block-relatedposts-heading" role="heading" aria-level="2">
+                <?php 
+                    $r_p = $block->escapeHtml(__('Related Posts'));
+                    foreach ($postCollection as $post) {
+                        $cate = $post->getParentCategories();
+                        if(count($cate) > 0){
+                            foreach($cate as $cat){
+                                $r_p = $cat->getTitle();
+                                break;
+                            }
+                        }
+                ?>
+                <?php } ?>
+                <?= $r_p; ?>
+            </strong>
+        </div>
+        <ol class="block-content">
+            <?php foreach ($postCollection as $post) {
+                if($post->getRootPost() != 1){
+            ?>
+                <li class="item">
+                    <?php if ($featuredImage = $post->getFeaturedImage()) { ?>
+                        <?php
+                            $featuredImgAlt = $post->getData('featured_img_alt');
+                            if (!$featuredImgAlt) {
+                                $featuredImgAlt = $block->escapeHtml($post->getTitle());
+                            }
+                        ?>
+                        <div class="post-ftimg-hld-fixed">
+                            <img src="<?= $block->escapeUrl($featuredImage) ?>" alt="<?= $block->escapeHtml($featuredImgAlt) ?>" />
+                        </div>
+                    <?php } ?>
+                    <div class="container-post-item-link-name">
+                        <a class="post-item-link" title="<?= $block->escapeHtml($post->getTitle()) ?>"
+                           href="<?= $block->escapeUrl($post->getPostUrl()) ?>">
+                            <strong><?= $block->escapeHtml($post->getTitle()) ?></strong>
+                        </a>
+                    </div>
+                    <div class="post-text-hld-shortdetail">
+                        <?= /*@noEscape*/ $post->getShortContent() ?>
+                    </div>
+                    <div class="container-read-more">
+                        <a class="post-item-link-readmore" title="<?= $block->escapeHtml($post->getTitle()) ?>"
+                           href="<?= $block->escapeUrl($post->getPostUrl()) ?>">
+                            <strong><?= $block->escapeHtml(__('Read More')); ?></strong>
+                        </a>
+                    </div>
+                </li>
+            <?php } } ?>
+        </ol>
+    </div>
+    <?php } ?>
+<?php } ?>
+

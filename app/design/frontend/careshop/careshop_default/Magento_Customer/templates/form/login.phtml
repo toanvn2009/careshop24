@@ -1,0 +1,48 @@
+<div class="container">
+	<div class="row">
+		<div class="block block-customer-sign-in-out block-customer-login">
+			<div class="block-title">
+				<strong id="block-customer-sign-heading" role="heading" aria-level="2"><?= $block->escapeHtml(__('Sign In')) ?></strong>
+			</div>
+			<div class="block-content" aria-labelledby="block-customer-sign-heading">
+				<form class="form form-login"
+					action="<?= $block->escapeUrl($block->getPostActionUrl()) ?>"
+					method="post"
+					id="login-form"
+					data-mage-init='{"validation":{}}'>
+					<?= $block->getBlockHtml('formkey') ?>
+					<fieldset class="fieldset login" data-hasrequired="<?= $block->escapeHtmlAttr(__('* Required Fields')) ?>">
+						<div class="field email">
+							<label class="label" for="email"><span><?= $block->escapeHtml(__('Email')) ?>:</span></label>
+							<div class="control">
+								<input name="login[username]" value="<?= $block->escapeHtmlAttr($block->getUsername()) ?>" <?php if ($block->isAutocompleteDisabled()) : ?> autocomplete="off"<?php endif; ?> id="email" type="email" class="input-text" placeholder="example@gmail.com" title="<?= $block->escapeHtmlAttr(__('Email')) ?>" data-mage-init='{"mage/trim-input":{}}' data-validate="{required:true, 'validate-email':true}">
+							</div>
+						</div>
+						<div class="field password">
+							<label for="pass" class="label"><span><?= $block->escapeHtml(__('Password')) ?>:</span></label>
+							<div class="control">
+								<input name="login[password]" type="password" <?php if ($block->isAutocompleteDisabled()) : ?> autocomplete="off"<?php endif; ?> class="input-text" id="pass" title="<?= $block->escapeHtmlAttr(__('Password')) ?>" data-validate="{required:true}">
+                                <button type="button" class="show-hide-password-btn">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+							</div>
+						</div>
+                        <div class="actions-toolbar">
+                            <button type="submit" class="action login primary" title="<?= $block->escapeHtmlAttr(__('Login')) ?>"><span><?= $block->escapeHtml(__('Sign In')) ?></span></button>
+                        </div>
+                        <div class="links-block">
+                            <div class="text-center link-sign-in">
+                                <?= $block->escapeHtml(__("Don't have an account yet? Sign Up")) ?>
+                                <a href="<?= $block->getUrl('customer/account/create') ?>" class="action"><?= $block->escapeHtml(__('here')) ?></a>
+                            </div>
+                            <div class="text-center link-forgot">
+                                <a href="<?= $block->escapeUrl($block->getForgotPasswordUrl()) ?>" class="action"><?= $block->escapeHtml(__('Forgot Your Password?')) ?></a>
+                            </div>
+                        </div>
+					</fieldset>	
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+

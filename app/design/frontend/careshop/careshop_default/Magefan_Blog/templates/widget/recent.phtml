@@ -1,0 +1,65 @@
+
+<?php
+    $_postCollection = $block->getPostCollection();
+?>
+<?php if ($_postCollection->count()) { ?>
+<div class="post-list-wrapper blog-widget-recent">
+	<div class="rokanheading">
+		<h2 class="title"><?= $block->escapeHtml($block->getTitle()) ?></h2>
+		<p class="des-blog-widget-recent"><?= __("Explore which products we're developing and improving at the moment");?></p>
+	</div>
+    <ul class="post-list clearfix">
+        <?php foreach ($_postCollection as $_post) { ?>
+            <?php
+                $_postUrl = $block->escapeUrl($_post->getPostUrl());
+                $_postName = $block->escapeHtml($_post->getTitle());
+            ?>
+            <li class="post-holders post-holder-<?= (int)$_post->getId() ?>">
+                <div class="post-header">
+                    <?php $featuredImage = $_post->getFeaturedListImage() ?: $_post->getFeaturedImage(); ?>
+                    <?php if ($featuredImage) { ?>
+                        <?php
+                            $featuredImgAlt = $_post->getData('featured_list_img_alt') ?: $_post->getData('featured_img_alt');
+                            if (!$featuredImgAlt) {
+                                $featuredImgAlt = $_postName;
+                            }
+                        ?>
+                        <div class="post-ftimg-hld">
+                            <a href="<?= /*@noEscape*/ $_postUrl ?>" title="<?= /*@noEscape*/ $_postName ?>">
+                                <img src="<?= $block->escapeHtml($featuredImage) ?>"
+                                     alt="<?= $block->escapeHtml($featuredImgAlt) ?>" />
+                            </a>
+                        </div>
+                    <?php } ?>
+                    <div class="post-title-holder clearfix">
+                        <h5 class="post-title">
+                            <a class="post-item-link"
+                               href="<?= /*@noEscape*/ $_postUrl ?>">
+                                <?= /*@noEscape*/ $_postName ?>
+                            </a>
+                        </h5>
+                    </div>
+                </div>
+
+                <div class="post-content">
+                    <div class="post-description clearfix">
+                        <div class="post-text-hld clearfix">
+                            <a class="post-text-hld-link" href="<?= /*@noEscape*/ $_postUrl ?>">
+                               <?= /*@noEscape*/ $block->getShorContent($_post) ?>
+                            </a>
+                        </div>
+                        <a class="post-read-more"
+                           href="<?= /*@noEscape*/ $_postUrl ?>"
+                           title="<?= /*@noEscape*/ $_postName ?>"
+                           >
+                           <strong><?= $block->escapeHtml(__('Develop This Product')) ?></strong>
+                        </a>
+                    </div>
+                </div>
+            </li>
+
+        <?php } ?>
+    </ul>
+    <div class="bottom-blog-widget-recent"><a class="btn" href="<?= $this->getUrl('blog/post/our-products-under-development'); ?>" title="<?= $block->escapeHtml(__('Visit Our Lab')) ?>" > <?= $block->escapeHtml(__('Visit Our Lab')) ?> </a></div>
+</div>
+<?php } ?>

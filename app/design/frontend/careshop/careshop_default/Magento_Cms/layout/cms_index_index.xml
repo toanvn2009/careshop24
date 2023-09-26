@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="full-width" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+    	<attribute name="class" value="has-class-topbar-navi-advertisement"/>
+    	<referenceContainer name="page.top">
+			<container name="nav.banner" htmlTag="div" htmlClass="slideshow-homepage-banner" before="-">
+				<block class="Rokanthemes\SlideBanner\Block\Slider" name="home-page-test" as="home-page-test" after="page.top">
+					<arguments>
+						<argument name="slider_id" xsi:type="string">home-page-test</argument>
+					</arguments>
+				</block>
+			</container>
+		</referenceContainer>
+		<!-- Start custom footer -->
+		<referenceContainer name="footer-container">
+            <block class="Magento\Framework\View\Element\Template" name="careshop.footer" template="Magento_Theme::html/footer_custom.phtml" before="-"/>
+        </referenceContainer>
+		<!-- End custom footer -->
+		
+		<!-- Start move all content footer core to careshop.footer -->
+		<move element="store_switcher" destination="careshop.footer"/>
+		<move element="footer_links" destination="careshop.footer"/>
+		<move element="copyright" destination="careshop.footer"/>
+		<move element="form.subscribe" destination="careshop.footer"/>
+		<!-- End move all content footer core to careshop.footer -->
+		<referenceBlock name="careshop.footer.otherpage" remove="true"/>
+    </body>
+</page>

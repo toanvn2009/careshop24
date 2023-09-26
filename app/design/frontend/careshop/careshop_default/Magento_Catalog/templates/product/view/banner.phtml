@@ -1,0 +1,19 @@
+<?php
+$product = $block->getProduct();
+$mediaUrl = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getUrlMedia();
+?>
+<?php
+if($product->getProductBanner() !=  '' && $product->getProductBanner() != 'no_selection'){
+?>
+<div class="show-banner-product-fixed d-none d-xl-block"><img title="<?= $block->escapeHtmlAttr($product->getName()) ?>" alt="<?= $block->escapeHtmlAttr($product->getName()) ?>" src="<?= $block->escapeUrl($mediaUrl.'catalog/product'.$product->getProductBanner()) ;?>" /></div>
+<?php } ?>
+<?php
+if($product->getProductBannerTablet() !=  '' && $product->getProductBannerTablet() != 'no_selection'){
+?>
+<div class="show-banner-product-fixed d-none d-md-block d-xl-none"><img title="<?= $block->escapeHtmlAttr($product->getName()) ?>" alt="<?= $block->escapeHtmlAttr($product->getName()) ?>" src="<?= $block->escapeUrl($mediaUrl.'catalog/product'.$product->getProductBannerTablet()) ;?>" /></div>
+<?php } ?>
+<?php
+if($product->getProductBannerMobile() !=  '' && $product->getProductBannerMobile() != 'no_selection'){
+?>
+<div class="show-banner-product-fixed d-block d-md-none"><img title="<?= $block->escapeHtmlAttr($product->getName()) ?>" alt="<?= $block->escapeHtmlAttr($product->getName()) ?>" src="<?= $block->escapeUrl($mediaUrl.'catalog/product'.$product->getProductBannerMobile()) ;?>" /></div>
+<?php } ?>

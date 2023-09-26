@@ -1,0 +1,54 @@
+// revo rapper-the-blue-sky-slider
+& when (@media-common = true) {
+	.wrapper-the-blue-sky-slider{
+		.content-the-blue-sky-slider{
+			position:relative;
+		}
+		.owl-dots{
+			position:absolute;
+			left: 0;
+			right: 0;
+			margin: auto;
+			max-width: 100%;
+			text-align: center;
+		    pointer-events: none;
+		    button{
+				pointer-events:visible;
+		    }
+		}
+	}
+}
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) {
+	.wrapper-the-blue-sky-slider{
+		.content-the-blue-sky-slider{
+			.the-blue-sky-banner-text{
+				display: none;
+			}
+		}
+		.owl-dots{
+			bottom: 20px;
+		}
+	}
+}
+@media only screen and (max-width: @screen__m) {
+	.wrapper-the-blue-sky-slider{
+		.content-the-blue-sky-slider{
+			position:relative;
+			.the-blue-sky-banner-text{
+				text-align: center;
+				text-transform: uppercase;
+				h2{
+					margin-bottom: 0;
+				}
+				.btn{
+					text-transform: capitalize;
+				    font-size: 1.4rem;
+				    padding: 1rem 2.5rem;
+				}
+			}
+		}
+		.owl-dots{
+			bottom: -20px;
+		}
+	}
+}

@@ -1,0 +1,147 @@
+<?php /** @var \AdeoWeb\Dpd\Block\System\Config\Form\Field\Restrictions $block */ ?>
+<?php
+$htmlId = $block->getHtmlId() ? $block->getHtmlId() : '_' . uniqid();
+$weightPriceHtmlId = $block->getWeightPriceRenderer()->getHtmlId();
+$colspan = $block->isAddAfter() ? 2 : 1;
+?>
+
+    <div class="design_theme_ua_regexp" id="grid<?= $block->escapeHtml($htmlId) ?>">
+        <div class="admin__control-table-wrapper">
+            <table class="admin__control-table" id="<?= $block->escapeHtml($block->getElement()->getId()) ?>">
+                <thead>
+                <tr>
+                    <?php foreach ($block->getColumns() as $columnName => $column): ?>
+                        <th><?= $block->escapeHtml($column['label']) ?></th>
+                    <?php endforeach; ?>
+                    <th class="col-actions" colspan="<?= $block->escapeHtml($colspan) ?>">
+                        <?= $block->escapeHtml(__('Action')) ?>
+                    </th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <td colspan="<?= count($block->getColumns()) + $colspan ?>" class="col-actions-add">
+                        <button id="addToEndBtn<?= $block->escapeHtml($htmlId) ?>"
+                                class="action-add" title="<?= $block->escapeHtml(__('Add')) ?>"
+                                type="button">
+                            <span><?= $block->escapeHtml($block->getAddButtonLabel()) ?></span>
+                        </button>
+                    </td>
+                </tr>
+                </tfoot>
+                <tbody id="addRow<?= $block->escapeHtml($htmlId) ?>"></tbody>
+            </table>
+        </div>
+        <input type="hidden" name="<?= $block->escapeHtml($block->getElement()->getName()) ?>[__empty]" value=""/>
+
+        <script>
+            require([
+                'mage/template',
+                'prototype'
+            ], function (mageTemplate) {
+                // create row creator
+                window.arrayRow<?= $block->escapeHtml($htmlId) ?> = {
+
+                    // define row prototypeJS template
+                    template: mageTemplate(
+                        '<tr class="country-price-tr" id="<%- _id %>">'
+                        <?php foreach ($block->getColumns() as $columnName => $column): ?>
+                        + '<td>'
+                        + '<?= /* @noEscape */ $block->renderCellTemplate($block->escapeHtml($columnName)) ?>'
+                        + '<\/td>'
+                        <?php endforeach; ?>
+
+                        <?php if ($block->isAddAfter()): ?>
+                        + '<td><button class="action-add" type="button" id="addAfterBtn<%- _id %>">' +
+                        '<span><?= $block->escapeHtml(__('Add after')) ?><\/span><\/button><\/td>'
+                        <?php endif; ?>
+
+                        + '<td class="col-actions">' +
+                        '<button onclick="arrayRow<?= $block->escapeHtml($htmlId) ?>.del(\'<%- _id %>\')"' +
+                        'class="action-delete"' +
+                            'type="button"><span><?= $block->escapeHtml(__('Delete')) ?><\/span><\/button><\/td>'
+                        + '<\/tr>'
+                    ),
+
+                    add: function (rowData, insertAfterId) {
+                        // generate default template data
+                        var templateValues;
+
+                        // Prepare template values
+                        if (rowData) {
+                            templateValues = rowData;
+                        } else {
+                            var d = new Date();
+                            templateValues = {
+                                <?php foreach ($block->getColumns() as $columnName => $column): ?>
+                                '<?= $block->escapeHtml($columnName) ?>': '',
+                                'option_extra_attrs': {},
+                                <?php endforeach; ?>
+                                _id: '_' + d.getTime() + '_' + d.getMilliseconds()
+                            };
+                        }
+
+                        // Insert new row after specified row or at the bottom
+                        if (insertAfterId) {
+                            Element.insert($(insertAfterId), {after: this.template(templateValues)});
+                        } else {
+                            Element.insert(
+                                $('addRow<?= $block->escapeHtml($htmlId) ?>'),
+                                {bottom: this.template(templateValues)}
+                            );
+                        }
+
+                        // Fill controls with data
+                        if (rowData) {
+                            var rowInputElementNames = Object.keys(rowData.column_values);
+                            for (var i = 0; i < rowInputElementNames.length; i++) {
+                                if ($(rowInputElementNames[i])) {
+                                    $(rowInputElementNames[i]).setValue(rowData.column_values[rowInputElementNames[i]]);
+                                }
+                            }
+                        }
+
+                        // Add event for {addAfterBtn} button
+                        <?php if ($block->isAddAfter()): ?>
+                        Event.observe(
+                            'addAfterBtn' + templateValues._id,
+                            'click',
+                            this.add.bind(this, false, templateValues._id));
+                        <?php endif; ?>
+
+                        if (!rowData) {
+                            window.initWeightPrice<?= $block->escapeHtml($weightPriceHtmlId) ?>(templateValues._id);
+                        } else {
+                            document.addEventListener('DOMContentLoaded', function () {
+                                window.initWeightPrice<?= $block->escapeHtml($weightPriceHtmlId) ?>(templateValues._id);
+                            });
+                        }
+                    },
+
+                    del: function (rowId) {
+                        $(rowId).remove();
+                    }
+                };
+
+                // bind add action to "Add" button in last row
+                Event.observe(
+                    'addToEndBtn<?= $block->escapeHtml($htmlId) ?>',
+                    'click', arrayRow<?= $block->escapeHtml($htmlId) ?>.add.bind(
+                        arrayRow<?= $block->escapeHtml($htmlId) ?>, false, false
+                    )
+                );
+
+                // add existing rows
+                <?php foreach ($block->getArrayRows() as $rowId => $row) { ?>
+                    <?= /* @noEscape */ "arrayRow{$block->escapeHtml($htmlId)}.add(" . $row->toJson() . ");\n"; ?>
+                <?php } ?>
+
+                // Toggle the grid availability, if element is disabled (depending on scope)
+                <?php if ($block->getElement()->getDisabled()):?>
+                toggleValueElements({checked: true}, $('grid<?= $block->escapeHtml($htmlId) ?>').parentNode);
+                <?php endif;?>
+            });
+        </script>
+    </div>
+
+<?= /* @noEscape */ $block->getWeightPriceJs() ?>

@@ -1,0 +1,120 @@
+<?php  
+    $idea = $block->getIdea();
+    $topic = $block->getTopic();
+    if ($topic) {
+        $customer_id = $topic->getCustomerId();
+    } else {
+        $customer_id = $idea->getCustomerId();
+    }
+    $media_url = $block->getMediaUrl();
+    if($customer_id >0 ) {
+        $profile = $block->getCustomerProfile($customer_id);
+        $avatar = $media_url.$profile->getAvatar();
+    }
+    $author = $block->getAuthorByCustomerId($customer_id);
+?>
+<form class="form" id="form_reply_idea"
+        novalidate
+        action="#"
+        method="post"
+        data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+        enctype="multipart/form-data" 
+        data-mage-init='{"validation":{}}'>
+        <?php if ($topic) { ?>
+            <input type="hidden" name="parent" id="parent" value="<?= $topic->getId() ?>">
+        <?php } ?>
+        <div class="control">
+            <div class="field">
+                <label class="label" for="name"><span><?= $block->escapeHtml(__('Send message')) ?></span></label>
+                <div class="control">
+                    <textarea 
+                        id="content_message"
+                        name="message" 
+                        title="<?= $block->escapeHtmlAttr(__('Send message')) ?>" 
+                        placeholder="<?= $block->escapeHtmlAttr(__('Message description')) ?>"
+                        class="input-text" type="text" 
+                        data-validate="{required:true}">
+                    </textarea>
+                </div>
+            </div>
+            <div class="submit">
+                <button id="submit_form"><?= $block->escapeHtml(__('Submit') ); ?></button>
+            </div>
+        </div>
+</form>          
+<div id="answer_to">
+    <h4> <?= $block->escapeHtmlAttr(__('Answer To:')) ?></h4>
+    <div class="left">
+        <div class="author">
+            <b> <?= $block->escapeHtmlAttr(__('Author:')) ?></b>
+            <div><span><?= $author->getName() ?></span></div>
+            <div><img src="<?= $block->escapeHtmlAttr($avatar) ?>" alt="<?= $author->getName() ?>" /></div>
+            <div class="report"><?= $block->escapeHtml(__('Report Post')) ?></div>
+        </div>
+    </div>
+    <div class="right">
+        <div class="idea_name"><span><?php if ($topic){ ?><?= __('Subject:') ?><?php }?> <?= ($idea->getName()) ? $idea->getName(): '' ?></span></div>
+        <div class="idea_by"><?= $block->escapeHtml(__('By: ')) ?><span class="idea_name"><?= ($author->getName()) ? $author->getName(): '' ?></span> - <span><?= ($topic) ? $block->getDateFormat($topic->getCreatedAt()) : $block->getDateFormat($idea->getCreatedAt()) ?></span></div>
+        <div class="idea_tag"><?= $block->escapeHtml(__('Tags: Multifunctional, Kitchen')) ?></div>
+        <div class="idea_content"><p><?= ($topic) ? $topic->getDescription(): $idea->getPostContent() ?></p></div>
+    </div>
+</div>    
+<script type="text/javascript">
+require([
+    'jquery',
+    'mage/mage'
+], function($){
+    var dataForm = $('#form_reply_idea');
+    dataForm.mage('validation', {});
+    $('#submit_form').click(function(){
+        dataForm.sumbmit();
+    });
+});
+</script>
+<script type="text/javascript">
+require([
+        'jquery',
+        "mage/url",
+        'mage/adminhtml/wysiwyg/tiny_mce/setup'
+    ], function($,urlBuilder){
+        tinymce.init({
+        selector: "#content_message",
+        theme: "modern",
+        paste_data_images: true,
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons template paste textcolor colorpicker textpattern"
+        ],
+        menubar: false,
+        image_advtab: true,
+        file_picker_callback: function(callback, value, meta) {
+            if (meta.filetype == 'image') {
+                $('#upload').trigger('click');
+                $('#upload').on('change', function() {
+                    var file = this.files[0];
+                
+                    var reader = new FileReader();
+                    reader.onload = function(e) {
+                        console.log(e.target.result);
+                    callback(e.target.result, {
+                    alt: ''
+                });
+                };
+                reader.readAsDataURL(file);
+                });
+            }
+        }
+    });
+});
+</script>
+<style>
+.left {width:30%; float:left; margin-top:30px;}
+.right{width:70%; float:right; margin-top:30px;}
+.field-name{width:100%; margin-bottom:30px;}
+.field-name input{width:100%}
+.idea_name { font-weight:bold;}
+.page-title-wrapper { display:none;}
+.report{color:#f05735;}
+</style>

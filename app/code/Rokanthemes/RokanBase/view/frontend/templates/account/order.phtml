@@ -1,0 +1,67 @@
+<div class="row">
+	<div class="block block-customer-login block-customer-login-link col-3 left_side">
+		<div class="block-title">
+			<strong id="block-customer-login-heading" role="heading" aria-level="2"><?= $block->escapeHtml(__('My Account')) ?></strong>
+		</div>
+		<div class="block-content" aria-labelledby="block-customer-login-heading">
+			<ul>
+				
+				<?php 
+					$url  = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
+					$login_url = $block->getUrl('customer/account/login', array('referer' => base64_encode($url)));
+					$create_url = $block->getUrl('customer/account/create');
+				?>
+				<?php 
+					if ($block->customerSession()->isLoggedIn() == true){ ?>
+					<li class="active order_status">
+						<strong><a href="<?php echo  $create_url ?>" class="action"><span><?= $block->escapeHtml(__('Order Status')) ?></span></a></strong>
+					</li>
+					<?php }else{  ?>
+						<li>
+							<a href="<?php echo  $login_url ?>" class="action"><span><?= $block->escapeHtml(__('Sign up')) ?></span></a>
+						</li>
+						<li>
+							<a href="<?php echo  $create_url ?>" class="action"><span><?= $block->escapeHtml(__('Sign in')) ?></span></a>
+						</li>
+						<li class="active order_status">
+							<strong><a href="<?php echo  $create_url ?>" class="action"><span><?= $block->escapeHtml(__('Order Status')) ?></span></a></strong>
+						</li>
+					<?php }?>
+			</ul>
+		</div>
+	</div>
+	<div class="block block-customer-login col-9 right_side">
+		<div class="block-title">
+			<strong id="block-customer-login-heading" role="heading" aria-level="2"><?= $block->escapeHtml(__('Order Tracking')) ?></strong>
+		</div>
+		<div class="block-content" aria-labelledby="block-customer-login-heading"> 
+			<div class="traking-info">
+				<p><?= $block->escapeHtml(__('Welcome to our online Order Tracking page!')) ?></p>
+				<p><?= $block->escapeHtml(__('Please enter your email add ressand order number to track the status of your order. If you do not know your order number, kindly check the order confirmation email that Careshop has previously sent to your email address.')) ?></p>
+				<p><?= $block->escapeHtml(__("For any other order related enquiries, don't hesitate to consult our.")) ?> <strong><?= $block->escapeHtml(__('Help Center')) ?></strong></p>
+			</div>
+			<div class="traking-form">
+				<div class="traking-order">
+					<div class="traking-lable">
+						<span><?= $block->escapeHtml(__('You Order Number')) ?></span>
+					</div>
+					<div class="traking-order-number">
+						<input id="traking-order-number" type="text" name="order-number" placeholder="<?= $block->escapeHtml(__('Please enter your Order Number here!')) ?>">
+					</div>
+					<div class="traking-order-email">
+						<span><?= $block->escapeHtml(__('Your Email')) ?></span>
+						<input id="traking-order-email" type="text" name="email">
+					</div>
+					<div class="traking-order-action">
+						<a class="action-checkorder-now btn cap">
+							<?php echo __('Check Now') ?> 
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="traking-list">
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,22 @@
+<div class="field phone">
+    <label class="label" for="phone">
+      <span><?= $block->escapeHtml(__('Phone number')) ?></span>
+    </label>
+    <div class="control">
+       <input type="text" name="phone" id="phone" value="<?php echo $block->getPhone(); ?>" title="<?= $block->escapeHtmlAttr(__('Phone number')) ?>" class="input-text" data-validate="{required:false}">
+    </div>
+</div>
+<div class="field language">
+    <label class="label" for="language">
+      <span><?= $block->escapeHtml(__('Language')) ?></span>
+    </label>
+    <div class="control">
+    <!-- <input type="text" name="language" id="language" value="<?php echo $block->getLanguage(); ?>" title="<?= $block->escapeHtmlAttr(__('Language')) ?>" class="input-text" data-validate="{required:false}"> -->
+      <select name="language" id="language">
+        <option value="english" <?php if($block->getLanguage() == 'english') echo 'selected="selected"'; ?>>English</option>
+        <option value="italian" <?php if($block->getLanguage() == 'italian') echo  'selected="selected"'; ?>>Italian</option>
+        <option value="french" <?php if($block->getLanguage() == 'french') echo 'selected="selected"'; ?>>French</option>
+        <option value="deutsch" <?php if($block->getLanguage() == 'deutsch') echo 'selected="selected"'; ?>>Deutsch</option>
+      </select>
+    </div>
+</div>

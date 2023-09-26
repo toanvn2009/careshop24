@@ -1,0 +1,31 @@
+<div class="rokan-repair">
+	<div class="rokan-repair-action">
+		<div class="repair-header">
+			<h2><?php echo __('SOS!Functional PRODUCT EMERGENCY!') ?></h2>
+		</div>
+		<div class="repair-content">
+			<p><?php echo __('Our products are made durable, yet nothing is entirely safe from the signs of wear and tear. Just like the unsinkable Titanic, your sturdy Careshop product may too encounter an iceberg one day.') ?></p>
+			<p><?php echo __('Luckily we have various customized emergency procedures to help your injured and/or geriatric Careshop friend.') ?></p>
+			<p><?php echo __('Find out about the various problems we can treat, how long it will take and what it will cost below.(If your Careshop product needs rescuing, please contact the offline seller directly or our customer service team).') ?></p>
+			<div class="repair-content-form">
+				<div class="start-repair">
+					<div class="content-title"><h2><?php echo __('Repair') ?></h2></div>
+					<div class="content-action"><a href="#" class="action-start-repair btn"><span><?php echo __('Start Your Repair') ?></span></a></div>
+					<div class="content-repair"><a href="<?= $block->escapeUrl($this->getUrl('repair/details/index')) ?>"><span><?php echo __('Repair details and additional options') ?></span></a></div>
+					<div class="content-repair"> <?php echo __('Wetsuit repairs require a little extra care.') ?> <a href="#"><span><?php echo __('Getstarted') ?></span></a></div>
+					<div class="content-repair"> <?php echo __('Still have questions? Check out our Frequently Asked Questions or reach out to our friendly ') ?> <a href="#"><span><?php echo __('Customer Service') ?></span></a> <?php echo __(' team and we’ll gladly lend a hand.') ?></div>
+				</div> 
+				<div class="start-order">
+					<div class="content-title"><h2><?php echo __('Repair Order') ?></h2></div>
+					<a class="action-cancel-repair top" href="#"><span class="icon-remove"></span></a>
+					<p><?php echo __('A return or repair order must be placed separately. Any items in your cart will be removed. Please complete your return or repair before adding any products to your cart.') ?></p>
+					<p><?php echo __('If you click "CONTINUE" then any items that are currently in your cart will be removed.') ?></p>
+					<div class="content-action">
+						<a href="<?= $block->escapeUrl($this->getUrl('repair/order/index')) ?>" class="action-order-repair btn"><span><?php echo __('Repair Order') ?></span></a>
+						<a href="#" class="action-cancel-repair btn"><span><?php echo __('Cancel') ?></span></a>
+					</div>
+				</div> 	
+			</div> 
+		</div> 
+	</div>
+</div>

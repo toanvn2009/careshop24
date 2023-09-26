@@ -1,0 +1,11 @@
+.admin__menu #menu-rokanthemes-rokanbase-rokanbase > a:before {
+    content: url('../images/logo.png') !important;
+}
+
+#storelocator_stores_edit_tabs_time_info_content .entry-edit .admin__field .admin__field-control{
+	  margin: 0 0 15px;
+}
+
+#storelocator_stores_edit_tabs_time_info_content .entry-edit .admin__field .admin__field-control span{
+ 	padding-right:10px;
+}	

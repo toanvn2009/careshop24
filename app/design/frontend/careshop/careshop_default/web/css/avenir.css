@@ -1,0 +1,57 @@
+@font-face {
+  font-family: 'AvenirNextLTPro-UltLtCn';
+  src:  url('../fonts/AvenirNextLTPro-UltLtCn.eot') format('embedded-opentype'),
+  		url('../fonts/AvenirNextLTPro-UltLtCn.otf')  format('opentype'),
+	    url(../fonts/AvenirNextLTPro-UltLtCn.woff) format('woff'), 
+	    url('../fonts/AvenirNextLTPro-UltLtCn.ttf')  format('truetype'), 
+	    url('../fonts/AvenirNextLTPro-UltLtCn.svg#AvenirNextLTPro-UltLtCn') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'AvenirNextLTPro-Regular';
+  src:  url('../fonts/AvenirNextLTPro-Regular.eot') format('embedded-opentype'),
+  		url('../fonts/AvenirNextLTPro-Regular.otf')  format('opentype'),
+	    url(../fonts/AvenirNextLTPro-Regular.woff) format('woff'), 
+	    url('../fonts/AvenirNextLTPro-Regular.ttf')  format('truetype'), 
+	    url('../fonts/AvenirNextLTPro-Regular.svg#AvenirNextLTPro-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'AvenirNextLTPro-Bold';
+  src:  url('../fonts/AvenirNextLTPro-Bold.eot') format('embedded-opentype'),
+  		url('../fonts/AvenirNextLTPro-Bold.otf')  format('opentype'),
+	    url(../fonts/AvenirNextLTPro-Bold.woff) format('woff'), 
+	    url('../fonts/AvenirNextLTPro-Bold.ttf')  format('truetype'), 
+	    url('../fonts/AvenirNextLTPro-Bold.svg#AvenirNextLTPro-Bold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AvenirNextLTPro-Demi';
+  src: url('../fontsAvenirNextLTPro-Demi.eot') format('embedded-opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'AvenirNextLTPro-Demi';
+  src:  url('../fonts/AvenirNextLTPro-Demi.otf')  format('opentype'),
+      url(../fonts/AvenirNextLTPro-Demi.woff) format('woff'), 
+      url('../fontsAvenirNextLTPro-Demi.ttf')  format('truetype'), 
+      url('../fontsAvenirNextLTPro-Demi.svg#AvenirNextLTPro-Demi') format('svg');
+      font-weight: normal;
+      font-style: normal;
+}
+
+
+/*cart page css*/
+.cart.table-wrapper .product-item-details .product-item-name {
+    margin-bottom: 0 !important;
+}
+strong.product.name.product-item-name a.product-item-link {
+    color: #f03 !important;
+}
+

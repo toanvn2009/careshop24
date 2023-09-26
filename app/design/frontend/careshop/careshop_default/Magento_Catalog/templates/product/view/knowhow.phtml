@@ -1,0 +1,6 @@
+<?php
+$_product = $block->getProduct();
+?>
+<div class="container-product-tab-knowhow">
+	<?= $this->helper('Magento\Catalog\Helper\Output')->productAttribute($_product, $_product->getKnowHow(), 'know_how'); ?>
+</div>

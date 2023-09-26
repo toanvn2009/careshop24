@@ -1,0 +1,115 @@
+
+//footer
+//homepage footer;
+@import '_layout.less';
+@import '_reset.less';
+@import '_layout_mobile.less';
+@import "pages/_wishlist.less";
+@import '_custom_bluesky.less';
+& when (@media-common = true) {
+    .product-item{
+        font-size: @font-size__base;
+    }
+    p{
+        margin-bottom: 2rem;
+    }
+    strong{
+        font-family: @heading__font-family__base;
+    }
+
+    footer{
+        background-color: @footerbg;
+        ul{
+            li{
+                a{ 
+                    color: @text__color;
+                    &:hover{
+                        color: @primary__color;
+                    }                
+                }
+            }
+        }
+        a:visited{
+            color:  @text__color;     
+        }
+        .footer-newsletter{
+            font-family: @heading__font-family__base;
+        }
+        .footer-static_social{
+            ul{
+                li{
+                    a{
+                        em{
+                            color: @theme__color__secondary;
+                        }
+                    }
+                    &:last-child{
+                        a{
+                            background-color: @theme__color__secondary;
+                        }
+                    }
+                }
+            }
+        }
+        .footer-bottom{
+            .bottom_link{
+                li{
+                    color: @heading__color__base;
+                }
+            }
+        }
+        .inner-page{
+            .footer-newsletter{
+                background-color: @primary__color;  
+            }
+        }
+    }
+    .left-side-bar{
+        ul{
+            li{
+                a{
+                    color: @text__color;
+                }
+                &.active, &:hover{
+                    a{
+                        color: @primary__color;
+                    }
+                }
+            }
+        }
+    }
+    //menu
+    .primary-menu-container{
+        .ves-menu{
+            > li{
+                font-family: @heading__font-family__base;
+                &:hover{
+                    > a{
+                        background-color: @primary__color;
+                    }
+                }
+            }
+        }
+    }
+    .myaccount-li-content-show-hide, 
+    .minicart-li-content-show-hide,
+    .static-link-li-content-show-hide{
+        > div{
+            a{
+                color: @text__color;
+                &:hover{
+                    color: @primary__color;
+                }
+            }
+            ul{
+                li{
+                    &:first-child{
+                        a{
+                            font-family: @heading__font-family__base;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

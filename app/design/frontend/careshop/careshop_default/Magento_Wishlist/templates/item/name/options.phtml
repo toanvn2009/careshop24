@@ -1,0 +1,21 @@
+<?php
+
+/* @var \Magento\Wishlist\Block\Customer\Wishlist\Item\Options $block */
+?>
+
+<?php $options = $block->getOptionList(); ?>
+<?php if ($options) : ?>
+    <?php
+        $values = [];
+        foreach ($options as $option) {
+            $values[] = is_array($option['value'])
+                ? implode(",", $option['value'])
+                : $option['value'];
+        }
+    ?>
+    <div class="selected-options">
+        <p class="option-value">
+            <?= $block->escapeHtml(implode(' / ', $values)); ?>
+        </p>
+    </div>
+<?php endif ?>

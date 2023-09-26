@@ -1,0 +1,19 @@
+<?php
+/* @var \Magento\Wishlist\Block\Customer\Wishlist\Item\Column\Remove $block */
+
+$item = $block->getItem();
+$product = $item->getProduct();
+?>
+
+<div class="wishlist-actions">
+    <a href="#" data-role="remove" data-post-remove='<?= /* @noEscape */ $block->getItemRemoveParams($item) ?>'
+       title="<?= $block->escapeHtmlAttr(__('Delete')) ?>" class="btn-remove action delete"
+    >
+        <span><?= $block->escapeHtml(__('Delete')) ?></span>
+    </a>
+    <a href="<?= $block->escapeUrl($block->getProductUrl($item)) ?>"
+       class="action view-product"
+    >
+        <span><?= $block->escapeHtml(__('View product')) ?></span>
+    </a>
+</div>

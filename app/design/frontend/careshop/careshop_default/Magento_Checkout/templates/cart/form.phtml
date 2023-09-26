@@ -1,0 +1,145 @@
+<?= $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('shopping_cart _title')->toHtml();?>
+<?php $mergedCells = ($this->helper(Magento\Tax\Helper\Data::class)->displayCartBothPrices() ? 2 : 1); ?>
+<?= $block->getChildHtml('form_before') ?>
+<form action="<?= $block->escapeUrl($block->getUrl('checkout/cart/updatePost')) ?>"
+          method="post"
+          id="form-validate"
+          data-mage-init='{"Magento_Checkout/js/action/update-shopping-cart":
+              {"validationURL" : "<?= $block->escapeUrl($block->getUrl('checkout/cart/updateItemQty')) ?>",
+              "updateCartActionContainer": "#update_cart_action_container"}
+          }'
+          class="form form-cart">
+    <?= $block->getBlockHtml('formkey') ?>
+    <?php
+        if (!$this->helper('Rokanthemes\RokanBase\Helper\Data')->isLoggedIn()){ ?> 
+        <div class="cart_guest_infor custom-guest"><?= $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('cart_guest_checkout')->toHtml();?></div>    
+    <?php } ?>
+    <div class="cart table-wrapper<?= $mergedCells == 2 ? ' detailed' : '' ?>">
+        <?php if ($block->getPagerHtml()) :?>
+            <div class="cart-products-toolbar cart-products-toolbar-top toolbar"
+                 data-attribute="cart-products-toolbar-top"><?= $block->getPagerHtml() ?>
+            </div>
+        <?php endif ?>
+        <table id="shopping-cart-table"
+               class="cart items data table"
+               data-mage-init='{"shoppingCart":{"emptyCartButton": ".action.clear",
+               "updateCartActionContainer": "#update_cart_action_container"}}'>
+            <caption class="table-caption"><?= $block->escapeHtml(__('Shopping Cart Items')) ?></caption>
+             <thead>
+                <tr>
+                    <th class="col item" scope="col"><span><?= $block->escapeHtml(__('Item')) ?></span></th>
+                    <th class="col price" scope="col"><span><?= $block->escapeHtml(__('Price')) ?></span></th>
+                    <th class="col qty" scope="col"><span><?= $block->escapeHtml(__('Qty')) ?></span></th>
+                    <th class="col subtotal" scope="col"><span><?= $block->escapeHtml(__('Subtotal')) ?></span></th>
+                </tr>
+            </thead>
+            <?php foreach ($block->getItems() as $_item) :?>
+                <?= $block->getItemHtml($_item) ?>
+            <?php endforeach ?>
+        </table>
+        <?php if ($block->getPagerHtml()) :?>
+            <div class="cart-products-toolbar cart-products-toolbar-bottom toolbar"
+                 data-attribute="cart-products-toolbar-bottom"><?= $block->getPagerHtml() ?>
+            </div>
+        <?php endif ?>
+    </div>
+   <div class="cart main actions">
+        <?php if ($block->getContinueShoppingUrl()) :?>
+            <a class="action continue btn"
+               href="<?= $block->escapeUrl($block->getContinueShoppingUrl()) ?>"
+               title="<?= $block->escapeHtmlAttr(__('Continue Shopping')) ?>">
+                <span><?= $block->escapeHtml(__('Continue Shopping')) ?></span>
+            </a>
+        <?php endif; ?>
+        <button type="button"
+                name="update_cart_action"
+                data-cart-empty=""
+                value="empty_cart"
+                title="<?= $block->escapeHtmlAttr(__('Clear Shopping Cart')) ?>"
+                class="action clear" id="empty_cart_button">
+            <span><?= $block->escapeHtml(__('Clear Shopping Cart')) ?></span>
+        </button>
+        <button type="submit"
+                name="update_cart_action"
+                data-cart-item-update=""
+                value="update_qty"
+                title="<?= $block->escapeHtmlAttr(__('Update Shopping Cart')) ?>"
+                class="action update">
+            <span><?= $block->escapeHtml(__('Update Shopping Cart')) ?></span>
+        </button>
+        <input type="hidden" value="" id="update_cart_action_container" data-cart-item-update=""/>
+    </div> 
+</form>
+<?= $block->getChildHtml('checkout.cart.order.actions') ?>
+<?= $block->getChildHtml('shopping.cart.table.after') ?>
+
+<div id="myModal" class="modal cart_popup">
+  <div class="modal-content">
+     <div class="right_close">
+         <span class="close">&times;</span>
+    </div>
+        <div class="heading_center">
+        <h1>Choose How You Would Like To Checkout</h1>
+    </div>
+   
+    <div class="chekout_flex">
+    <div class="modal-header model_pop_text">
+       <h2>Checkout as a member</h2>
+  <p>If you already have an account, you can log in to continue your purchase as a member. </p>
+<p>Alternatively, you can create an account to enjoy fast checkout and access to special offers.</p>
+
+  <?php $url = $_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'];
+  ?>
+
+<button class="custom_signin cus_reg_pop"><a href="<?php echo $url;?>/customer/account/login/">Sign In</a></button>
+<button class="custom_signup cus_reg_pop"><a href="<?php echo $url;?>/customer/account/create/">Sign Up</a></button>
+
+    </div>
+    <div class="modal-body model_pop_text">
+     <h2>Checkout as a Guest</h2>
+  <p>At the moment, you are making a purchase as a guest.</p>
+<p>We would like to remind you that you can create an account at any convenient time.</p>
+<button class="custom_checkout_guest cus_reg_pop"><a href="<?php echo $url;?>/onestepcheckout/">Checkout as a Guest</a></button>
+    </div>
+    </div>
+  </div>
+
+</div> 
+
+<script>
+    require([
+        'jquery',
+        'mage/mage'
+    ], function ($) {
+        'use strict';
+        $('.qty-up-fixed-onclick-page-cart').on('click',function(event){
+            event.preventDefault();
+            var input_ = $(this).closest('.control.qty').find('.qty');
+            var qtyval = parseInt(input_.val(),10);
+            qtyval=qtyval+1;
+            input_.val(qtyval);
+        });
+        $('.qty-down-fixed-onclick-page-cart').on('click',function(event){
+            event.preventDefault();
+            var input_ = $(this).closest('.control.qty').find('.qty');
+            var qtyval = parseInt(input_.val(),10);
+            qtyval=qtyval-1;
+            if(qtyval>1){
+                input_.val(qtyval);
+            }else{
+                qtyval=1;
+                input_.val(qtyval);
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+require(['jquery'], function($) {
+        $(document).ready(function() {
+           $('.shopping_cart_title').insertAfter($('.page-title-wrapper'));
+        });
+});
+</script>
+
+
+

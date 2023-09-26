@@ -1,0 +1,31 @@
+<?php $_postCollection = $block->getPostCollection(); ?>
+<?php if ($_postCollection->count()) { ?>
+<div class="block-related-tab-product-detail">
+    <ol>
+        <?php foreach ($_postCollection as $_post) { ?>
+            <li>
+                <?php if ($featuredImage = $_post->getFeaturedImage()) { ?>
+                    <?php
+                        $featuredImgAlt = $_post->getData('featured_img_alt');
+                        if (!$featuredImgAlt) {
+                            $featuredImgAlt = $block->escapeHtml($_post->getTitle());
+                        }
+                    ?>
+                    <div class="post-ftimg-hld-p-d">
+                        <img src="<?= $block->escapeUrl($featuredImage) ?>" alt="<?= $block->escapeHtml($featuredImgAlt) ?>" />
+                    </div>
+                <?php } ?>
+                <div class="post-short-content-hld-p-d">
+                    <a class="post-item-link"
+                       href="<?= $block->escapeUrl($_post->getPostUrl()) ?>">
+                        <?= $block->escapeHtml($_post->getTitle()); ?>
+                    </a>
+                    <div class="post-text-hld-shortdetail">
+                        <?= /*@noEscape*/ $_post->getShortContent() ?>
+                    </div>
+                </div>
+            </li>
+        <?php } ?>
+    </ol>
+</div>
+<?php } ?>

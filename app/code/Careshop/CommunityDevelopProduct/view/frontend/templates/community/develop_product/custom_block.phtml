@@ -1,0 +1,10 @@
+<?php
+    $_product = $block->getProduct();
+    $community_develop = $block->getDevelopProduct(trim($_product->getId()));
+    $community_develop_comment = $block->getDevelopComment(trim($_product->getId()));
+?>
+<div class="product-social">
+    <div class="product-like"><i class="fa fa-thumbs-up"></i><span class="count"><?= ($community_develop['likes'])? $community_develop['likes'] : 0 ?></span></div>
+    <div class="product-view"><i class="fa fa-eye"></i><span class="count"></span><?= ($community_develop['views'])? $community_develop['views'] : 0 ?></div>
+    <div class="product-commenting"><i class="fa fa-commenting"></i><span class="count"><?= $community_develop_comment ?></span></div>
+</div>

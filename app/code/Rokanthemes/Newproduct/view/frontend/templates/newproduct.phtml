@@ -1,0 +1,72 @@
+<?php 
+use Magento\Framework\App\Action\Action;
+$_productCollection = $this->getProducts();
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+	?>
+	<div class="rokan-newproduct grid products-grid">
+		
+		<?php			
+			if ($block->getMode() == 'grid') {
+				$viewMode = 'grid';
+				$image = 'category_page_grid';
+				$showDescription = false;
+				$templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+			} else {
+				$viewMode = 'list';
+				$image = 'category_page_list';
+				$showDescription = true;
+				$templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+			}
+			$pos = $block->getPositioned();
+			
+		?>
+		<div class="rokan-product-heading rokan-onsale-heading"><h2><?php echo __('See All Products') ?></h2></div>
+		<?php if(!$_productCollection->getSize()): ?> 
+			<div class="rokan-newproduct-slider">	
+				<p class="note-msg"><?php echo __('There are no products matching the selection.') ?></p>
+			</div>
+		<?php else: ?>
+			<div class="owl-carousel owl-theme" data-rtl="false" data-items="4" data-bigdesktop="4" data-smalldesktop="4" data-bigtablet="4" data-tablet="3" data-smalltablet="2" data-mobile="1" data-margin="30" data-loop="false" data-center="false" data-mousedrag="true" data-touchdrag="true" data-stagepadding="1" data-nav="true" data-navnext="Next" data-navprev="Prev" data-rewind="true" data-dots="false" data-lazyload="false" data-autoplay="false" data-autoplaytimeout="5000" data-autoplayhoverpause="true" data-speed="250">
+				<?php $_collectionSize = $_productCollection->count() ?>
+				<?php $i=0; foreach ($_productCollection as $_product): ?>
+				<div class='item newproductslider-item'>
+
+					<div class="product-item">
+						<div class="product-item-info ">
+							<?php
+							$productImage = $block->getImage($_product, $image);
+							?>
+							<?php // Product Image ?>
+							<a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1">
+								<?php echo $productImage->toHtml(); ?>
+							</a>
+							<div class="product details product-item-details">
+								<?php
+									$_productNameStripped = $block->stripTags($_product->getName(), null, true);
+								?>
+								<strong class="product name product-item-name">
+									<a class="product-item-link"
+									   href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+										<?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+									</a>
+								</strong>
+
+								<?= /* @noEscape */ $block->getProductPrice($_product) ?> 
+
+								<div class="product-ratting">
+									<?php if($this->getConfig('review')): ?>
+										<?php echo $block->getReviewsSummaryHtml($_product, $templateType); ?>
+									<?php endif; ?>
+								</div>
+							</div>
+							<?php $i++;?>
+						</div>
+					</div>
+				</div>
+				<?php endforeach; ?>               
+			</div>
+	<?php endif; ?>
+	<div class="see-product">
+		<a href="<?= $block->escapeUrl($this->getUrl('shop.html')) ?>" class="btn cap"><span><?php echo __('See Product Overview') ?></span></a>
+	</div>
+</div>

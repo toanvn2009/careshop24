@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="page.top">
+            <container name="product.banner.container" htmlTag="div" htmlClass="product-banner-container" after="breadcrumbs">
+                <block class="Magento\Catalog\Block\Product\View" name="product.info.banner" template="Magento_Catalog::product/view/banner.phtml" />
+            </container>
+        </referenceContainer>
+        <referenceContainer name="content">
+            <container name="product.container.left" htmlTag="div" htmlClass="product-container-left" before="-" />
+            <container name="product.container.right" htmlTag="div" htmlClass="product-container-right" after="product.container.left" />
+            <block class="Magento\Catalog\Block\Product\View" name="product.info.list.description.detail" template="Magento_Catalog::product/view/info_pro_description.phtml" />
+        </referenceContainer>
+        <referenceContainer name="product.container.left">
+            <block class="Magento\Catalog\Block\Product\View" name="product.info.morebuttonjacketpant" template="Magento_Catalog::product/view/more_button.phtml" before="-" />
+        </referenceContainer>
+         <referenceContainer name="product.info.price">
+            <container name="product.info.top.left" htmlTag="div" htmlClass="product-info-top-left" before="-">
+                <block class="Magento\Catalog\Block\Product\View" name="product.price.save.fixed" template="Magento_Catalog::product/view/price_save.phtml" />
+            </container>
+            <container name="product.info.middle.left.sku.review" htmlTag="div" htmlClass="product-info-middle-left-sku-review" after="product.info.top.left" />
+        </referenceContainer>
+        <referenceContainer name="product.info.stock.sku">
+            <block class="Magento\Catalog\Block\Product\View" name="product.info.size.chart.detail" template="Magento_Catalog::product/view/size_chart.phtml" after="-"/>
+        </referenceContainer>
+        <move element="product.info.stock.sku" destination="product.info.middle.left.sku.review" before="-"/>
+        <move element="product.info.review" destination="product.info.middle.left.sku.review" after="-"/>
+        <move element="product.price.final" destination="product.info.top.left" before="-"/>
+        <move element="product.info.media" destination="product.container.right"/>
+        <move element="product.info.list.description.detail" destination="product.container.right" after="product.info.media"/>
+        <move element="product.info.details" destination="product.container.right" after="product.info.list.description.detail"/>
+        <move element="content.aside" destination="product.container.right" after="-"/>
+        <move element="product.info.main" destination="product.container.left"/>
+        <move element="page.main.title" destination="product.container.left" after="product.info.brand"/>
+        <referenceBlock name="product.info.description" remove="true"/>
+        <referenceBlock name="product.attributes" remove="true"/>
+        <referenceBlock name="catalog.product.related" remove="true"/>
+        <referenceBlock name="product.info.upsell" remove="true"/>
+        <referenceBlock name="product.info.details">
+            <block class="Magento\Catalog\Block\Product\View" name="tab.features" template="Magento_Catalog::product/view/features.phtml" group="detailed_info" >
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Features</argument>
+                    <argument name="sort_order" xsi:type="string">1</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Catalog\Block\Product\View" name="tab.specifications" template="Magento_Catalog::product/view/specifications.phtml" group="detailed_info" >
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Specifications</argument>
+                    <argument name="sort_order" xsi:type="string">2</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Catalog\Block\Product\View" name="tab.accessories" template="Magento_Catalog::product/view/accessories.phtml" group="detailed_info" >
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Accessories</argument>
+                    <argument name="sort_order" xsi:type="string">3</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Catalog\Block\Product\View" name="tab.videos" template="Magento_Catalog::product/view/videos.phtml" group="detailed_info" >
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Gif/360/Video</argument>
+                    <argument name="sort_order" xsi:type="string">4</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Catalog\Block\Product\View" name="tab.manual" template="Magento_Catalog::product/view/manual.phtml" group="detailed_info" >
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Manual</argument>
+                    <argument name="sort_order" xsi:type="string">5</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Catalog\Block\Product\View" name="tab.knowhow" template="Magento_Catalog::product/view/knowhow.phtml" group="detailed_info" >
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Know How</argument>
+                    <argument name="sort_order" xsi:type="string">6</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Catalog\Block\Product\View" name="tab.footprint" template="Magento_Catalog::product/view/footprint.phtml" group="detailed_info">
+                <arguments>
+                    <argument translate="true" name="title" xsi:type="string">Footprint</argument>
+                    <argument name="sort_order" xsi:type="string">7</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <referenceBlock name="tab.accessories">
+            <block class="Magento\Catalog\Block\Product\ProductList\Related" name="catalog.product.related.custom" template="Magento_Catalog::product/list/accessories.phtml">
+                <arguments>
+                    <argument name="type" xsi:type="string">related</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+         <referenceContainer name="contents">
+            <container name="product.row.blockviewed" htmlTag="div" htmlClass="product-row-blockviewed-detail" after="-">
+                <container name="product.col.viewed" htmlTag="div" htmlClass="product-col-viewed-pro-detail">
+                    <block class="Rokanthemes\BoughtViewed\Block\Viewed\ProductViewed" name="product_block_viewed" template="Rokanthemes_BoughtViewed::viewed.phtml" cacheable="false"/>
+                </container> 
+                <!-- <container name="product.col.bought" htmlTag="div" htmlClass="product-col-bought-pro-detail">
+                    <block class="Rokanthemes\BoughtViewed\Block\Bought\ProductBought" name="product_block_bought" template="Rokanthemes_BoughtViewed::bought.phtml" cacheable="false"/>
+                </container> -->
+            </container>
+        </referenceContainer>
+        <move element="product.row.blockviewed" destination="columns" after="column.main"/>
+        <referenceContainer name="content">
+            <block class="Magento\Catalog\Block\Product\View\Gallery" name="product.info.media.image.custom" template="Magento_Catalog::product/view/custom_gallery.phtml">
+                <arguments>
+                    <argument name="gallery_options" xsi:type="object">Magento\Catalog\Block\Product\View\GalleryOptions</argument>
+                    <argument name="imageHelper" xsi:type="object">Magento\Catalog\Helper\Image</argument>
+                </arguments>
+            </block>
+            <block class="Magento\Catalog\Block\Product\View" name="product.share.addthis" template="Magento_Catalog::product/view/addthis.phtml" after="-"/>
+        </referenceContainer>
+        <move element="product.info.media.image.custom" destination="product.container.left" before="product.share.addthis" after="-"/>
+        <move element="product.share.addthis" destination="product.container.left" after="-"/>
+        <referenceContainer name="product.info.main">
+            <block class="Magento\Catalog\Block\Product\View" name="product.extent.button.custom.fix" template="Magento_Catalog::product/view/extent_button.phtml" before="product.info"/>
+        </referenceContainer>
+    </body>
+</page>

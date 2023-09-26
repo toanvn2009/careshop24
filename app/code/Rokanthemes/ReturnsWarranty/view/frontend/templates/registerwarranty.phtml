@@ -1,0 +1,66 @@
+<?php
+	$listAlls = $block->getWarrantys(); 
+?>
+<div class="rokan-returnswarranty">
+	<div class="rokan-returnswarranty-action">
+		<div class="returnswarranty-content">
+			<div class="content-h"><h2><?php echo __('Select products to be returned') ?></h2></div>
+			<div class="back"><a href="<?= $block->escapeUrl($this->getUrl('returnswarranty/index/index')) ?>"><?php echo __('<--- Back to overview') ?></a></div>
+			<div class="content-r"><?php echo __('All products that are still covered by warranty are listed in the “warranty services” section. Please register all products that are dead on arrival as warranty cases.') ?></div>
+			<div class="search-form-warranty">
+				<div class="field search">
+					<div class="label"> 
+						<p><?php echo __('Search for order number') ?></p>
+					</div>
+					<div class="control flex-layout">
+						<input id="search-warranty" type="text" name="warranty" placeholder="Order Number">
+						<div class="nested">
+							<a class="action-warranty advanced btn cap">
+								<i class="fa fa-search"></i><?php echo __('Search') ?> 
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="list-order-warranty">
+			</div>
+			
+			
+			<div class="list-data-order-warranty">
+				<?php if(count($listAlls) > 0){ ?>
+					<table class="data table table-warranty-items history table">
+						<thead>
+							<tr>
+								<th scope="col" class="col id"><?php echo __('Items') ?></th>
+								<th scope="col" class="col shipping"><?php echo __('Qty') ?></th>
+								<th scope="col" class="col date"><?php echo __('Date') ?></th>
+								<th scope="col" class="col total"><?php echo __('Order') ?> #</th>
+								<th scope="col" class="col status"><?php echo __('Status') ?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($listAlls as $_item){ ?>
+							<tr>
+								<td data-th="Item" class="col item">
+									<div class="image"><img src="<?php echo $block->getProductImage($_item['product_id']); ?>" /></div>
+									<div class="name"><?php echo $_item['product_name'] ?></div>
+								</td>
+								<td data-th="Qty" class="col qty"><?php echo $_item['qty_ordered'] ?></td>
+								<td data-th="Date" class="col date"><?php echo $_item['created_at'] ?></td>
+								<td data-th="Order #" class="col order">#<?php echo $block->getOrder($_item['order_id'])->getIncrementId() ?></td>
+								<td data-th="Status" class="col status">
+									<span class="status -pending">
+										<?php echo $_item['status'] ?>                        
+									</span>
+								</td>
+							</tr>
+							<?php } ?>
+						</tbody>
+					</table>
+				<?php }else{ ?>
+					<p><?php echo __('You are not empty register warranty product.') ?></p>
+				<?php }?>
+			</div>
+		</div>
+	</div>
+</div>

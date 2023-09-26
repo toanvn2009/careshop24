@@ -1,0 +1,71 @@
+<?php
+$_item = $block->getItem();
+$productId = $_item->getProductId();
+$product = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getLoadProductById($productId);
+$id_item = $_item->getId();
+$data_query = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getSalesOrderItemByItemId($id_item);
+$_imagehelper = $this->helper("Magento\Catalog\Helper\Image");
+if(isset($data_query['item_id'])){
+	$id_item = $data_query['item_id'];
+}
+
+$data_query_rm = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getAmastyRmaRequestItem($id_item);
+?>
+<div class="product-item" id="order-item-row-<?= (int) $_item->getId() ?>">
+    <div class="col product-item-info">
+		<?php $_image = $_imagehelper->init($product, 'category_page_grid')->constrainOnly(FALSE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize(400); ?>
+		<div class="image-product product-photo">
+			<a href="#" class="product-item-photo">
+				<img src="<?= $_image->getUrl(); ?>" alt="<?= $_image->getLabel() ?>" />
+			</a>
+		</div>
+		<div class="info-product product-item-info">
+			<strong class="product name product-item-name"><?= $block->escapeHtml($_item->getName()) ?></strong>
+			<?php if ($_options = $block->getItemOptions()) : ?>
+				<dl class="item-options">
+				<?php foreach ($_options as $_option) : ?>
+					<dt class="label"><strong><?= $block->escapeHtml($_option['label']) ?></strong></dt>
+					<?php if (!$block->getPrintStatus()) : ?>
+						<?php $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+						<dd class="value">
+							<?php if (isset($_formatedOptionValue['full_view'])) : ?>
+								<?= $block->escapeHtml($_formatedOptionValue['full_view'], ['a']) ?>
+							<?php else : ?>
+								<?=$block->escapeHtml($_formatedOptionValue['value'], ['a']) ?>
+							<?php endif; ?>
+						</dd>
+					<?php else : ?>
+						<div>
+							<?= /* @noEscape */ nl2br($block->escapeHtml($_option['print_value'] ?? $_option['value'])) ?>
+						</div>
+					<?php endif; ?>
+				<?php endforeach; ?>
+				</dl>
+			<?php endif; ?>
+			<?php $addtInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+			<?php if ($addtInfoBlock) : ?>
+				<?= $addtInfoBlock->setItem($_item)->toHtml() ?>
+			<?php endif; ?>
+			<?= $block->escapeHtml($_item->getDescription()) ?>
+			<div class="refund-warranty">
+				<?php if(!$data_query_rm){ ?>
+					<?= $block->escapeHtml(__('7 Days Careshop refund warranty')) ?>
+				<?php }else{ ?>
+					<div class="refund">
+						<strong><?= $block->escapeHtml(__('Reason for return:')) ?></strong>
+						<p><?= $block->escapeHtml(__('The product was good but not correct size was shipped.')) ?></p>
+					</div>
+				<?php } ?>
+			</div>
+		</div>
+    </div>
+	<div class="return-action">
+		<?php if(!$data_query_rm){ ?>
+			<a href="<?= $block->escapeUrl($this->getUrl('rma/account/newreturn/order/'.$_item->getOrderId())) ?>"><?= $block->escapeHtml(__('Return')) ?></a>
+			<div class="return-not-available">
+				<h4><?= $block->escapeHtml(__('Return Not Available')) ?></h4>
+				<p><?= $block->escapeHtml(__('It is not possible to return this item as it has exceeded the time period of our returns policy. For more information please visit')) ?><a href="#"><?= $block->escapeHtml(__(' returns policy ')) ?></a> <?= $block->escapeHtml(__('of Careshop.')) ?></p>
+			</div>
+		<?php } ?>
+	</div>
+</div>

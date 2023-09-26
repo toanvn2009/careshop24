@@ -1,0 +1,25 @@
+<?php 
+    $_product = $block->getProduct();
+    $_helper = $this->helper(Magento\Catalog\Helper\Output::class);
+    $c_development_stages = $_helper->productAttribute($_product, $_product->getCDevelopmentStages(), 'c_development_stages');
+?>
+<?php if ($c_development_stages != '5586') {?>
+    <div class="community-category">
+        <div class="category"><?= $block->escapeHtml(__('PROJECT') ); ?></div>
+    </div>
+    <div class="info-community-customer">
+        <div class="left">
+            <div class="avatar"><img src="http://blueskytechco.net/caresho1_myhostpoint_ch/pub/media/avatars/default/6.jpg" alt="image"></div>
+        </div>
+        <div class="right">
+            <h2 class="author_name custom">Jeniier Joanie</h2>
+            <div class="manger"><?= $block->escapeHtml(__('Manger') ); ?></div>
+            <div class="number_post">Post:  31</div>
+        </div>
+    </div>
+<?php } else { ?>
+    <div class="community-category">
+        <div class="category"><?= $block->escapeHtml(__('FUNDING') ); ?></div>
+    </div>
+<?php } ?> 
+

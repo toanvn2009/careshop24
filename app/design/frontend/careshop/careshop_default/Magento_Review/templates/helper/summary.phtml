@@ -1,0 +1,103 @@
+<?php
+$url = $block->getReviewsUrl() . '#reviews';
+$urlForm = $block->getReviewsUrl() . '#review-form';
+$_items = $block->getReviewsCollection()->getItems();
+?>
+<?php if (count($_items)):?>
+	<?php 
+		$numbers = [];
+	?>
+	<?php foreach ($_items as $_review){ ?>
+		<?php foreach ($_review->getRatingVotes() as $_vote): ?>
+			<?php $numbers[] = $_vote->getPercent()/100*5;?>
+		<?php endforeach; ?>
+	<?php } ?>
+	<?php 
+		$rate5 = array_filter($numbers, function($number) {
+			return $number == 5;
+		});
+		$rate4 = array_filter($numbers, function($number) {
+			return $number == 4;
+		});
+		$rate3 = array_filter($numbers, function($number) {
+			return $number == 3;
+		});
+		$rate2 = array_filter($numbers, function($number) {
+			return $number == 2;
+		});
+		$rate1 = array_filter($numbers, function($number) {
+			return $number == 1;
+		});
+	?>
+	
+<?php endif;?>
+<?php if ($block->isReviewEnabled() && $block->getReviewsCount()) : ?>
+    <?php $rating = $block->getRatingSummary(); ?>
+    <div class="product-reviews-summary<?= !$rating ? ' no-rating' : '' ?>" itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+        <?php if ($rating) :?>
+        <div class="rating-summary">
+             <span class="label"><span><?= $block->escapeHtml(__('Rating')) ?>:</span></span>
+             <div class="rating-result" title="<?= $block->escapeHtmlAttr($rating); ?>%">
+                 <span style="width:<?= $block->escapeHtmlAttr($rating); ?>%">
+                     <span> 
+                         <span itemprop="ratingValue"><?= $block->escapeHtml($rating); ?></span>% of <span itemprop="bestRating">100</span>
+                     </span>
+                 </span>
+             </div>
+         </div>
+        <?php endif;?>
+        <div class="reviews-actions">
+            <a class="action view" href="#">
+                <span class="rating-value"><?= $block->escapeHtml($rating*5/100); ?></span> <span itemprop="reviewCount">(<?= $block->escapeHtml($block->getReviewsCount()) ?>)</span>
+            </a>
+			<div class="reviews-pupup">
+				<div class="reviews-pupup-rate">
+					<div class="rating-summary">
+						<div class="rating">
+							<span>5</span>
+						</div>
+						<div class="progress"><div class="progress-bar progress-bar-success " role="progressbar" style="width:<?= $block->escapeHtmlAttr(count($rate5)/$block->getReviewsCount()*100); ?>%"></div></div>
+						<div><?= count($rate5)?></div>
+					</div>
+					<div class="rating-summary">
+						<div class="rating">
+							<span>4</span>
+						</div>
+						<div class="progress"><div class="progress-bar progress-bar-success " role="progressbar" style="width:<?= $block->escapeHtmlAttr(count($rate4)/$block->getReviewsCount()*100); ?>%"></div></div>
+						<div><?= count($rate4)?></div>
+					</div>
+					<div class="rating-summary">
+						<div class="rating">
+							<span>3</span>
+						</div>
+						<div class="progress"><div class="progress-bar progress-bar-success " role="progressbar" style="width:<?= $block->escapeHtmlAttr(count($rate3)/$block->getReviewsCount()*100); ?>%"></div></div>
+						<div><?= count($rate3)?></div>
+					</div>
+					<div class="rating-summary">
+						<div class="rating">
+							<span>2</span>
+						</div>
+						<div class="progress"><div class="progress-bar progress-bar-success " role="progressbar" style="width:<?= $block->escapeHtmlAttr(count($rate2)/$block->getReviewsCount()*100); ?>%"></div></div>
+						<div><?= count($rate2)?></div>
+					</div>
+					<div class="rating-summary">
+						<div class="rating">
+							<span>1</span>
+						</div> 
+						<div class="progress"><div class="progress-bar progress-bar-success " role="progressbar" style="width:<?= $block->escapeHtmlAttr(count($rate1)/$block->getReviewsCount()*100); ?>%"></div></div>
+						<div><?= count($rate1)?></div>
+					</div>
+				</div>  
+				<a class="action add btn" href="<?= $block->escapeUrl($url) ?>"><?= $block->escapeHtml(__('Read '.$block->escapeHtml($block->getReviewsCount()).' Reviews')) ?></a>
+			</div>
+		</div>
+    </div>
+<?php elseif ($block->isReviewEnabled() && $block->getDisplayIfEmpty()) : ?>
+    <div class="product-reviews-summary empty">
+        <div class="reviews-actions">
+            <a class="action add" href="<?= $block->escapeUrl($url) ?>">
+                <?= $block->escapeHtml(__('Be the first to review this product')) ?>
+            </a>
+        </div>
+    </div>
+<?php endif; ?>

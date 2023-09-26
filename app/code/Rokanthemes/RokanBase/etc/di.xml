@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<preference for="Magento\Review\Block\Product\View" type="Rokanthemes\RokanBase\Block\Product\View" /> 
+	<preference for="Magento\Review\Block\Product\Review" type="Rokanthemes\RokanBase\Block\Product\Review" /> 
+	<preference for="Magento\Review\Block\Product\ReviewRenderer" type="Rokanthemes\RokanBase\Block\Product\ReviewRenderer" />  
+	<preference for="Magento\Sales\Block\Order\History" type="Rokanthemes\RokanBase\Block\Order\History" />
+	<preference for="Magento\Review\Model\ResourceModel\Review\Collection" type="Rokanthemes\RokanBase\Model\Rewrite\Review\Collection" />
+	<type name="Magento\Review\Block\Adminhtml\Edit\Form">
+        <plugin name="modify_review_edit_form" type="Rokanthemes\RokanBase\Plugin\Edit\Form" />
+    </type>    
+</config>     
+ 

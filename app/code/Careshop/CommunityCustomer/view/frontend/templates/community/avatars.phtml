@@ -1,0 +1,131 @@
+<?php 
+    $profile = $block->getProfileByCustommerID();
+    $setting = $block->getSettingByCustommerID();
+    $tagging = $block->getTaggingByCustomerId();
+    $sub_bookmarks = $block->getSubscriptionBookmarks();
+    $macros = $block->getMacrosByCustomerId();
+    $helper = $block->getHelper();
+    $timezones = $helper->getListTimeZone();
+    $media_url = $helper->getMediaUrl();
+    $default_avatars = $helper->getListDefaultAvatar();
+    $list_avatar = $block->getAvatars();
+    $email_contents = $helper->getEmailContentOptions();
+    $email_formats = $helper->getEmailFormatOptions();
+    $board_layout_opts = $helper->getBoardLayoutOptions();
+    $display_emoticon_opt = $helper->getEmoticonOptions();
+    $rich_editor = $helper->getEditorPostOptions();
+    $display_format_date_opt = $helper->getFormatDateOptions();
+    $display_show_date_opt = $helper->getFormatDateOptions();
+    $display_listview_opt = $helper->getListViewOptions();
+    $display_liststyle_opt= $helper->getListStyleOptions();
+    $default_flag_topic = $helper->getDefaultFlagTopicsOptions();
+    $default_sort_topics = $helper->getDefaultSortTopicsOptions();
+    $lenear_sort_topic = $helper->getLenearSortTopicsOptions();
+    $lenear_filter_qa = $helper->getLenearTopicFilterOptions();
+    $lenear_sort_qa = $helper->getLenearSortQuestionsAnswersOptions();
+    $theme_sort_topic = $helper->getThemeSortTopicsOptions();
+    $home_private_community = $helper->getPrivateMessagesOptions();
+    $home_my_friends = $helper->getMyFriendsMessagesOptions();
+    $privacy_person_data = $helper->getPrivacyPersonOptions();
+    $privacy_show_email = $helper->getPrivacyShowEmailOptions();
+    $privacy_online_status = $helper->getPrivacyShowOnlineOptions();
+    $likes_period_rec = $helper->getPeriodLikeReceivedOptions();
+    $likes_period_aut = $helper->getPeriodLikeAuthorsOptions();
+    $tagging_cloud_filter = $helper->getTaggingCloudOptions();
+    $tagging_cloud_age = $helper->getTaggingCloudAgeOptions();
+    $all_posts = $helper->getAllPostOptions();
+    $mobile_pictures_posts = $helper -> getMobilePicturesInPosts();
+   
+?>
+<div class="change-user-pass">
+    <a href="<?= $block->getBaseUrl(); ?>customer/account/edit" class="username"><span><?= $block->escapeHtml(__('Change User Name') ); ?></span></a>
+    <a href="<?= $block->getBaseUrl(); ?>customer/account/edit/changepass" class="password"><span><?= $block->escapeHtml(__('Change Password') ); ?></span></a>
+</div>
+<form class="form subscribe"
+    novalidate
+    action="#"
+    method="post"
+    data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+    id="community-customer-form"
+    enctype="multipart/form-data" >
+    <fieldset class="fieldset">
+        <div class="community_customer product data items">
+            <?= $block->getChildHtml('community.customer.tab'); ?>
+            <!-- Tab Avatars -->
+            <div id="tab-avatars" class="item content" data-role="content">
+                <div class="product data items"
+                    data-mage-init='{"mage/tabs": {"openedState": "active", "animate": {"duration": 100}, "active": 0, "disabled": [13], "disabledState": "disabled"}}'>
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-avatar-community"><?= $block->escapeHtml(__('From The community') ); ?></a>
+                    </div>
+                    <div id="tab-avatar-community" class="item content" data-role="content">
+                        <div class="control">
+                            <div class="field name">
+                               	<div class="field filesubmission">
+                                   <label class="label-avatar" for="filesubmission"><span><?= $block->escapeHtml(__('avatar')) ?></span></label>
+                                    <div class="control">
+                                        <div class="preview d-inline-flex">
+                                            <label class="label" for="filesubmission"><span><?= $block->escapeHtml(__('Current avatar')) ?></span></label>
+                                            <div class="flex-1">    
+                                                <img src="<?= ($profile->getAvatar()) ? $media_url.$profile->getAvatar() : ''?>" id="img" width="100" height="100">
+                                                <input type="button" class="button" value="<?= $block->escapeHtml(__('Upload a avatar')) ?>" id="but_upload">
+                                            </div>
+                                        </div>
+                                        <div class="d-flex upload-file" >
+                                            <input type="file" id="file" name="file" />
+                                            
+                                        </div>
+                                        <div id="list_avatar_default">
+                                            <label class="label" for="filesubmission"><span><?= $block->escapeHtml(__('Chose  avatar')) ?></span></label>
+                                            <?php 
+                                                if($default_avatars) {
+                                                    foreach($default_avatars as $key=> $avt) {
+                                            ?>
+                                                        <img src="<?= $block->escapeHtmlAttr($media_url.$avt) ?>" data-avatar="<?= $block->escapeHtmlAttr($avt) ?>" id="img" width="100" height="100">
+                                            <?php             
+                                                    }
+                                                }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Tab From The community -->                
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-avatar-albums"><?= $block->escapeHtml(__('From My Albums') ); ?></a>
+                    </div>
+                    <div id="tab-avatar-albums" class="item content" data-role="content">
+                        <?php 
+                            if($list_avatar) {
+                                foreach($list_avatar as $my_avatar) { ?>
+                                    <img src="<?= $block->escapeHtmlAttr($media_url.$my_avatar->getFile()) ?>" data-avatar="<?= $block->escapeHtmlAttr($my_avatar->getFile()) ?>" id="img" width="100" height="100">
+                                <?php }
+                            }
+                        ?>                            
+                    </div>         
+                    <!-- End Tab From My Albums -->
+                </div>
+            </div>
+            <!-- End Tab Avatars -->
+        </div>
+    </fieldset>    
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="button" data-action="update-avatars" class="action submit primary" id="community-custom-btn">
+                <span><?= $block->escapeHtml(__('Save')); ?></span>
+            </button>
+        </div>
+        <div class="primary">
+            <button type="button"  class="action reset primary" id="community-reset-btn">
+                <span><?= $block->escapeHtml(__('Reset')); ?></span>
+            </button>
+        </div>
+    </div>
+    <div class="msg"></div>
+
+</form>
+<div data-mage-init='{"community_customer": {}}'>
+    
+</div>

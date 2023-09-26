@@ -1,0 +1,108 @@
+<?php
+$priceModel = $block->getPriceType('regular_price');
+/** @var \Magento\Framework\Pricing\Price\PriceInterface $finalPriceModel */
+$finalPriceModel = $block->getPriceType('final_price');
+$idSuffix = $block->getIdSuffix() ? $block->getIdSuffix() : '';
+$schema = ($block->getZone() == 'item_view') ? true : false;
+if($schema){
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $currentProduct = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+    $pricingHelper = $this->helper(\Magento\Framework\Pricing\Helper\Data::class);
+    $ro_configurable = $this->helper(\Rokanthemes\RokanBase\Helper\Configurablepro::class);
+    $con_price = $ro_configurable->getPriceRange($currentProduct);
+    if(isset($con_price['max']) && isset($con_price['min']) && $con_price['max'] > $con_price['min']){ ?>
+        <span class="pro-detail-normal-price-ini-fixed">
+            <span class="price-container-fixed">
+                <span class="price-wrapper-fixed">
+                    <span class="price-fixed"><?= $pricingHelper->currency($con_price['max'], true, false);?> - <?= preg_replace("/[^0-9.]/", "", $pricingHelper->currency($con_price['min'], true, false));?></span>
+                </span>
+            </span>
+        </span>
+        <span class="normal-price pro-detail-normal-price-click-fixed" style="display: none;">
+            <?= /* @noEscape */ $block->renderAmount($finalPriceModel->getAmount(), [
+                'display_label' => '',
+                'price_id' => $block->getPriceId('product-price-' . $idSuffix),
+                'price_type' => 'finalPrice',
+                'include_container' => true,
+                'schema' => $schema,
+            ]);
+        ?>
+        </span>
+    <?php }
+    else{
+?>
+<span class="normal-price">
+    <?= /* @noEscape */ $block->renderAmount($finalPriceModel->getAmount(), [
+        'display_label' => '',
+        'price_id' => $block->getPriceId('product-price-' . $idSuffix),
+        'price_type' => 'finalPrice',
+        'include_container' => true,
+        'schema' => $schema,
+    ]);
+?>
+</span>
+
+<?php } ?>
+
+<?php if (!$block->isProductList() && $block->hasSpecialPrice()) : ?>
+    <span class="old-price sly-old-price no-display">
+        <?= /* @noEscape */ $block->renderAmount($priceModel->getAmount(), [
+            'display_label'     => '',
+            'price_id'          => $block->getPriceId('old-price-' . $idSuffix),
+            'price_type'        => 'oldPrice',
+            'include_container' => true,
+            'skip_adjustments'  => true
+        ]); ?>
+    </span>
+<?php endif; ?>
+
+<?php if ($block->showMinimalPrice()) : ?>
+    <?php if ($block->getUseLinkForAsLowAs()) :?>
+        <a href="<?= $block->escapeUrl($block->getSaleableItem()->getProductUrl()) ?>" class="minimal-price-link">
+            <?= /* @noEscape */ $block->renderAmountMinimal() ?>
+        </a>
+    <?php else :?>
+        <span class="minimal-price-link">
+            <?= /* @noEscape */ $block->renderAmountMinimal() ?>
+        </span>
+    <?php endif?>
+<?php endif; ?>
+<?php
+}
+else{
+?>
+<span class="normal-price">
+    <?= /* @noEscape */ $block->renderAmount($finalPriceModel->getAmount(), [
+        'display_label' => '',
+        'price_id' => $block->getPriceId('product-price-' . $idSuffix),
+        'price_type' => 'finalPrice',
+        'include_container' => true,
+        'schema' => $schema,
+    ]);
+?>
+</span>
+
+<?php if (!$block->isProductList() && $block->hasSpecialPrice()) : ?>
+    <span class="old-price sly-old-price no-display">
+        <?= /* @noEscape */ $block->renderAmount($priceModel->getAmount(), [
+            'display_label'     => '',
+            'price_id'          => $block->getPriceId('old-price-' . $idSuffix),
+            'price_type'        => 'oldPrice',
+            'include_container' => true,
+            'skip_adjustments'  => true
+        ]); ?>
+    </span>
+<?php endif; ?>
+
+<?php if ($block->showMinimalPrice()) : ?>
+    <?php if ($block->getUseLinkForAsLowAs()) :?>
+        <a href="<?= $block->escapeUrl($block->getSaleableItem()->getProductUrl()) ?>" class="minimal-price-link">
+            <?= /* @noEscape */ $block->renderAmountMinimal() ?>
+        </a>
+    <?php else :?>
+        <span class="minimal-price-link">
+            <?= /* @noEscape */ $block->renderAmountMinimal() ?>
+        </span>
+    <?php endif?>
+<?php endif; ?>
+<?php } ?>

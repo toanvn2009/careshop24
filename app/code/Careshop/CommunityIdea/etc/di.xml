@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--Grid collection-->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="community_idea_listing_data_source" xsi:type="string">Careshop\CommunityIdea\Model\ResourceModel\Idea\Grid\Collection</item>
+                <item name="community_tag_listing_data_source" xsi:type="string">Careshop\CommunityIdea\Model\ResourceModel\Tag\Grid\Collection</item>
+                <item name="community_topic_listing_data_source" xsi:type="string">Careshop\CommunityIdea\Model\ResourceModel\Topic\Grid\Collection</item>
+                <item name="community_comment_listing_data_source" xsi:type="string">Careshop\CommunityIdea\Model\ResourceModel\Comment\Grid\Collection</item>
+                <item name="community_author_listing_data_source" xsi:type="string">Careshop\CommunityIdea\Model\ResourceModel\Author\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Careshop\CommunityIdea\Model\ResourceModel\Author\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">community_author</argument>
+            <argument name="resourceModel" xsi:type="string">Careshop\CommunityIdea\Model\ResourceModel\Author</argument>
+        </arguments>
+    </type>
+    <virtualType name="Careshop\CommunityIdea\Model\ResourceModel\Idea\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">community_idea</argument>
+            <argument name="resourceModel" xsi:type="string">Careshop\CommunityIdea\Model\ResourceModel\Idea</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Careshop\CommunityIdea\Model\ResourceModel\Tag\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">community_tag</argument>
+            <argument name="resourceModel" xsi:type="string">Careshop\CommunityIdea\Model\ResourceModel\Tag</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Careshop\CommunityIdea\Model\ResourceModel\Topic\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">community_topic</argument>
+            <argument name="resourceModel" xsi:type="string">Careshop\CommunityIdea\Model\ResourceModel\Topic</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\App\Rss\RssManagerInterface">
+        <arguments>
+            <argument name="dataProviders" xsi:type="array">
+                <item name="community_ideas" xsi:type="string">Careshop\CommunityIdea\Block\Idea\Rss\Lists</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Careshop\CommunityIdea\Model\ImageUploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="string">label/tmp/image</argument>
+            <argument name="basePath" xsi:type="string">label/image</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+        </arguments>
+    </type>
+    <preference for="Magento\Sitemap\Model\Sitemap" type="Careshop\CommunityIdea\Model\Sitemap"/>
+
+    <preference for="Careshop\CommunityIdea\Api\Data\IdeaInterface" type="Careshop\CommunityIdea\Model\Idea" />
+    <preference for="Careshop\CommunityIdea\Api\Data\CommentInterface" type="Careshop\CommunityIdea\Model\Comment" />
+    <preference for="Careshop\CommunityIdea\Api\Data\TagInterface" type="Careshop\CommunityIdea\Model\Tag" />
+    <preference for="Careshop\CommunityIdea\Api\Data\CategoryInterface" type="Careshop\CommunityIdea\Model\Category" />
+    <preference for="Careshop\CommunityIdea\Api\Data\TopicInterface" type="Careshop\CommunityIdea\Model\Topic" />
+    <preference for="Careshop\CommunityIdea\Api\Data\AuthorInterface" type="Careshop\CommunityIdea\Model\Author" />
+    <preference for="Careshop\CommunityIdea\Api\Data\CommunityConfigInterface" type="Careshop\CommunityIdea\Model\CommunityConfig" />
+    <preference for="Careshop\CommunityIdea\Api\Data\MonthlyArchiveInterface" type="Careshop\CommunityIdea\Model\MonthlyArchive" />
+    <preference for="Careshop\CommunityIdea\Api\Data\Config\GeneralInterface" type="Careshop\CommunityIdea\Model\Config\General" />
+    <preference for="Careshop\CommunityIdea\Api\Data\Config\SidebarInterface" type="Careshop\CommunityIdea\Model\Config\Sidebar" />
+    <preference for="Careshop\CommunityIdea\Api\Data\Config\SeoInterface" type="Careshop\CommunityIdea\Model\Config\Seo" />
+    <preference for="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" type="Careshop\CommunityIdea\Model\Api\CommunityRepository" />
+
+    <preference for="Careshop\CommunityIdea\Api\Data\SearchResult\IdeaSearchResultInterface" type="Careshop\CommunityIdea\Model\ResourceModel\Idea\Collection" />
+    <preference for="Careshop\CommunityIdea\Api\Data\SearchResult\CategorySearchResultInterface" type="Careshop\CommunityIdea\Model\ResourceModel\Category\Collection" />
+    <preference for="Careshop\CommunityIdea\Api\Data\SearchResult\TagSearchResultInterface" type="Careshop\CommunityIdea\Model\ResourceModel\Tag\Collection" />
+    <preference for="Careshop\CommunityIdea\Api\Data\SearchResult\TopicSearchResultInterface" type="Careshop\CommunityIdea\Model\ResourceModel\Topic\Collection" />
+    <preference for="Careshop\CommunityIdea\Api\Data\SearchResult\CommentSearchResultInterface" type="Careshop\CommunityIdea\Model\ResourceModel\Comment\Collection" />
+
+    <preference for="Magento\Catalog\Model\Layer\ContextInterface" type="Magento\Catalog\Model\Layer\Context" />
+    <preference for="Magento\Catalog\Model\Layer\ItemCollectionProviderInterface" type="Magento\Catalog\Model\Layer\Category\ItemCollectionProvider" />
+    <preference for="Magento\Catalog\Model\Layer\StateKeyInterface" type="Magento\Catalog\Model\Layer\Category\StateKey" />
+    <preference for="Magento\Catalog\Model\Layer\CollectionFilterInterface" type="Magento\Catalog\Model\Layer\Category\CollectionFilter" />
+    <preference for="Magento\Catalog\Model\Layer\FilterableAttributeListInterface" type="Magento\Catalog\Model\Layer\Category\FilterableAttributeList" />
+    <preference for="Magento\Catalog\Model\Layer\AvailabilityFlagInterface" type="Magento\Catalog\Model\Layer\Category\AvailabilityFlag" />
+    
+    <preference for="Magento\Catalog\Model\ResourceModel\Category" type="Careshop\CommunityIdea\Model\ResourceModel\Custom\CategoryLayer" />
+    <preference for="Magento\Catalog\Model\ResourceModel\Layer\Filter\Price" type="Careshop\CommunityIdea\Model\ResourceModel\Layer\Filter\Price" />
+
+</config>

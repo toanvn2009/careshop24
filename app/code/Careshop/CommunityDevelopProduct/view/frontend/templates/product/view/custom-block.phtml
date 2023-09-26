@@ -1,0 +1,65 @@
+<?php 
+    $_product = $block->getProduct();
+    $view_model = $block->getViewModel();
+    $_helper = $this->helper(Magento\Catalog\Helper\Output::class);
+    $c_development_stages = $_helper->productAttribute($_product, $_product->getCDevelopmentStages(), 'c_development_stages');
+    $short_description = $_helper->productAttribute($block->getProduct(), $block->getProduct()->getShortDescription(), 'short_description');
+    $community_develop = $view_model->getDevelopProduct(trim($_product->getId()));
+    $community_develop_comment = $view_model->getDevelopComment(trim($_product->getId()));
+?>
+<?php if ($c_development_stages != '5586') { ?>
+    <div class="product stages">
+        October 5, 2017 - General
+    </div>
+    <div class="product-social">
+        <div class="product-like"><i class="fa fa-thumbs-up"></i><span class="count"><?= ($community_develop['likes'])? $community_develop['likes'] : 0 ?></span></div>
+        <div class="product-view"><i class="fa fa-eye"></i><span class="count"></span><?= ($community_develop['views'])? $community_develop['views'] : 0 ?></div>
+        <div class="product-commenting"><i class="fa fa-commenting"></i><span class="count"><?= $community_develop_comment ?></span></div>
+    </div>
+    <?php 
+        $stages = "green";
+        switch ($c_development_stages) {
+            case "5583":
+                $stages = "red";
+                break;
+            case "5584":
+                $stages = "yellow";
+                break;
+            case "5585":
+                $stages = "green";
+                break;
+            case "5586":
+                $stages = "orange";
+                break;
+        }
+    ?>
+    <div class="product stages">
+        <div class="product-stages-value <?= $stages ?>">
+            <?= $stages ?>
+        </div>
+    </div>
+<?php } ?>
+<div class="product short_description">
+    <?= $short_description ?> 
+</div>
+<script>
+    require([
+        'jquery'
+    ], function($){
+        var carLmt = 150;
+        var readMoreTxt = "<?= $block->escapeHtml(__('Read More...') ); ?>";
+        var readLessTxt = "<?= $block->escapeHtml(__('Read Less') ); ?>";
+        $(".short_description").each(function() {
+            var allstr = $(this).text();
+            if (allstr.length > carLmt) {
+                var firstSet = allstr.substring(0, carLmt);
+                var secdHalf = allstr.substring(carLmt, allstr.length);
+                var strtoadd = firstSet + "<span class='SecSec'>" + secdHalf + "</span><span class='readMore'  title='Click to Show More'>" + readMoreTxt + "</span><span class='readLess' title='Click to Show Less'>" + readLessTxt + "</span>";
+                $(this).html(strtoadd);
+            }
+        });
+        $(document).on("click", ".readMore,.readLess", function() {
+            $(this).closest(".short_description").toggleClass("showlesscontent showmorecontent");
+        });
+    });
+</script>

@@ -1,0 +1,32 @@
+<?php
+/**
+ * @var \Careshop\RokanthemesBrand\ViewModel\Brand $brandViewModel
+ */
+
+$item = $block->getItem();
+$product = $item->getProduct();
+$brandViewModel = $block->getData('brand_view_model');
+$brandIds = $product->getData('product_brand');
+$brandCollection = $brandViewModel->getBrandCollection((array)$brandIds);
+?>
+<div class="product-item-info-name">
+    <?php if ($brandCollection->count()): ?>
+        <div class="brands">
+            <?php foreach ($brandCollection as $brand): ?>
+                <img src="<?= $block->escapeHtml($brand->getThumbnailUrl()) ?>"
+                     alt="<?= $block->escapeHtml($brand->getName()) ?>"
+                     class="brand-thumbnail"
+                />
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <p class="product-item-name">
+        <a href="<?= $block->escapeUrl($block->getProductUrl($item)) ?>"
+           class="product-item-link"
+        >
+            <?= $block->escapeHtml($product->getName()) ?>
+        </a>
+    </p>
+    <?= /** @noEscape */ $block->getChildBlock('item_options')->setItem($item)->toHtml() ?>
+</div>

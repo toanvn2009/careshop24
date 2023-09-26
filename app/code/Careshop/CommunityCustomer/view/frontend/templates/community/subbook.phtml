@@ -1,0 +1,515 @@
+<?php 
+    $profile = $block->getProfileByCustommerID();
+    $setting = $block->getSettingByCustommerID();
+    $tagging = $block->getTaggingByCustomerId();
+    $sub_bookmarks = $block->getSubscriptionBookmarks();
+    $macros = $block->getMacrosByCustomerId();
+    $helper = $block->getHelper();
+    $timezones = $helper->getListTimeZone();
+    $media_url = $helper->getMediaUrl();
+    $default_avatars = $helper->getListDefaultAvatar();
+    $list_avatar = $block->getAvatars();
+    $email_contents = $helper->getEmailContentOptions();
+    $email_formats = $helper->getEmailFormatOptions();
+    $board_layout_opts = $helper->getBoardLayoutOptions();
+    $display_emoticon_opt = $helper->getEmoticonOptions();
+    $rich_editor = $helper->getEditorPostOptions();
+    $display_format_date_opt = $helper->getFormatDateOptions();
+    $display_show_date_opt = $helper->getFormatDateOptions();
+    $display_listview_opt = $helper->getListViewOptions();
+    $display_liststyle_opt= $helper->getListStyleOptions();
+    $default_flag_topic = $helper->getDefaultFlagTopicsOptions();
+    $default_sort_topics = $helper->getDefaultSortTopicsOptions();
+    $lenear_sort_topic = $helper->getLenearSortTopicsOptions();
+    $lenear_filter_qa = $helper->getLenearTopicFilterOptions();
+    $lenear_sort_qa = $helper->getLenearSortQuestionsAnswersOptions();
+    $theme_sort_topic = $helper->getThemeSortTopicsOptions();
+    $home_private_community = $helper->getPrivateMessagesOptions();
+    $home_my_friends = $helper->getMyFriendsMessagesOptions();
+    $privacy_person_data = $helper->getPrivacyPersonOptions();
+    $privacy_show_email = $helper->getPrivacyShowEmailOptions();
+    $privacy_online_status = $helper->getPrivacyShowOnlineOptions();
+    $likes_period_rec = $helper->getPeriodLikeReceivedOptions();
+    $likes_period_aut = $helper->getPeriodLikeAuthorsOptions();
+    $tagging_cloud_filter = $helper->getTaggingCloudOptions();
+    $tagging_cloud_age = $helper->getTaggingCloudAgeOptions();
+    $all_posts = $helper->getAllPostOptions();
+    $mobile_pictures_posts = $helper -> getMobilePicturesInPosts();
+   
+?>
+<div class="change-user-pass">
+    <a href="<?= $block->getBaseUrl(); ?>customer/account/edit" class="username"><span><?= $block->escapeHtml(__('Change User Name') ); ?></span></a>
+    <a href="<?= $block->getBaseUrl(); ?>customer/account/edit/changepass" class="password"><span><?= $block->escapeHtml(__('Change Password') ); ?></span></a>
+</div>
+<form class="form subscribe"
+    novalidate
+    action="#"
+    method="post"
+    data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+    id="community-customer-form"
+    enctype="multipart/form-data" >
+    <fieldset class="fieldset">
+        <div class="community_customer product data items">
+            <?= $block->getChildHtml('community.customer.tab'); ?>
+            <div id="tab-sub-book" class="item content" data-role="content">
+                <div class="product data items"
+                    data-mage-init='{"mage/tabs": {"openedState": "active", "animate": {"duration": 100}, "active": 2, "disabled": [13], "disabledState": "disabled"}}'>
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-my-sub"><?= $block->escapeHtml(__('My subscriptions') ); ?></a>
+                    </div>
+                    <div id="tab-my-sub" class="item content" data-role="content">
+                        <div class="align-items-center">
+                            <legend class="label"><span><?= $block->escapeHtml(__('Setting Likes') ) ?></span></legend>
+                            <select name="my-sub-opt">
+                                <option value="0"><?= $block->escapeHtml(__('Delete Selected Bookmarks') ) ?></option>
+                                <option value="1"><?= $block->escapeHtml(__('Mark All') ) ?></option>
+                                <option value="2"><?= $block->escapeHtml(__('Unmark All') ) ?></option>
+                            </select>
+                        </div>
+                        <div class="subscriptions-opt">
+                            <div class="flex-table">
+                                <div class="table-header">
+                                    <ul>
+                                        <li></li>
+                                        <li><?= $block->escapeHtml(__('Type') ) ?></li>
+                                        <li><?= $block->escapeHtml(__('New') ) ?></li>
+                                        <li class="flex-1"><?= $block->escapeHtml(__('Bookmarks') ) ?></li>
+                                    </ul>
+                                </div>
+                                <div class="table-content">
+                                    <ul>
+                                         <li colspan="1"><input class="cb-element2"  type="checkbox" name="subscription" value="1" /></li>
+                                         <li><?= $block->escapeHtml(__('Theme') ) ?></li>
+                                         <li>1</li>
+                                         <li class="flex-1">
+                                            <p><h2><?= $block->escapeHtml(__('Mocha/ chocolate yoghurt') ) ?></h2></p>
+                                            <p><?= $block->escapeHtml(__('Board- Forum Careshop') ) ?></p>
+                                            <p><?= $block->escapeHtml(__('Latest post-') ) ?><span><?= $block->escapeHtml(__('Mocha/ chocolate yoghurt') ) ?></span></p>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                         <li colspan="1"><input class="cb-element2"  type="checkbox" name="subscription" value="2" /></li>
+                                         <li><?= $block->escapeHtml(__('Message') ) ?></li>
+                                         <li>34694</li>
+                                         <li class="flex-1">
+                                            <p><h2><?= $block->escapeHtml(__('Forum Migipedia') ) ?></h2></p>
+                                            <p><?= $block->escapeHtml(__('Latest Topic') ) ?><span><?= $block->escapeHtml(__('Venous Pillows Vera') ) ?></span></p>
+                                            <p><?= $block->escapeHtml(__('News post-') ) ?><span><?= $block->escapeHtml(__('Venous Pillows Vera') ) ?></span></p>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                         <li colspan="1"><input class="cb-element2"  type="checkbox" name="subscription" value="2" /></li>
+                                         <li><?= $block->escapeHtml(__('Message') ) ?></li>
+                                         <li>2</li>
+                                         <li class="flex-1">
+                                            <p><h2><?= $block->escapeHtml(__('Easter Bunny in February, does it have to be ?') ) ?></h2></p>
+                                            <p><?= $block->escapeHtml(__('Latest Topic') ) ?><span><?= $block->escapeHtml(__('Venous Pillows Vera') ) ?></span></p>
+                                            <p><?= $block->escapeHtml(__('News post-') ) ?><span><?= $block->escapeHtml(__('Venous Pillows Vera') ) ?></span></p>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                         <li colspan="1"><input class="cb-element2"  type="checkbox" name="subscription" value="1" /></li>
+                                         <li><?= $block->escapeHtml(__('Theme') ) ?></li>
+                                         <li>1</li>
+                                         <li class="flex-1">
+                                            <p><h2><?= $block->escapeHtml(__('Testing the newest developed jacket') ) ?></h2></p>
+                                            <p><?= $block->escapeHtml(__('Board- Forum Careshop') ) ?></p>
+                                            <p><?= $block->escapeHtml(__('Latest post-') ) ?><span><?= $block->escapeHtml(__('Subject: Testing the newest developed product') ) ?></span></p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Tab My subscriptions  -->                
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-my-bookmarks"><?= $block->escapeHtml(__('My bookmarks') ); ?></a>
+                    </div>
+                    <div id="tab-my-bookmarks" class="item content" data-role="content">
+                        <div class="align-items-center">
+                            <legend class="label"><span><?= $block->escapeHtml(__('BookMARK OPTIONS') ) ?></span></legend>
+                            <select name="bookmarks-opt">
+                                <option value="0"><?= $block->escapeHtml(__('Delete Selected Bookmarks') ) ?></option>
+                                <option value="1"><?= $block->escapeHtml(__('Mark All') ) ?></option>
+                                <option value="2"><?= $block->escapeHtml(__('Unmark All') ) ?></option>
+                            </select>
+                        </div>
+                        
+                        <div class="bookmarks-opt">
+                             <div class="flex-table">
+                                <div class="table-header">
+                                    <ul>
+                                    <li></li>
+                                    <li><?= $block->escapeHtml(__('Type') ) ?></li>
+                                    <li><?= $block->escapeHtml(__('New') ) ?></li>
+                                    <li><?= $block->escapeHtml(__('Bookmarks') ) ?></li>
+                                    </ul>
+                                </div>
+                                <div class="table-content">
+                                    <ul>
+                                         <li colspan="3"><input class="cb-element"  type="checkbox" name="bookmark" value="1" /></li>
+                                         <li><?= $block->escapeHtml(__('Message') ) ?></li>
+                                         <li>2</li>
+                                         <li class="flex-1">
+                                            <p><h2><?= $block->escapeHtml(__('Mocha/ chocolate yoghurt') ) ?></h2></p>
+                                            <p><?= $block->escapeHtml(__('Board- Forum Careshop') ) ?></p>
+                                            <p><?= $block->escapeHtml(__('Latest post-') ) ?><span><?= $block->escapeHtml(__('Mocha/ chocolate yoghurt') ) ?></span></p>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                         <li colspan="3"><input class="cb-element"  type="checkbox" name="bookmark" value="2" /></li>
+                                         <li><?= $block->escapeHtml(__('Message') ) ?></li>
+                                         <li>2</li>
+                                         <li class="flex-1">
+                                            <p><h2><?= $block->escapeHtml(__('Mocha/ chocolate yoghurt') ) ?></h2></p>
+                                            <p><?= $block->escapeHtml(__('Board- Forum Careshop') ) ?></p>
+                                            <p><?= $block->escapeHtml(__('Latest post-') ) ?><span><?= $block->escapeHtml(__('Mocha/ chocolate yoghurt') ) ?></span></p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>         
+                    <!-- End Tab My bookmarks -->
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-notification-settings"><?= $block->escapeHtml(__('Notification settings') ); ?></a>
+                    </div>
+                    <div id="tab-notification-settings" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('NOTIFICATION SETTINGS') ) ?></span></legend>
+                        <div class="label-title"><span><?= $block->escapeHtml(__('General Settings')) ?></span></div> 
+                        <div class="control">
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Ignore posts and ratings i\'ve already')) ?></span></label> 
+                                    <input 
+                                        name="notify_post_rating"  
+                                        class="input-text"
+                                        type="checkbox" 
+                                        <?= ( $sub_bookmarks->getData('notify_post_rating') && $sub_bookmarks->getData('notify_post_rating') ==1) ? 'checked' : '' ?>/>
+
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Notify me when I submit a post, an answer, a review or a comment')) ?></span></label> 
+                                    <input 
+                                        name="notify_me_submit"  
+                                        class="input-text"
+                                        type="checkbox" 
+                                        <?= ( $sub_bookmarks->getData('notify_me_submit') && $sub_bookmarks->getData('notify_me_submit') ==1) ? 'checked' : '' ?>/>
+
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('I would like to automatically subscribe to any topics ỏ reviews I participage in')) ?></span></label> 
+                                    <input 
+                                        name="notify_auto_sub"  
+                                        class="input-text"
+                                        type="checkbox" 
+                                        <?= ( $sub_bookmarks->getData('notify_auto_sub') && $sub_bookmarks->getData('notify_auto_sub') ==1) ? 'checked' : '' ?>/>
+
+                                </div>
+                            </div>
+                            <div class="field name border-bottom mb-5 pb-5">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Regarding my forum subscriptions I would like to be notified about')) ?></span></label> 
+                                <select name="notify_regard_forum">
+                                <?php 
+                                    if($all_posts) {
+                                        foreach($all_posts as $value => $label){
+                                ?>
+                                        <option 
+                                            value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                            <?= ($sub_bookmarks->getData('notify_regard_forum') == $value ) ? 'selected' : '' ?>>
+                                            <?= ($label) ? $label : '' ?>
+                                        </option>
+                                <?php 
+                                        }
+                                    }
+                                ?>    
+                                </select>    
+                            </div>
+                            <div class="field name">
+                                <label class="label mb-4" for="title"><span><?= $block->escapeHtml(__('Notify by e-mail')) ?></span></label> 
+                                <label class="label mb-4" for="title"><span><?= $block->escapeHtml(__('Sent notification if:')) ?></span></label> 
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('New topics and articles will be published in subscribed areas of the community.')) ?></span></label> 
+                                    <select name="notify_topic_article">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                               <?= ($sub_bookmarks->getData('notify_topic_article') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('new answers about subscribed content will be published.')) ?></span></label> 
+                                    <select name="notify_new_answer">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_new_answer') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Replies to other subscribed answers will be published.')) ?></span></label> 
+                                    <select name="notify_replied_answer">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_replied_answer') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Contributions in which I am mentioned @.')) ?></span></label> 
+                                    <select name="notify_contribution">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_contribution') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Like for my posts.')) ?></span></label> 
+                                    <select name="notify_contribution">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_contribution') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('accepted solutions for subscribed topics or questions.')) ?></span></label> 
+                                    <input 
+                                        name="notify_accept_solution"  
+                                        class="input-text"
+                                        type="checkbox" 
+                                        <?= ( $sub_bookmarks->getData('notify_me_submit') && $sub_bookmarks->getData('notify_me_submit') ==1) ? 'checked' : '' ?>/>
+
+                                </div>
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Signs that I deserve.')) ?></span></label> 
+                                    <select name="notify_sign_deserve">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_sign_deserve') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('All edits and task requests in subscribed knowledge bases.')) ?></span></label> 
+                                    <select name="notify_all_edits">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_all_edits') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group flex-column">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Edits to published knowledge base articles in subscribed areas')) ?></span></label> 
+                                    <select name="notify_edit_publish">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_edit_publish') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group flex-column">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Edits made to subscribed, unpublished designs òf knowledge base articles.')) ?></span></label> 
+                                    <select name="notify_edit_subscribe">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_edit_subscribe') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Rating requests for articles in subscribed knowledge bases.')) ?></span></label> 
+                                    <input 
+                                        name="notify_rating"  
+                                        class="input-text"
+                                        type="checkbox" 
+                                        <?= ( $sub_bookmarks->getData('notify_rating') && $sub_bookmarks->getData('notify_rating') ==1) ? 'checked' : '' ?>/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Publish request for articles in subscribed knowlege bases')) ?></span></label> 
+                                    <input 
+                                        name="notify_public_article"  
+                                        class="input-text"
+                                        type="checkbox" 
+                                        <?= ( $sub_bookmarks->getData('notify_public_article') && $sub_bookmarks->getData('notify_public_article') ==1) ? 'checked' : '' ?>/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>              
+                    <!-- End Tab Notification Settings -->
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-email-format"><?= $block->escapeHtml(__('E-mail format') ); ?></a>
+                    </div>
+                    <div id="tab-email-format" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('E-mail format') ) ?></span></legend>
+                        <div class="control">
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Remove HTML from posts')) ?></span></label> 
+                                    <input 
+                                        name="email_html_posts"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($sub_bookmarks->getData('email_html_posts') && $sub_bookmarks->getData('email_html_posts') == 1) ? 'checked' : '' ?> />
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Remove users signatures from posts')) ?></span></label> 
+                                    <input 
+                                        name="email_user_posts"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($sub_bookmarks->getData('email_user_posts') && $sub_bookmarks->getData('email_user_posts') == 1) ? 'checked' : '' ?> />
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('E-mail content')) ?></span></label>
+                                <?php 
+                                    foreach ($email_contents	 as $value => $label) {
+                                ?>
+                                        <div class="form-group">
+                                            <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                            <input 
+                                                name="email_content"  
+                                                title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                                type="radio"
+                                                value="<?= $block->escapeHtmlAttr($value) ?>"
+                                                <?= ($sub_bookmarks->getData('email_content') && $sub_bookmarks->getData('email_content') == $value) ? 'checked' : '' ?> />
+                                        </div>      
+                                <?php 
+                                    }
+                                ?>
+                            </div> 
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('E-mail format')) ?></span></label>
+                                <?php 
+                                    foreach ($email_formats	 as $value => $label) {
+                                ?>
+                                        <div class="form-group">
+                                            <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                            <input 
+                                                name="email_format"  
+                                                title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                                type="radio"
+                                                value="<?= $block->escapeHtmlAttr($value) ?>"
+                                                <?= ($sub_bookmarks->getData('email_format') && $sub_bookmarks->getData('email_format') == $value) ? 'checked' : '' ?> />
+                                        </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div> 
+                        </div>    
+                    </div>         
+                    <!-- End Tab My bookmarks -->
+                </div>
+            </div>
+        </div>
+    </fieldset>    
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="button" data-action="update-subbook" class="action submit primary" id="community-custom-btn">
+                <span><?= $block->escapeHtml(__('Save')); ?></span>
+            </button>
+        </div>
+        <div class="primary">
+            <button type="button"  class="action reset primary" id="community-reset-btn">
+                <span><?= $block->escapeHtml(__('Reset')); ?></span>
+            </button>
+        </div>
+    </div>
+    <div class="msg"></div>
+
+</form>
+<div data-mage-init='{"community_customer": {}}'>
+    
+</div>

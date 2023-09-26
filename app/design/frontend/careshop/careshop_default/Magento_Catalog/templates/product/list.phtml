@@ -1,0 +1,176 @@
+<?php
+use Magento\Framework\App\Action\Action;
+
+?>
+
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+$_helper = $this->helper(Magento\Catalog\Helper\Output::class);
+?>
+<div class="product-collection">
+    <h3><?= __('SHOP ALL PRODUCTS') ?></h3>
+    <?php if (!$_productCollection->count()) :?>
+        <div class="message info empty"><div><?= $block->escapeHtml(__('We can\'t find products matching the selection.')) ?></div></div>
+    <?php else :?>
+        <?= $block->getToolbarHtml() ?>
+        <?= $block->getAdditionalHtml() ?>
+        <?php
+        if ($block->getMode() == 'grid') {
+            $viewMode = 'grid';
+            $imageDisplayArea = 'category_page_grid';
+            $showDescription = false;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+        } else {
+            $viewMode = 'list';
+            $imageDisplayArea = 'category_page_list';
+            $showDescription = true;
+            $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
+        }
+        /**
+         * Position for actions regarding image size changing in vde if needed
+         */
+        $pos = $block->getPositioned();
+        ?>
+        <div class="products wrapper <?= /* @noEscape */ $viewMode ?> products-<?= /* @noEscape */ $viewMode ?>">
+            <ol class="products list items product-items">
+                <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+                <?php foreach ($_productCollection as $_product) :
+                    $out_s_t = $_product->getCustomStock();
+                    $link_product = (!$out_s_t) ? $block->escapeUrl($_product->getProductUrl()) : '#';
+                    $out_s_t_class = ($out_s_t) ? ' fixed-container-out-of-stock-product-list' : '';
+                ?>
+                <li class="item product product-item<?= $out_s_t_class ;?>">
+                    <div class="product-item-info" data-container="product-<?= /* @noEscape */ $viewMode ?>">
+                        <?php
+                        $productImage = $block->getImage($_product, $imageDisplayArea);
+                        if ($pos != null) {
+                            $position = ' style="left:' . $productImage->getWidth() . 'px;'
+                                . 'top:' . $productImage->getHeight() . 'px;"';
+                        }
+                        ?>
+                        <?php // Product Image ?>
+                        <a href="<?= $link_product ?>"
+                        class="product photo product-item-photo"
+                        tabindex="-1">
+                            <?= $productImage->toHtml() ?>
+                        </a>
+                        <div class="product details product-item-details">
+                            <?php if ($_product->isAvailable()) :?>
+                                <?= $block->getProductDetailsHtml($_product) ?>
+                            <?php endif; ?>
+                            <?php
+                                $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                            ?>
+                            <strong class="product name product-item-name">
+                                <a class="product-item-link"
+                                href="<?= $link_product ?>">
+                                    <?= /* @noEscape */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+                                </a>
+                            </strong>
+
+                            <?php if ($out_s_t){ ?>
+                                <div class="out-s-t"><?= $block->escapeHtml(__('Out Of Stock')) ?></div>
+                            <?php } else { ?>
+                                <?= /* @noEscape */ $block->getProductPrice($_product) ?>
+                            <?php } ?>
+                            
+                            <?php if($_product->getData('original_price')){ 
+                                $pricingHelper = $this->helper(\Magento\Framework\Pricing\Helper\Data::class);
+                            ?>
+                            <div class="original-price-instead-of-fixed">
+                                <?= __('Instead of').' '.$pricingHelper->currency($_product->getData('original_price'), true, false); ?>
+                            </div>
+                            <?php } ?>
+
+                            
+                            <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>
+                            <div class="product-item-inner">
+                                <div class="product description product-item-description">
+                                    <div class="fixed-content-show-hide-hover"><?= /* @noEscape */ $_helper->productAttribute($_product, $_product->getShortDescription(), 'short_description') ?></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <?php endforeach; ?>
+            </ol>
+        </div>
+    <?php endif; ?>
+</div>
+<script type="text/javascript">
+require(
+    [
+        'jquery',
+        'Magento_Ui/js/modal/confirm',
+    ],
+    function(
+        $, confirmation
+    ){
+        $(document).on('click', '.fixed-container-out-of-stock-product-list a', function(e) {
+            confirmation({
+                title: $.mage.__('Notify!'),
+                content: $.mage.__('Product is Out Of Stock'),
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: 'action-primary action-accept',
+                    click: function (event) {
+                        this.closeModal(event, true);
+                    }
+                }]
+
+            });
+            return false;
+        });
+
+        $('.swatch-option-custom-hover-fixed').hover(function () {
+            var cur_this = $(this);
+            timer = setTimeout(
+                function () {
+                    var leftOpt = null,
+                        leftCorner = 0,
+                        left,
+                        $window;
+
+                    // Color
+                    $('.swatch-option-tooltip').find('.image').css({
+                        background: cur_this.attr('option-tooltip-value')
+                    });
+                    $('.swatch-option-tooltip').find('.image').show();
+
+                    $('.swatch-option-tooltip').find('.title').text(cur_this.attr('option-label'));
+
+                    leftOpt = cur_this.offset().left;
+                    left = leftOpt + cur_this.width() / 2 - $('.swatch-option-tooltip').width() / 2;
+                    $window = $(window);
+
+                    if (left < 0) {
+                        left = 5;
+                    } else if (left + $('.swatch-option-tooltip').width() > $window.width()) {
+                        left = $window.width() - $('.swatch-option-tooltip').width() - 5;
+                    }
+
+                    // the numbers (6,  3 and 18) is magick constants for offset tooltip
+                    leftCorner = 0;
+
+                    if ($('.swatch-option-tooltip').width() < cur_this.width()) {
+                        leftCorner = $('.swatch-option-tooltip').width() / 2 - 3;
+                    } else {
+                        leftCorner = (leftOpt > left ? leftOpt - left : left - leftOpt) + cur_this.width() / 2 - 6;
+                    }
+
+                    $('.swatch-option-tooltip').find('.corner').css({
+                        left: leftCorner
+                    });
+                    $('.swatch-option-tooltip').css({
+                        left: left,
+                        top: cur_this.offset().top - $('.swatch-option-tooltip').height() - $('.swatch-option-tooltip').find('.corner').height() - 18
+                    }).show();
+                },
+                200
+            );
+        }, function () {
+            $('.swatch-option-tooltip').hide();
+            clearTimeout(timer);
+        });
+    });
+</script>

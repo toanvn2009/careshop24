@@ -1,0 +1,38 @@
+<?php
+$columns = $block->getColumns();
+?>
+
+<div class="products-grid wishlist">
+    <?php if (count($block->getItems())) : ?>
+        <ol class="product-items">
+            <?php foreach ($block->getItems() as $item) : ?>
+                <li data-row="product-item" class="product-item" id="item_<?= $block->escapeHtmlAttr($item->getId()) ?>">
+                    <div class="product-item-info" data-container="product-grid">
+                        <?php foreach ($columns as $column) : ?>
+                            <?php if ($column->getNameInLayout() == 'customer.wishlist.item.image'): ?>
+                                <?= $column->setItem($item)->toHtml();?>
+                                <?php break; ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        <div class="right-columns">
+                            <?php foreach ($columns as $column) : ?>
+                                <?php if ($column->getNameInLayout() == 'customer.wishlist.item.image'): ?>
+                                    <?php continue; ?>
+                                <?php endif; ?>
+                                <?= $column->setItem($item)->toHtml();?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ol>
+    <?php else : ?>
+        <div class="message info empty">
+            <span><?= $block->escapeHtml(__('This Wish List has no Items')) ?></span>
+        </div>
+    <?php endif; ?>
+</div>
+
+<?php foreach ($columns as $column) : ?>
+    <?= $column->getAdditionalHtml() ?>
+<?php endforeach; ?>

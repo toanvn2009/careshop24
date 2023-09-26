@@ -1,0 +1,1737 @@
+<?php 
+    $profile = $block->getProfileByCustommerID();
+    $setting = $block->getSettingByCustommerID();
+    $tagging = $block->getTaggingByCustomerId();
+    $sub_bookmarks = $block->getSubscriptionBookmarks();
+    $macros = $block->getMacrosByCustomerId();
+    $helper = $block->getHelper();
+    $timezones = $helper->getListTimeZone();
+    $media_url = $helper->getMediaUrl();
+    $default_avatars = $helper->getListDefaultAvatar();
+    $list_avatar = $block->getAvatars();
+    $email_contents = $helper->getEmailContentOptions();
+    $email_formats = $helper->getEmailFormatOptions();
+    $board_layout_opts = $helper->getBoardLayoutOptions();
+    $display_emoticon_opt = $helper->getEmoticonOptions();
+    $rich_editor = $helper->getEditorPostOptions();
+    $display_format_date_opt = $helper->getFormatDateOptions();
+    $display_show_date_opt = $helper->getFormatDateOptions();
+    $display_listview_opt = $helper->getListViewOptions();
+    $display_liststyle_opt= $helper->getListStyleOptions();
+    $default_flag_topic = $helper->getDefaultFlagTopicsOptions();
+    $default_sort_topics = $helper->getDefaultSortTopicsOptions();
+    $lenear_sort_topic = $helper->getLenearSortTopicsOptions();
+    $lenear_filter_qa = $helper->getLenearTopicFilterOptions();
+    $lenear_sort_qa = $helper->getLenearSortQuestionsAnswersOptions();
+    $theme_sort_topic = $helper->getThemeSortTopicsOptions();
+    $home_private_community = $helper->getPrivateMessagesOptions();
+    $home_my_friends = $helper->getMyFriendsMessagesOptions();
+    $privacy_person_data = $helper->getPrivacyPersonOptions();
+    $privacy_show_email = $helper->getPrivacyShowEmailOptions();
+    $privacy_online_status = $helper->getPrivacyShowOnlineOptions();
+    $likes_period_rec = $helper->getPeriodLikeReceivedOptions();
+    $likes_period_aut = $helper->getPeriodLikeAuthorsOptions();
+    $tagging_cloud_filter = $helper->getTaggingCloudOptions();
+    $tagging_cloud_age = $helper->getTaggingCloudAgeOptions();
+    $all_posts = $helper->getAllPostOptions();
+    $mobile_pictures_posts = $helper -> getMobilePicturesInPosts();
+   
+?>
+<div class="change-user-pass">
+    <a href="<?= $block->getBaseUrl(); ?>customer/account/edit" class="username"><span><?= $block->escapeHtml(__('Change User Name') ); ?></span></a>
+    <a href="<?= $block->getBaseUrl(); ?>customer/account/edit/changepass" class="password"><span><?= $block->escapeHtml(__('Change Password') ); ?></span></a>
+</div>
+<form class="form subscribe"
+    novalidate
+    action="#"
+    method="post"
+    data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+    id="community-customer-form"
+    enctype="multipart/form-data" >
+    <fieldset class="fieldset">
+        <div class="community_customer product data items"
+            data-mage-init='{"mage/tabs": {"openedState": "active", "animate": {"duration": 100}, "active": 1, "disabled": [13], "disabledState": "disabled"}}'>
+            <div class="item title" data-role="collapsible">
+                <a class="switch" data-toggle="trigger" href="#tab-profile"><?= $block->escapeHtml(__('My profile') ); ?></a>
+            </div>
+            <!-- Tab profile -->
+            <div id="tab-profile" class="item content" data-role="content">
+                <div class="product data items"
+                data-mage-init='{"mage/tabs": {"openedState": "active", "animate": {"duration": 100}, "active": 1, "disabled": [13], "disabledState": "disabled"}}'>
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-email"><?= $block->escapeHtml(__('Email') ); ?></a>
+                    </div>
+                    <div id="tab-email" class="item content" data-role="content">
+                    <legend class="label"><span><?= $block->escapeHtml(__('E-mal Notification') ) ?></span></legend>
+                        <div class="control">
+                            <label class="label" for="email">	
+                                <span>
+                                    <?= $block->escapeHtml(__('Current E-mail:') ); ?>
+                                    <?= ($profile && $profile->getEmail()) ? $profile->getEmail() : $block->getEmail(); ?>
+                                </span></label>
+                                <div class="field email ">
+                                    <label class="label" for="email"><span><?= $block->escapeHtml(__('New e-mail address')) ?></span></label>
+                                    <div class="control">
+                                        <input 
+                                            name="new_email" 
+                                            id="new-email" 
+                                            title="<?= $block->escapeHtmlAttr(__('Email')) ?>" 
+                                            class="input-text" type="email" 
+                                            data-validate="{required:false, 'validate-email':true}"/>
+                                    </div>
+                                </div>
+                                <div class="field email ">
+                                    <label class="label" for="email"><span><?= $block->escapeHtml(__('Confirm new e-mail address')) ?></span></label>
+                                    <div class="control">
+                                        <input 
+                                            name="confirm_email" 
+                                            id="confirm-email" 
+                                            title="<?= $block->escapeHtmlAttr(__('Email') ) ?>" 
+                                            class="input-text" 
+                                            type="email" 
+                                            data-validate="{required:false, 'validate-email':true}"/>
+                                    </div>
+                                </div>
+                                <div class="email-wrapper">
+                                    <div class="field email ">
+                                        <label class="label required-1" for="sent-email"><span><?= $block->escapeHtml(__('Do not sent me E-mail') ) ?></span></label>
+                                        <div class="control">
+                                            <input 
+                                                name="sent_email"  
+                                                title="<?= $block->escapeHtmlAttr(__('Do not sent me E-mail')) ?>" 
+                                                class="input-text" 
+                                                type="checkbox" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="field verify ">
+                                    <label class="label" for="veryfile-email"><span><?= $block->escapeHtml(__('E-mail address verification status') ) ?></span></label>
+                                    <input name="verify_email" type="hidden" />
+                                </div>
+                        </div>
+
+                    </div>
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-personal"><?= $block->escapeHtml(__('Personal Information')); ?></a>
+                    </div>
+                    <div id="tab-personal" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('Personal Information') ) ?></span></legend>
+                        <div class="control">
+                            <div class="field email">
+                                <label class="label required-1" for="email"><span><?= $block->escapeHtml(__('Signature')) ?></span></label> 
+                                <div class="control">
+                                    <input 
+                                        name="signiture"  
+                                        title="<?= $block->escapeHtmlAttr(__('Signature') )?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getSignature()) ? $profile->getSignature() : '' ?>"/>
+                                </div>
+                            </div>
+                            <div class="field email">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Title') )?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="title"  
+                                        title="<?= $block->escapeHtmlAttr(__('Title')) ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getTitle()) ? $profile->getTitle() : '' ?>" />
+                                </div>
+                            </div>
+                            <div class="field place">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Place')) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="place"  
+                                        title="<?= $block->escapeHtmlAttr(__('Place')) ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getPlace()) ? $profile->getPlace() : '' ?>" />
+                                </div>
+                            </div>
+                            <div class="field website">
+                                <label class="label" for="website"><span><?= $block->escapeHtml(__('Personal website') ) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="website"  
+                                        title="<?= $block->escapeHtmlAttr(__('Website'))  ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getWebsite()) ? $profile->getWebsite() : '' ?>" />
+                                </div>
+                            </div>
+                            <div class="field website">
+                                <label class="label required-1" for="biography"><span><?= $block->escapeHtml(__('Biography') ) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="biography"  
+                                        title="<?= $block->escapeHtmlAttr(__('Biography'))  ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getBiography()) ? $profile->getBiography() : '' ?>" />
+                                </div>
+                            </div>
+                            <div class="field private">
+                                <label class="label required-1" for="private"><span><?= $block->escapeHtml(__('Private notes')) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="private"  
+                                        title="<?= $block->escapeHtmlAttr(__('Private notes') ) ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getPrivate()) ? $profile->getPrivate() : '' ?>" />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                  
+                </div>
+            </div>
+            <!-- End Tab profile -->
+            <!-- Tab Settings -->
+            <div class="item title" data-role="collapsible">
+                <a class="switch" data-toggle="trigger" href="#tab-settings"><?= $block->escapeHtml(__('Settings')) ; ?></a>
+            </div>
+            <div id="tab-settings" class="item content" data-role="content">
+                <div class="product data items"
+                    data-mage-init='{"mage/tabs": {"openedState": "active", "animate": {"duration": 100}, "active": 2, "disabled": [13], "disabledState": "disabled"}}'>
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-settings-options"><?= $block->escapeHtml(__('Setting Options')); ?></a>
+                    </div>
+                    <div id="tab-settings-options" class="item content" data-role="content">
+                        <label class="label uppercase" for="title"><span><?= $block->escapeHtml(__('Setting Options')) ?></span></label>
+                        <div class="control">
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Time zone')) ?></span></label>
+                                <div class="control">
+                                    <select name="option_time_zone">
+                                    <?php 
+                                        if($timezones) {
+                                            foreach($timezones as $timezone){
+                                    ?>
+                                                <option 
+                                                    value="<?= $block->escapeHtmlAttr(__($timezone['value'])); ?>"
+                                                    <?= ($setting->getOptionTimeZone() == $timezone['value']) ? 'selected' : '' ?>>
+                                                    <?= $timezone['label']; ?></option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>    
+                                    </select>    
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Ignore HTML')) ?></span></label>
+                                    <div class="control">
+                                        <input 
+                                            name="option_ignore_html"  
+                                            title="<?= $block->escapeHtmlAttr(__('Ignore HTML')) ?>"  class="input-text"
+                                            type="checkbox" 
+                                            <?= ($setting->getOptionIgnoreHtml() ==1) ? 'checked' : '' ?>/>
+                                    </div>       
+                                </div>
+                                
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Show signatures in message')) ?></span></label>
+                                    <div class="control">
+                                        <input 
+                                            name="option_show_signature"  
+                                            title="<?= $block->escapeHtmlAttr(__('Show signatures in message')) ?>"  
+                                            class="input-text"
+                                            type="checkbox" 
+                                            <?= ($setting->getOptionShowSignature() ==1) ? 'checked' : '' ?>/>
+                                            
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Default editor for use with posts')) ?></span></label>
+                                <?php 
+                                    foreach ($rich_editor as $value => $label) {
+                                ?>  
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="option_editor_post"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getData('option_editor_post') == $value) ? 'checked' : '' ?>/>
+                                    </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                     <label class="label" for="title"><span><?= $block->escapeHtml(__('I would like to automatically subcribe to topics or reviews I participate in.')) ?></span></label>
+                                    <input 
+                                        name="option_auto_subscribe"  
+                                        class="input-checkbox"
+                                        type="checkbox" 
+                                        <?= ($setting->getOptionSutoSubscribe() ==1) ? 'checked' : '' ?>/>
+                                </div>        
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Show confirmations for submitted posts')) ?></span></label>
+                                    <input 
+                                        name="option_confirm_submit"  
+                                        class="input-checkbox"
+                                        type="checkbox" 
+                                        <?= ($setting->getOptionConfirmSubmit() ==1) ? 'checked' : '' ?>/>
+                                </div>
+                              
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Tab Settings Options -->
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-settings-display"><?= $block->escapeHtml(__('Display')); ?></a>
+                    </div>
+                    <div id="tab-settings-display" class="item content" data-role="content">
+                        <label class="label " for="title"><span><?= $block->escapeHtml(__('Display Settings')) ?></span></label>
+                        <div class="control">
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Tize zone')) ?></span></label>    
+                                <select name="display_time_zone" class="display-time-zone">
+                                <?php 
+                                    if($timezones) {
+                                        foreach($timezones as $timezone){
+                                ?>
+                                            <option 
+                                                value="<?= $block->escapeHtmlAttr(__($timezone['value'])); ?>"
+                                               <?= ($setting->getDisplayTimeZone() == $timezone['value']) ? 'selected' : '' ?>>
+                                                <?= $timezone['label']; ?></option>
+                                <?php 
+                                        }
+                                    }
+                                ?>    
+                                </select>
+                            </div>
+                            
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Board layout')) ?></span></label>
+                                <?php 
+                                    foreach ($board_layout_opts as $value => $label) {
+                                ?>  
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="display_board_layout"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getDisplayBoardLayout() == $value) ? 'checked' : '' ?>/>
+                                    </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Emoticon type')) ?></span></label>
+                                <?php 
+                                    foreach ($display_emoticon_opt	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="display_emoticon"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getDisplayEmoticon() == $value) ? 'checked' : '' ?>/>
+                                    </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Display menu text dynamically when touching the mouse  cursor')) ?></span></label>
+                                    <div class="control">
+                                        <input 
+                                            name="display_menu"  
+                                            class="input-checkbox"
+                                            type="checkbox" 
+                                            <?= ($setting->getDisplayMenu() ==1) ? 'checked' : '' ?>/>
+                                    </div>
+                                </div>
+                            </div>        
+                            <div class="field name">
+                                 <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Show folder icons for new posts and hot or read-only topics')) ?></span></label>
+                                    <div class="control">
+                                        <input 
+                                            name="display_show_folder"  
+                                            class="input-checkbox"
+                                            type="checkbox" 
+                                            <?= ($setting->getDisplayShowFolder() ==1) ? 'checked' : '' ?> />
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Format date display')) ?></span></label>
+                                <?php 
+                                    foreach ($display_format_date_opt	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="display_date_format"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getDisplayDateFormat() == $value) ? 'checked' : '' ?> />
+                                    </div>       
+                                <?php 
+                                    }
+                                ?>
+                            </div>    
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Show dates as')) ?></span></label>
+                                <?php 
+                                    foreach ($display_format_date_opt	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="display_date_type"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getDisplayDateType() == $value) ? 'checked' : '' ?> />
+                                    </div>       
+                                <?php 
+                                    }
+                                ?>
+                            </div> 
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Active quick response')) ?></span></label>
+                                    <div class="control">
+                                        <input 
+                                            name="display_quick_response"  
+                                            class="input-checkbox"
+                                            type="checkbox" 
+                                            <?= ($setting->getDisplayQuickResponse() == 1) ? 'checked' : '' ?> />
+                                    </div>
+                                </div>
+                            </div> 
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Topic list view style')) ?></span></label>
+                                <?php 
+                                    foreach ($display_listview_opt	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="display_topic_style"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getDisplayTopicStyle() == $value) ? 'checked' : '' ?> />
+                                    </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Topic Discussion style')) ?></span></label>
+                                <?php 
+                                    foreach ($display_liststyle_opt	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="display_liststyle_opt"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getDisplayListstyleOpt() == $value) ? 'checked' : '' ?> />
+                                    </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>     
+                                           
+                        </div>    
+
+                    </div>
+                    <!-- End Tab Display Options -->
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-settings-default"><?= $block->escapeHtml(__('Default')); ?></a>
+                    </div>
+                    <div id="tab-settings-default" class="item content" data-role="content">
+                        <legend class="label uppercase"><span><?= $block->escapeHtml(__('General Settings') ) ?></span></legend>
+                        <div class="control">
+                             <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Flat topic as read')) ?></span></label>
+                                <?php 
+                                    foreach ($default_flag_topic	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="default_flag_topic"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getDefaultFlagTopic() == $value) ? 'checked' : '' ?> />
+                                    </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Auto-tagging periods(days)')) ?></span></label> 
+                                <input 
+                                    name="default_auto_tagging"  
+                                    class="input-text auto-tagging" 
+                                    type="text" 
+                                    value="<?= $block->escapeHtmlAttr($setting->getDefaultAutoTagging()) ?>"/>   
+                            </div>
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Sort topics by')) ?></span></label>
+                                <?php 
+                                    foreach ($default_sort_topics	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="default_sort_topics"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getDefaultSortTopics() == $value) ? 'checked' : '' ?> />
+                                    </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>         
+                        </div>
+                    </div>
+                    <!-- End Tab Default -->
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-lenear-layout"><?= $block->escapeHtml(__('Lenear layout')); ?></a>
+                    </div>
+                    <div id="tab-lenear-layout" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('Lenear layout') ) ?></span></legend>
+                        <div class="control">
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Lenear format: Sort order in topics')) ?></span></label>
+                                <?php 
+                                    foreach ($lenear_sort_topic	 as $value => $label) {
+                                ?>
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                    <input 
+                                        name="lenear_sort_topic"  
+                                        title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                        type="radio"
+                                        value="<?= $block->escapeHtmlAttr($value) ?>"
+                                        <?= ($setting->getLenearSortTopic() == $value) ? 'checked' : '' ?> />
+                                </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Lenear format: topics per page')) ?></span></label> 
+                                <input 
+                                    name="lenear_topics_per"  
+                                    class="input-text topics-per" 
+                                    type="text" 
+                                    value="<?= ($setting->getLenearTopicsPer()) ? $block->escapeHtmlAttr($setting->getLenearTopicsPer()) : '' ?>"/>    
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Lenear format: Posts per page when view a topic')) ?></span></label> 
+                                <input 
+                                    name="lenear_post_per"  
+                                    class="input-text post-per" 
+                                    type="text" 
+                                    value="<?= ($setting->getLenearPostPer()) ? $block->escapeHtmlAttr($setting->getLenearPostPer()) : '' ?>"/>   
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Jump to first unread post in a topic')) ?></span></label> 
+                                    <input 
+                                        name="lenear_jumb_first"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($setting->getLenearJumbFirst() == 1) ? 'checked' : '' ?> />
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Default topic filter for questions-answer forum')) ?></span></label>
+                                <?php 
+                                    foreach ($lenear_filter_qa	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="lenear_filter_qa"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getLenearFilterQa() == $value) ? 'checked' : '' ?> />
+                                    </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Default topic sorting for Questions & Answers forum')) ?></span></label>
+                                <?php 
+                                    foreach ($lenear_sort_qa	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="lenear_sort_qa"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getLenearSortQa() == $value) ? 'checked' : '' ?> />
+                                    </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+
+                        </div>                
+                    </div>
+                    <!-- End Tab Lenear Layout -->
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-themed-layout"><?= $block->escapeHtml(__('Themed layout')); ?></a>
+                    </div>
+                    <div id="tab-themed-layout" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('SETTINGS FOR TOPIC LAYOUT') ) ?></span></legend>
+                        <div class="control">
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Thematic Listting: Sort order in topics')) ?></span></label>
+                                <?php 
+                                    foreach ($theme_sort_topic	 as $value => $label) {
+                                ?>
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                    <input 
+                                        name="theme_sort_topic"  
+                                        title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                        type="radio"
+                                        value="<?= $block->escapeHtmlAttr($value) ?>"
+                                        <?= ($setting->getThemeSortTopic() == $value) ? 'checked' : '' ?> />
+                                </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Thematic listing: contributions per page')) ?></span></label> 
+                                <input 
+                                    name="theme_contributions_per"  
+                                    class="input-text contributions-per" 
+                                    type="text" 
+                                    value="<?= ($setting->getThemeContributionsPer()) ? $block->escapeHtmlAttr($setting->getThemeContributionsPer()) : '' ?>"/>   
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Thematic listing: Post perpage when vieing a topic')) ?></span></label> 
+                                <input 
+                                    name="theme_posts_per"  
+                                    class="input-text posts-per" 
+                                    type="text" 
+                                    value="<?= ($setting->getThemePostsPer()) ? $block->escapeHtmlAttr($setting->getThemePostsPer()) : '' ?>"/>   
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Tab Theme layout -->
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-homepage"><?= $block->escapeHtml(__('Homepage')); ?></a>
+                    </div>
+                    <div id="tab-homepage" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('Homepage settings') ) ?></span></legend>
+                        <div class="control">
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('My bookmarks components: number of bookmarks')) ?></span></label> 
+                                <input 
+                                    name="home_number_bookmarks"  
+                                    class="input-text number-bookmarks" 
+                                    type="text" 
+                                    value="<?= ($setting->getHomeNumberBookmarks()) ? $block->escapeHtmlAttr($setting->getHomeNumberBookmarks()) : '' ?>"/>   
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('My friends components: number of friends')) ?></span></label> 
+                                <input 
+                                    name="home_number_friends"  
+                                    class="input-text number-friends" 
+                                    type="text" 
+                                    value="<?= ($setting->getHomeNumberFriends()) ? $block->escapeHtmlAttr($setting->getHomeNumberFriends()) : '' ?>"/>   
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Number of private messages')) ?></span></label> 
+                                <input 
+                                    name="home_number_pmessages"  
+                                    class="input-text number-pmessages" 
+                                    type="text" 
+                                    value="<?= ($setting->getHomeNumberPmessages()) ? $block->escapeHtmlAttr($setting->getHomeNumberPmessages()) : '' ?>"/>   
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Number of subscriptions in the My Subscriptions component')) ?></span></label> 
+                                <input 
+                                    name="home_number_subscr"  
+                                    class="input-text number-subscr" 
+                                    type="text" 
+                                    value="<?= ($setting->getHomeNumberSubscr()) ? $block->escapeHtmlAttr($setting->getHomeNumberSubscr()) : '' ?>"/>   
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Show location for subscriptions / bookmarks')) ?></span></label> 
+                                    <input 
+                                        name="home_location_sb"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($setting->getHomeLocationSb() && $setting->getHomeLocationSb() == 1) ? 'checked' : '' ?> />
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('View latest post for subscription / bookmarks')) ?></span></label> 
+                                    <input 
+                                        name="home_post_sb"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($setting->getHomePostSb() && $setting->getHomePostSb() == 1) ? 'checked' : '' ?> />
+                                </div>
+                            </div>
+                            <div class="field name">
+                                 <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Show component "Latest topics"')) ?></span></label> 
+                                    <input 
+                                        name="home_component_ltopics"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($setting->getHomeComponentLtopics() && $setting->getHomeComponentLtopics() == 1) ? 'checked' : '' ?> />
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Show component "Latest posts"')) ?></span></label> 
+                                    <input 
+                                        name="home_component_lposts"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($setting->getHomeComponentLposts() && $setting->getHomeComponentLposts() == 1) ? 'checked' : '' ?> />
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('On the Private Mesage component of the comunity page; Show the following')) ?></span></label>
+                                <?php 
+                                    foreach ($home_private_community	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="home_private_community"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getHomePrivateCommunity() && $setting->getHomePrivateCommunity() == $value) ? 'checked' : '' ?> />
+                                    </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('In the My Friends component;  Show the following')) ?></span></label>
+                                <?php 
+                                    foreach ($home_my_friends	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="home_my_friends"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getHomeMyFriends() && $setting->getHomeMyFriends() == $value) ? 'checked' : '' ?> />
+                                    </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Tab Homepage --> 
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-data-protection"><?= $block->escapeHtml(__('Data Protection')); ?></a>
+                    </div>
+                    <div id="tab-data-protection" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('Privacy Settings') ) ?></span></legend>
+                        <div class="control">
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Show personal data in profile')) ?></span></label>
+                                <?php 
+                                    foreach ($privacy_person_data	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="privacy_person_data"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getPrivacyPersonData() && $setting->getPrivacyPersonData() == $value) ? 'checked' : '' ?> />
+                                    </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Show Email address')) ?></span></label>
+                                <?php 
+                                    foreach ($privacy_show_email	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="privacy_show_email"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getPrivacyShowEmail() && $setting->getPrivacyShowEmail() == $value) ? 'checked' : '' ?> />
+                                    </div>    
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Show online status')) ?></span></label>
+                                <?php 
+                                    foreach ($privacy_online_status	 as $value => $label) {
+                                ?>
+                                    <div class="form-group">
+                                        <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                        <input 
+                                            name="privacy_online_status"  
+                                            title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                            type="radio"
+                                            value="<?= $block->escapeHtmlAttr($value) ?>"
+                                            <?= ($setting->getPrivacyOnlineStatus() && $setting->getPrivacyOnlineStatus() == $value) ? 'checked' : '' ?> />
+                                    </div>    
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                        </div>
+
+                    </div>
+                     <!-- End Tab Data Protection --> 
+                     <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-private-messenger"><?= $block->escapeHtml(__('Private Messenger')); ?></a>
+                    </div>
+                    <div id="tab-private-messenger" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('Settings Private Messenger') ) ?></span></legend>
+                        <div class="control">
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Enable private messages')) ?></span></label> 
+                                    <input 
+                                        name="pm_status"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($setting->getPmStatus() && $setting->getPmStatus() == 1) ? 'checked' : '' ?> />
+                                </div> 
+                            </div> 
+                            <div class="field name w-65">
+                               
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Number of private messages perpage')) ?></span></label> 
+                                    <input 
+                                        name="pm_numbers_per"  
+                                        class="input-text numbers-per" 
+                                        type="text" 
+                                        value="<?= ($setting->getPmNumbersPer()) ? $block->escapeHtmlAttr($setting->getPmNumbersPer()) : '' ?>"/>  
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Received e-mail notification  on new private messages')) ?></span></label> 
+                                    <input 
+                                        name="pm_email_notify"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($setting->getPmEmailNotify() && $setting->getPmEmailNotify() == 1) ? 'checked' : '' ?> />
+                                </div> 
+                            </div>         
+                        </div>                
+                    </div>
+                     <!-- End Tab Private Messenger --> 
+                     <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-settings-like"><?= $block->escapeHtml(__('Likes')); ?></a>
+                    </div>
+                    <div id="tab-settings-like" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('Settings Likes') ) ?></span></legend>
+                        <div class="control">
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Hide likes buttons and sums')) ?></span></label>
+                                    <div class="control">
+                                        <input 
+                                            name="likes_buttons_sums"  
+                                            class="input-checkbox"
+                                            type="checkbox" 
+                                            <?= ($setting->getData('likes_buttons_sums') ==1) ? 'checked' : '' ?> />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Component "Most Likes Received": Period')) ?></span></label>
+                                <?php 
+                                    foreach ($likes_period_rec	 as $value => $label) {
+                                ?>
+                                        <div class="form-group">
+                                            <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                            <input 
+                                                name="likes_period_rec"  
+                                                title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                                type="radio"
+                                                value="<?= $block->escapeHtmlAttr($value) ?>"
+                                                <?= ($setting->getData('likes_period_rec') && $setting->getData('likes_period_rec') == $value) ? 'checked' : '' ?> />
+                                        </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div> 
+                            <div class="field name">
+                                <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Component "Most Likes Authors": Period')) ?></span></label>
+                                <?php 
+                                    foreach ($likes_period_aut	 as $value => $label) {
+                                ?>
+                                        <div class="form-group">
+                                            <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                            <input 
+                                                name="likes_period_aut"  
+                                                title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                                type="radio"
+                                                value="<?= $block->escapeHtmlAttr($value) ?>"
+                                                <?= ($setting->getData('likes_period_aut') && $setting->getData('likes_period_aut') == $value) ? 'checked' : '' ?> />
+                                        </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div> 
+                        </div>
+
+                    </div>
+                    <!-- End Tab Likes --> 
+                </div>
+            </div>   
+            <!-- End Tab Settings -->
+            <!-- Tab Avatars -->
+            <div class="item title" data-role="collapsible">
+                <a class="switch" data-toggle="trigger" href="#tab-avatars"><?= $block->escapeHtml(__('Avatars')); ?></a>
+            </div>
+            <div id="tab-avatars" class="item content" data-role="content">
+                <div class="product data items"
+                    data-mage-init='{"mage/tabs": {"openedState": "active", "animate": {"duration": 100}, "active": 0, "disabled": [13], "disabledState": "disabled"}}'>
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-avatar-community"><?= $block->escapeHtml(__('From The community') ); ?></a>
+                    </div>
+                    <div id="tab-avatar-community" class="item content" data-role="content">
+                        <div class="control">
+                            <div class="field name">
+                               	<div class="field filesubmission">
+                                   <label class="label-avatar" for="filesubmission"><span><?= $block->escapeHtml(__('avatar')) ?></span></label>
+                                    <div class="control">
+                                        <div class="preview d-inline-flex">
+                                            <label class="label" for="filesubmission"><span><?= $block->escapeHtml(__('Current avatar')) ?></span></label>
+                                            <div class="flex-1">    
+                                                <img src="<?= ($profile->getAvatar()) ? $media_url.$profile->getAvatar() : ''?>" id="img" width="100" height="100">
+                                                <input type="button" class="button" value="<?= $block->escapeHtml(__('Upload a avatar')) ?>" id="but_upload">
+                                            </div>
+                                        </div>
+                                        <div class="d-flex upload-file" >
+                                            <input type="file" id="file" name="file" />
+                                            
+                                        </div>
+                                        <div id="list_avatar_default">
+                                            <label class="label" for="filesubmission"><span><?= $block->escapeHtml(__('Chose  avatar')) ?></span></label>
+                                            <?php 
+                                                if($default_avatars) {
+                                                    foreach($default_avatars as $key=> $avt) {
+                                            ?>
+                                                        <img src="<?= $block->escapeHtmlAttr($media_url.$avt) ?>" data-avatar="<?= $block->escapeHtmlAttr($avt) ?>" id="img" width="100" height="100">
+                                            <?php             
+                                                    }
+                                                }
+                                            ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Tab From The community -->                
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-avatar-albums"><?= $block->escapeHtml(__('From My Albums') ); ?></a>
+                    </div>
+                    <div id="tab-avatar-albums" class="item content" data-role="content">
+                        <?php 
+                            if($list_avatar) {
+                                foreach($list_avatar as $my_avatar) { ?>
+                                    <img src="<?= $block->escapeHtmlAttr($media_url.$my_avatar->getFile()) ?>" data-avatar="<?= $block->escapeHtmlAttr($my_avatar->getFile()) ?>" id="img" width="100" height="100">
+                                <?php }
+                            }
+                        ?>                            
+                    </div>         
+                    <!-- End Tab From My Albums -->
+                </div>
+            </div>
+            <!-- End Tab Avatars -->
+            <div class="item title" data-role="collapsible">
+            <a class="switch" data-toggle="trigger" href="#tab-sub-book"><?= $block->escapeHtml(__('Subscriptions & Bookmarks')); ?></a>
+            </div>
+            <div id="tab-sub-book" class="item content" data-role="content">
+                <div class="product data items"
+                    data-mage-init='{"mage/tabs": {"openedState": "active", "animate": {"duration": 100}, "active": 2, "disabled": [13], "disabledState": "disabled"}}'>
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-my-sub"><?= $block->escapeHtml(__('My subscriptions') ); ?></a>
+                    </div>
+                    <div id="tab-my-sub" class="item content" data-role="content">
+                        <div class="align-items-center">
+                            <legend class="label"><span><?= $block->escapeHtml(__('Setting Likes') ) ?></span></legend>
+                            <select name="my-sub-opt">
+                                <option value="0"><?= $block->escapeHtml(__('Delete Selected Bookmarks') ) ?></option>
+                                <option value="1"><?= $block->escapeHtml(__('Mark All') ) ?></option>
+                                <option value="2"><?= $block->escapeHtml(__('Unmark All') ) ?></option>
+                            </select>
+                        </div>
+                        <div class="subscriptions-opt">
+                            <div class="flex-table">
+                                <div class="table-header">
+                                    <ul>
+                                        <li></li>
+                                        <li><?= $block->escapeHtml(__('Type') ) ?></li>
+                                        <li><?= $block->escapeHtml(__('New') ) ?></li>
+                                        <li class="flex-1"><?= $block->escapeHtml(__('Bookmarks') ) ?></li>
+                                    </ul>
+                                </div>
+                                <div class="table-content">
+                                    <ul>
+                                         <li colspan="1"><input class="cb-element2"  type="checkbox" name="subscription" value="1" /></li>
+                                         <li><?= $block->escapeHtml(__('Theme') ) ?></li>
+                                         <li>1</li>
+                                         <li class="flex-1">
+                                            <p><h2><?= $block->escapeHtml(__('Mocha/ chocolate yoghurt') ) ?></h2></p>
+                                            <p><?= $block->escapeHtml(__('Board- Forum Careshop') ) ?></p>
+                                            <p><?= $block->escapeHtml(__('Latest post-') ) ?><span><?= $block->escapeHtml(__('Mocha/ chocolate yoghurt') ) ?></span></p>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                         <li colspan="1"><input class="cb-element2"  type="checkbox" name="subscription" value="2" /></li>
+                                         <li><?= $block->escapeHtml(__('Message') ) ?></li>
+                                         <li>34694</li>
+                                         <li class="flex-1">
+                                            <p><h2><?= $block->escapeHtml(__('Forum Migipedia') ) ?></h2></p>
+                                            <p><?= $block->escapeHtml(__('Latest Topic') ) ?><span><?= $block->escapeHtml(__('Venous Pillows Vera') ) ?></span></p>
+                                            <p><?= $block->escapeHtml(__('News post-') ) ?><span><?= $block->escapeHtml(__('Venous Pillows Vera') ) ?></span></p>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                         <li colspan="1"><input class="cb-element2"  type="checkbox" name="subscription" value="2" /></li>
+                                         <li><?= $block->escapeHtml(__('Message') ) ?></li>
+                                         <li>2</li>
+                                         <li class="flex-1">
+                                            <p><h2><?= $block->escapeHtml(__('Easter Bunny in February, does it have to be ?') ) ?></h2></p>
+                                            <p><?= $block->escapeHtml(__('Latest Topic') ) ?><span><?= $block->escapeHtml(__('Venous Pillows Vera') ) ?></span></p>
+                                            <p><?= $block->escapeHtml(__('News post-') ) ?><span><?= $block->escapeHtml(__('Venous Pillows Vera') ) ?></span></p>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                         <li colspan="1"><input class="cb-element2"  type="checkbox" name="subscription" value="1" /></li>
+                                         <li><?= $block->escapeHtml(__('Theme') ) ?></li>
+                                         <li>1</li>
+                                         <li class="flex-1">
+                                            <p><h2><?= $block->escapeHtml(__('Testing the newest developed jacket') ) ?></h2></p>
+                                            <p><?= $block->escapeHtml(__('Board- Forum Careshop') ) ?></p>
+                                            <p><?= $block->escapeHtml(__('Latest post-') ) ?><span><?= $block->escapeHtml(__('Subject: Testing the newest developed product') ) ?></span></p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Tab My subscriptions  -->                
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-my-bookmarks"><?= $block->escapeHtml(__('My bookmarks') ); ?></a>
+                    </div>
+                    <div id="tab-my-bookmarks" class="item content" data-role="content">
+                        <div class="align-items-center">
+                            <legend class="label"><span><?= $block->escapeHtml(__('BookMARK OPTIONS') ) ?></span></legend>
+                            <select name="bookmarks-opt">
+                                <option value="0"><?= $block->escapeHtml(__('Delete Selected Bookmarks') ) ?></option>
+                                <option value="1"><?= $block->escapeHtml(__('Mark All') ) ?></option>
+                                <option value="2"><?= $block->escapeHtml(__('Unmark All') ) ?></option>
+                            </select>
+                        </div>
+                        
+                        <div class="bookmarks-opt">
+                             <div class="flex-table">
+                                <div class="table-header">
+                                    <ul>
+                                    <li></li>
+                                    <li><?= $block->escapeHtml(__('Type') ) ?></li>
+                                    <li><?= $block->escapeHtml(__('New') ) ?></li>
+                                    <li><?= $block->escapeHtml(__('Bookmarks') ) ?></li>
+                                    </ul>
+                                </div>
+                                <div class="table-content">
+                                    <ul>
+                                         <li colspan="3"><input class="cb-element"  type="checkbox" name="bookmark" value="1" /></li>
+                                         <li><?= $block->escapeHtml(__('Message') ) ?></li>
+                                         <li>2</li>
+                                         <li class="flex-1">
+                                            <p><h2><?= $block->escapeHtml(__('Mocha/ chocolate yoghurt') ) ?></h2></p>
+                                            <p><?= $block->escapeHtml(__('Board- Forum Careshop') ) ?></p>
+                                            <p><?= $block->escapeHtml(__('Latest post-') ) ?><span><?= $block->escapeHtml(__('Mocha/ chocolate yoghurt') ) ?></span></p>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                         <li colspan="3"><input class="cb-element"  type="checkbox" name="bookmark" value="2" /></li>
+                                         <li><?= $block->escapeHtml(__('Message') ) ?></li>
+                                         <li>2</li>
+                                         <li class="flex-1">
+                                            <p><h2><?= $block->escapeHtml(__('Mocha/ chocolate yoghurt') ) ?></h2></p>
+                                            <p><?= $block->escapeHtml(__('Board- Forum Careshop') ) ?></p>
+                                            <p><?= $block->escapeHtml(__('Latest post-') ) ?><span><?= $block->escapeHtml(__('Mocha/ chocolate yoghurt') ) ?></span></p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>         
+                    <!-- End Tab My bookmarks -->
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-notification-settings"><?= $block->escapeHtml(__('Notification settings') ); ?></a>
+                    </div>
+                    <div id="tab-notification-settings" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('NOTIFICATION SETTINGS') ) ?></span></legend>
+                        <div class="label-title"><span><?= $block->escapeHtml(__('General Settings')) ?></span></div> 
+                        <div class="control">
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Ignore posts and ratings i\'ve already')) ?></span></label> 
+                                    <input 
+                                        name="notify_post_rating"  
+                                        class="input-text"
+                                        type="checkbox" 
+                                        <?= ( $sub_bookmarks->getData('notify_post_rating') && $sub_bookmarks->getData('notify_post_rating') ==1) ? 'checked' : '' ?>/>
+
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Notify me when I submit a post, an answer, a review or a comment')) ?></span></label> 
+                                    <input 
+                                        name="notify_me_submit"  
+                                        class="input-text"
+                                        type="checkbox" 
+                                        <?= ( $sub_bookmarks->getData('notify_me_submit') && $sub_bookmarks->getData('notify_me_submit') ==1) ? 'checked' : '' ?>/>
+
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('I would like to automatically subscribe to any topics ỏ reviews I participage in')) ?></span></label> 
+                                    <input 
+                                        name="notify_auto_sub"  
+                                        class="input-text"
+                                        type="checkbox" 
+                                        <?= ( $sub_bookmarks->getData('notify_auto_sub') && $sub_bookmarks->getData('notify_auto_sub') ==1) ? 'checked' : '' ?>/>
+
+                                </div>
+                            </div>
+                            <div class="field name border-bottom mb-5 pb-5">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Regarding my forum subscriptions I would like to be notified about')) ?></span></label> 
+                                <select name="notify_regard_forum">
+                                <?php 
+                                    if($all_posts) {
+                                        foreach($all_posts as $value => $label){
+                                ?>
+                                        <option 
+                                            value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                            <?= ($sub_bookmarks->getData('notify_regard_forum') == $value ) ? 'selected' : '' ?>>
+                                            <?= ($label) ? $label : '' ?>
+                                        </option>
+                                <?php 
+                                        }
+                                    }
+                                ?>    
+                                </select>    
+                            </div>
+                            <div class="field name">
+                                <label class="label mb-4" for="title"><span><?= $block->escapeHtml(__('Notify by e-mail')) ?></span></label> 
+                                <label class="label mb-4" for="title"><span><?= $block->escapeHtml(__('Sent notification if:')) ?></span></label> 
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('New topics and articles will be published in subscribed areas of the community.')) ?></span></label> 
+                                    <select name="notify_topic_article">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                               <?= ($sub_bookmarks->getData('notify_topic_article') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('new answers about subscribed content will be published.')) ?></span></label> 
+                                    <select name="notify_new_answer">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_new_answer') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Replies to other subscribed answers will be published.')) ?></span></label> 
+                                    <select name="notify_replied_answer">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_replied_answer') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Contributions in which I am mentioned @.')) ?></span></label> 
+                                    <select name="notify_contribution">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_contribution') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Like for my posts.')) ?></span></label> 
+                                    <select name="notify_contribution">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_contribution') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('accepted solutions for subscribed topics or questions.')) ?></span></label> 
+                                    <input 
+                                        name="notify_accept_solution"  
+                                        class="input-text"
+                                        type="checkbox" 
+                                        <?= ( $sub_bookmarks->getData('notify_me_submit') && $sub_bookmarks->getData('notify_me_submit') ==1) ? 'checked' : '' ?>/>
+
+                                </div>
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Signs that I deserve.')) ?></span></label> 
+                                    <select name="notify_sign_deserve">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_sign_deserve') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group flex-column">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('All edits and task requests in subscribed knowledge bases.')) ?></span></label> 
+                                    <select name="notify_all_edits">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_all_edits') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group flex-column">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Edits to published knowledge base articles in subscribed areas')) ?></span></label> 
+                                    <select name="notify_edit_publish">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_edit_publish') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group flex-column">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Edits made to subscribed, unpublished designs òf knowledge base articles.')) ?></span></label> 
+                                    <select name="notify_edit_subscribe">
+                                    <?php 
+                                        if($all_posts) {
+                                            foreach($all_posts as $value => $label){
+                                    ?>
+                                            <option 
+                                                value="<?= ($block->escapeHtmlAttr(__($value))) ? $block->escapeHtmlAttr(__($value)) : ''; ?>"
+                                                <?= ($sub_bookmarks->getData('notify_edit_subscribe') == $value ) ? 'selected' : '' ?>>
+                                                <?= ($label) ? $label : '' ?>
+                                            </option>
+                                    <?php 
+                                            }
+                                        }
+                                    ?>   
+                                    </select>    
+                                </div>
+                                <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Rating requests for articles in subscribed knowledge bases.')) ?></span></label> 
+                                    <input 
+                                        name="notify_rating"  
+                                        class="input-text"
+                                        type="checkbox" 
+                                        <?= ( $sub_bookmarks->getData('notify_rating') && $sub_bookmarks->getData('notify_rating') ==1) ? 'checked' : '' ?>/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Publish request for articles in subscribed knowlege bases')) ?></span></label> 
+                                    <input 
+                                        name="notify_public_article"  
+                                        class="input-text"
+                                        type="checkbox" 
+                                        <?= ( $sub_bookmarks->getData('notify_public_article') && $sub_bookmarks->getData('notify_public_article') ==1) ? 'checked' : '' ?>/>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>              
+                    <!-- End Tab Notification Settings -->
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-email-format"><?= $block->escapeHtml(__('E-mail format') ); ?></a>
+                    </div>
+                    <div id="tab-email-format" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('E-mail format') ) ?></span></legend>
+                        <div class="control">
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Remove HTML from posts')) ?></span></label> 
+                                    <input 
+                                        name="email_html_posts"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($sub_bookmarks->getData('email_html_posts') && $sub_bookmarks->getData('email_html_posts') == 1) ? 'checked' : '' ?> />
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Remove users signatures from posts')) ?></span></label> 
+                                    <input 
+                                        name="email_user_posts"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($sub_bookmarks->getData('email_user_posts') && $sub_bookmarks->getData('email_user_posts') == 1) ? 'checked' : '' ?> />
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('E-mail content')) ?></span></label>
+                                <?php 
+                                    foreach ($email_contents	 as $value => $label) {
+                                ?>
+                                        <div class="form-group">
+                                            <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                            <input 
+                                                name="email_content"  
+                                                title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                                type="radio"
+                                                value="<?= $block->escapeHtmlAttr($value) ?>"
+                                                <?= ($sub_bookmarks->getData('email_content') && $sub_bookmarks->getData('email_content') == $value) ? 'checked' : '' ?> />
+                                        </div>      
+                                <?php 
+                                    }
+                                ?>
+                            </div> 
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('E-mail format')) ?></span></label>
+                                <?php 
+                                    foreach ($email_formats	 as $value => $label) {
+                                ?>
+                                        <div class="form-group">
+                                            <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                            <input 
+                                                name="email_format"  
+                                                title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                                type="radio"
+                                                value="<?= $block->escapeHtmlAttr($value) ?>"
+                                                <?= ($sub_bookmarks->getData('email_format') && $sub_bookmarks->getData('email_format') == $value) ? 'checked' : '' ?> />
+                                        </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div> 
+                        </div>    
+                    </div>         
+                    <!-- End Tab My bookmarks -->
+                </div>
+            </div>
+            <!-- End Tab Subscriptions & bookmarks -->
+            <div class="item title" data-role="collapsible">
+                <a class="switch" data-toggle="trigger" href="#tab-tagging"><?= $block->escapeHtml(__('Tagging')); ?></a>
+                </div>
+                <div id="tab-tagging" class="item content" data-role="content">
+                <div class="product data items"
+                    data-mage-init='{"mage/tabs": {"openedState": "active", "animate": {"duration": 100}, "active": 0, "disabled": [13], "disabledState": "disabled"}}'>
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-tagging-opt"><?= $block->escapeHtml(__('Tagging Options') ); ?></a>
+                    </div>
+                    <div id="tab-tagging-opt" class="item content" data-role="content">
+                        <legend class="label mb-4"><span><?= $block->escapeHtml(__('Tagging Options') ) ?></span></legend>
+                        <div class="control">
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label required-1" for="title"><span><?= $block->escapeHtml(__('Active Tagging')) ?></span></label> 
+                                    <input 
+                                        name="tagging_active"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($tagging->getData('tagging_active') && $tagging->getData('tagging_active') == 1) ? 'checked' : '' ?> />
+                                </div>  
+                            </div>  
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Add a seperator beetween tags in clouds')) ?></span></label> 
+                                    <input 
+                                        name="tagging_seperator"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($tagging->getData('tagging_seperator') && $tagging->getData('tagging_seperator') == 1) ? 'checked' : '' ?> />
+                                </div>
+                            </div>
+                            <div class="field name">
+                                <div class="form-group">
+                                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Show number of tags')) ?></span></label> 
+                                    <input 
+                                        name="tagging_show_num"  
+                                        class="input-text" 
+                                        type="checkbox" 
+                                        <?= ($tagging->getData('tagging_show_num') && $tagging->getData('tagging_show_num') == 1) ? 'checked' : '' ?> />
+                                </div>
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Number of tags in the "tag cloud" components')) ?></span></label> 
+                                <input 
+                                    name="tagging_number"  
+                                    class="input-text tagging-number" 
+                                    type="text" 
+                                    value="<?= ($tagging->getData('tagging_number')) ? $block->escapeHtmlAttr($tagging->getData('tagging_number')) : '' ?>"/>   
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Number of tags in the  components "Top-Tagger"')) ?></span></label> 
+                                <input 
+                                    name="tagging_number_top"  
+                                    class="input-text tagging-number-top" 
+                                    type="text" 
+                                    value="<?= ($tagging->getData('tagging_number_top')) ? $block->escapeHtmlAttr($tagging->getData('tagging_number_top')) : '' ?>"/>   
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Tag page: Posts per day')) ?></span></label> 
+                                <input 
+                                    name="tagging_page"  
+                                    class="input-text tagging-page" 
+                                    type="text" 
+                                    value="<?= ($tagging->getData('tagging_page')) ? $block->escapeHtmlAttr($tagging->getData('tagging_page')) : '' ?>"/>   
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Tagging details page: Size tag cloud')) ?></span></label> 
+                                <input 
+                                    name="tagging_size_cloud"  
+                                    class="input-text tagging-size-cloud" 
+                                    type="text" 
+                                    value="<?= ($tagging->getData('tagging_size_cloud')) ? $block->escapeHtmlAttr($tagging->getData('tagging_size_cloud')) : '' ?>"/>   
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Tagging details page: Posts per group')) ?></span></label> 
+                                <input 
+                                    name="tagging_per_posts"  
+                                    class="input-text tagging-per-posts" 
+                                    type="text" 
+                                    value="<?= ($tagging->getData('tagging_per_posts')) ? $block->escapeHtmlAttr($tagging->getData('tagging_per_posts')) : '' ?>"/>   
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Tagging details page: Size top tagger list')) ?></span></label> 
+                                <input 
+                                    name="tagging_size_tagger"  
+                                    class="input-text size-tagger" 
+                                    type="text" 
+                                    value="<?= ($tagging->getData('tagging_size_tagger')) ? $block->escapeHtmlAttr($tagging->getData('tagging_size_tagger')) : '' ?>"/>   
+                            </div>
+                            <div class="field name w-65">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Size tag clouds in posts')) ?></span></label> 
+                                <input 
+                                    name="tagging_cloud_posts"  
+                                    class="input-text cloud-posts" 
+                                    type="text" 
+                                    value="<?= ($tagging->getData('tagging_cloud_posts')) ? $block->escapeHtmlAttr($tagging->getData('tagging_cloud_posts')) : '' ?>"/>   
+                            </div> 
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Tag cloud content filter')) ?></span></label>
+                                <?php 
+                                    foreach ($tagging_cloud_filter	 as $value => $label) {
+                                ?>
+                                        <div class="form-group">
+                                            <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                            <input 
+                                                name="tagging_cloud_filter"  
+                                                title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                                type="radio"
+                                                value="<?= $block->escapeHtmlAttr($value) ?>"
+                                                <?= ($tagging->getData('tagging_cloud_filter') && $tagging->getData('tagging_cloud_filter') == $value) ? 'checked' : '' ?> />
+                                        </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>
+                            <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Show tag cloud content by age')) ?></span></label>
+                                <?php 
+                                    foreach ($tagging_cloud_age	 as $value => $label) {
+                                ?>
+                                        <div class="form-group">
+                                            <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                            <input 
+                                                name="tagging_cloud_age"  
+                                                title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                                type="radio"
+                                                value="<?= $block->escapeHtmlAttr($value) ?>"
+                                                <?= ($tagging->getData('tagging_cloud_age') && $tagging->getData('tagging_cloud_age') == $value) ? 'checked' : '' ?> />
+                                        </div>        
+                                <?php 
+                                    }
+                                ?>
+                            </div>                         
+                        </div>
+                    </div>
+                    <!-- End Tab Tagging Options  -->                
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-tags-opt"><?= $block->escapeHtml(__('Tags') ); ?></a>
+                    </div>
+                    <div id="tab-tags-opt" class="item content" data-role="content">
+                        <?= $block->escapeHtml(__('No tags for the ad') ) ?>
+                    </div>         
+                    <!-- End Tab Tags -->
+                </div>
+            </div>
+            <!-- End Tab Tagging -->
+            <div class="item title" data-role="collapsible">
+                <a class="switch" data-toggle="trigger" href="#tab-macros-opt"><?= $block->escapeHtml(__('Macros') ); ?></a>
+            </div>
+            <div id="tab-macros-opt" class="item content" data-role="content">
+                <legend class="label mb-4"><span><?= $block->escapeHtml(__('Macros') ) ?></span></legend>
+                <div class="control">
+                    <div class="field email ">
+                        <label class="label" for="email"><span><?= $block->escapeHtml(__('Title macros 1')) ?></span></label>
+                        <input 
+                            name="title_1" 
+                            class="input-text" 
+                            type="text" 
+                            value="<?= ($macros->getData('title_1')) ? $block->escapeHtmlAttr( $macros->getData('title_1')) : '' ?>"/>
+  
+                    </div>
+                    <div class="field email ">
+                        <label class="label" for="email"><span><?= $block->escapeHtml(__('Title macros 2')) ?></span></label>
+                        <input 
+                            name="title_2" 
+                            class="input-text" 
+                            type="text" 
+                            value="<?= ($macros->getData('title_2')) ? $block->escapeHtmlAttr( $macros->getData('title_2')) : '' ?>"/>
+  
+                    </div>
+                    <div class="field email ">
+                        <label class="label" for="email"><span><?= $block->escapeHtml(__('Title macros 3')) ?></span></label>
+                        <input 
+                            name="title_3" 
+                            class="input-text" 
+                            type="text" 
+                            value="<?= ($macros->getData('title_3')) ? $block->escapeHtmlAttr( $macros->getData('title_3')) : '' ?>"/>
+  
+                    </div>
+                    <div class="field email ">
+                        <label class="label" for="email"><span><?= $block->escapeHtml(__('Title macros 4')) ?></span></label>
+                        <input 
+                            name="title_4" 
+                            class="input-text" 
+                            type="text" 
+                            value="<?= ($macros->getData('title_4')) ? $block->escapeHtmlAttr( $macros->getData('title_4')) : '' ?>"/>
+  
+                    </div>
+                    <div class="field email ">
+                        <label class="label" for="email"><span><?= $block->escapeHtml(__('Title macros 5')) ?></span></label>
+                        <input 
+                            name="title_5" 
+                            class="input-text" 
+                            type="text" 
+                            value="<?= ($macros->getData('title_5')) ? $block->escapeHtmlAttr( $macros->getData('title_5')) : '' ?>"/>
+  
+                    </div>
+                    <div class="field email ">
+                        <label class="label" for="email"><span><?= $block->escapeHtml(__('Title macros 6')) ?></span></label>
+                        <input 
+                            name="title_6" 
+                            class="input-text" 
+                            type="text" 
+                            value="<?= ($macros->getData('title_6')) ? $block->escapeHtmlAttr( $macros->getData('title_6')) : '' ?>"/>
+  
+                    </div>
+                    <div class="field email ">
+                        <label class="label" for="email"><span><?= $block->escapeHtml(__('Title macros 7')) ?></span></label>
+                        <input 
+                            name="title_7" 
+                            class="input-text" 
+                            type="text" 
+                            value="<?= ($macros->getData('title_7')) ? $block->escapeHtmlAttr( $macros->getData('title_7')) : '' ?>"/>
+                    </div>
+                    <div class="field email ">
+                        <label class="label" for="email"><span><?= $block->escapeHtml(__('Title macros 8')) ?></span></label>
+                        <input 
+                            name="title_8" 
+                            class="input-text" 
+                            type="text" 
+                            value="<?= ($macros->getData('title_8')) ? $block->escapeHtmlAttr( $macros->getData('title_8')) : '' ?>"/>
+                    </div>
+                    <div class="field email ">
+                        <label class="label" for="email"><span><?= $block->escapeHtml(__('Title macros 9')) ?></span></label>
+                        <input 
+                            name="title_9" 
+                            class="input-text" 
+                            type="text" 
+                            value="<?= ($macros->getData('title_9')) ? $block->escapeHtmlAttr( $macros->getData('title_9')) : '' ?>"/>
+                    
+                    </div>
+                </div>
+            </div> 
+            <!-- End Tab Macros -->
+
+            <div class="item title" data-role="collapsible">
+                <a class="switch" data-toggle="trigger" href="#tab-mobile-opt"><?= $block->escapeHtml(__('Mobile') ); ?></a>
+            </div>
+            <div id="tab-mobile-opt" class="item content" data-role="content">
+                <legend class="label mb-4"><span><?= $block->escapeHtml(__('Mobile Settings') ) ?></span></legend>
+                <div class="control">
+                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Mobile signatures')) ?></span></label>
+                    <div class="field name w-65">
+                        <label class="label" for="title"><span><?= $block->escapeHtml(__('Default home page for mobile device')) ?></span></label>
+                        <div class="control">
+                            <select name="mobile_homepage">
+                                <option value="1"><?= $block->escapeHtml(__('Use default settings(community page)') ); ?></option>
+                            </select>    
+                        </div>
+                    </div>
+                    <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Show pictures in posts')) ?></span></label>
+                                <?php 
+                                    foreach ($mobile_pictures_posts	 as $value => $label) {
+                                ?>
+                                        <div class="form-group">
+                                            <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                            <input 
+                                                name="mobile_pictures"  
+                                                title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                                type="radio"
+                                                value="<?= $block->escapeHtmlAttr($value) ?>"
+                                                <?= ($setting->getData('mobile_pictures') && $setting->getData('mobile_pictures') == $value) ? 'checked' : '' ?> />
+                                        </div>        
+                                <?php 
+                                    }
+                                ?>
+                    </div>                  
+                </div>
+            </div>
+            <!-- End Tab Mobile  -->
+        </div>
+    </fieldset>    
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="button"  class="action submit primary" id="community-custom-btn">
+                <span><?= $block->escapeHtml(__('Save')); ?></span>
+            </button>
+        </div>
+        <div class="primary">
+            <button type="button"  class="action reset primary" id="community-reset-btn">
+                <span><?= $block->escapeHtml(__('Reset')); ?></span>
+            </button>
+        </div>
+    </div>
+    <div class="msg"></div>
+
+</form>
+<div data-mage-init='{"community_customer": {}}'>
+    
+</div>

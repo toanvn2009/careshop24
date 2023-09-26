@@ -1,0 +1,63 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Catalog\Block\Product\View\Details $block */
+?>
+<?php
+$_product = $block->getProduct();
+?>
+<div class="product info detailed">
+    <div class="product data items">
+        <div class="data item title active" id="tab-label-detail">
+            <a class="data switch"
+                href="#detail-tab"
+                id="tab-label-detail-title">
+                <?= __('Product Detail') ?>
+            </a>
+        </div>
+        <div class="data item content" id="detail-tab">
+            <div class="container-product-community-develop-detail">
+                <?php echo $this->helper('Magento\Catalog\Helper\Output')->productAttribute($_product, $_product->getCommunityDevelopDetail(), 'community_develop_detail'); ?>
+            </div>
+        </div>
+        <div class="data item title" id="tab-label-forum">
+            <a class="data switch"
+                href="#forum-tab"
+                id="tab-label-forum-title">
+                <?= __('Product Forum') ?>
+            </a>
+        </div> 
+        <div class="data item content" id="forum-tab" style="display:none;">
+            <?= $block->getChildHtml('community.forum.list') ?> 
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    require([
+        'jquery'
+    ], function($){
+        $(document).ready(function() {
+            var width = $(window).width();
+            $(document).on('click','.detailed .item.title a', function() {
+                var tab = $(this).attr('href');
+                if ($(this).closest('.item.title').hasClass('active')) {
+                    if (width > 991) {
+                        return false;
+                    } else {
+                        $(this).closest('.item.title').removeClass('active');
+                        $(tab).hide();
+                    }
+                } else {
+                    $( ".detailed .item.title" ).removeClass("active");
+                    $( ".detailed .item.content" ).hide();
+                    $(this).closest('.item.title').addClass('active');
+                    $(tab).show();
+                }
+                return false;
+            });
+        });
+    });
+</script>

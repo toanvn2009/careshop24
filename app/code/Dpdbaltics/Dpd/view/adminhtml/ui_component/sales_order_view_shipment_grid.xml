@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <modal name="dpd_collection_request_modal" component="AdeoWeb_Dpd/js/modal/dpd-collection-request-modal">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="onCancel" xsi:type="string">actionCancel</item>
+                <item name="submitUrl" xsi:type="url" path="dpd/action/collectionRequest"/>
+                <item name="options" xsi:type="array">
+                    <item name="title" xsi:type="string">DPD Collection Request</item>
+                    <item name="buttons" xsi:type="array">
+                        <item name="0" xsi:type="array">
+                            <item name="text" xsi:type="string">Cancel</item>
+                            <item name="class" xsi:type="string">action-secondary</item>
+                            <item name="actions" xsi:type="array">
+                                <item name="0" xsi:type="string">actionCancel</item>
+                            </item>
+                        </item>
+                        <item name="1" xsi:type="array">
+                            <item name="text" xsi:type="string">Done</item>
+                            <item name="class" xsi:type="string">action-primary</item>
+                            <item name="actions" xsi:type="array">
+                                <item name="0" xsi:type="string">submitAjax</item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+            </item>
+        </argument>
+        <fieldset name="sender_adress" sortOrder="10">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" translate="true" xsi:type="string">Sender Address</item>
+                </item>
+            </argument>
+            <field name="sender_use_shipping_address" formElement="checkbox">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="component" xsi:type="string">AdeoWeb_Dpd/js/form/element/location-selector</item>
+                        <item name="targetElementName" xsi:type="string">sender_location</item>
+                        <item name="label" xsi:type="string">Use Shipping Address as Sender Location?</item>
+                        <item name="formElement" xsi:type="string">checkbox</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="checked" xsi:type="boolean">false</item>
+                        <item name="valueMap" xsi:type="array">
+                            <item name="true" xsi:type="string">1</item>
+                            <item name="false" xsi:type="string">0</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+            <field name="sender_location" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">AdeoWeb\Dpd\Model\Location\Source\All</item>
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Sender Location</item>
+                        <item name="formElement" xsi:type="string">select</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                    </item>
+                </argument>
+            </field>
+        </fieldset>
+        <fieldset name="recipient_adress" sortOrder="20">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" translate="true" xsi:type="string">Recipient Address</item>
+                </item>
+            </argument>
+            <field name="recipient_use_shipping_address" formElement="checkbox">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="component" xsi:type="string">AdeoWeb_Dpd/js/form/element/location-selector</item>
+                        <item name="targetElementName" xsi:type="string">recipient_location</item>
+                        <item name="label" xsi:type="string">Use Shipping Address as Recipient Location?</item>
+                        <item name="formElement" xsi:type="string">checkbox</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="checked" xsi:type="boolean">false</item>
+                        <item name="valueMap" xsi:type="array">
+                            <item name="true" xsi:type="string">1</item>
+                            <item name="false" xsi:type="string">0</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+            <field name="recipient_location" formElement="select">
+                <argument name="data" xsi:type="array">
+                    <item name="options" xsi:type="object">AdeoWeb\Dpd\Model\Location\Source\All</item>
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Recipient Location</item>
+                        <item name="formElement" xsi:type="string">select</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                    </item>
+                </argument>
+            </field>
+        </fieldset>
+        <fieldset name="package_info" sortOrder="30">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="collapsible" xsi:type="boolean">false</item>
+                    <item name="label" translate="true" xsi:type="string">Package Info</item>
+                </item>
+            </argument>
+            <field name="comment" formElement="textarea">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Comment</item>
+                        <item name="formElement" xsi:type="string">textarea</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                    </item>
+                </argument>
+            </field>
+            <field name="pickup_date" formElement="date">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="component" xsi:type="string">AdeoWeb_Dpd/js/form/element/no-weekends-date</item>
+                        <item name="label" xsi:type="string">Pickup Date</item>
+                        <item name="formElement" xsi:type="string">date</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="validate-date" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+            <field name="num_of_parcels" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Number of Parcels</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="value" xsi:type="string">1</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="integer" xsi:type="boolean">true</item>
+                            <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+            <field name="total_weight" formElement="input">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="label" xsi:type="string">Total Weight (kg)</item>
+                        <item name="formElement" xsi:type="string">input</item>
+                        <item name="visible" xsi:type="boolean">true</item>
+                        <item name="value" xsi:type="string">20</item>
+                        <item name="dataType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                            <item name="validate-number" xsi:type="boolean">true</item>
+                            <item name="validate-greater-than-zero" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </argument>
+            </field>
+        </fieldset>
+    </modal>
+</listing>

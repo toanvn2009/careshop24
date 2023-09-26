@@ -1,0 +1,280 @@
+<?php 
+    $profile = $block->getProfileByCustommerID();
+    $setting = $block->getSettingByCustommerID();
+    $tagging = $block->getTaggingByCustomerId();
+    $sub_bookmarks = $block->getSubscriptionBookmarks();
+    $macros = $block->getMacrosByCustomerId();
+    $helper = $block->getHelper();
+    $timezones = $helper->getListTimeZone();
+    $media_url = $helper->getMediaUrl();
+    $default_avatars = $helper->getListDefaultAvatar();
+    $list_avatar = $block->getAvatars();
+    $email_contents = $helper->getEmailContentOptions();
+    $email_formats = $helper->getEmailFormatOptions();
+    $board_layout_opts = $helper->getBoardLayoutOptions();
+    $display_emoticon_opt = $helper->getEmoticonOptions();
+    $rich_editor = $helper->getEditorPostOptions();
+    $display_format_date_opt = $helper->getFormatDateOptions();
+    $display_show_date_opt = $helper->getFormatDateOptions();
+    $display_listview_opt = $helper->getListViewOptions();
+    $display_liststyle_opt= $helper->getListStyleOptions();
+    $default_flag_topic = $helper->getDefaultFlagTopicsOptions();
+    $default_sort_topics = $helper->getDefaultSortTopicsOptions();
+    $lenear_sort_topic = $helper->getLenearSortTopicsOptions();
+    $lenear_filter_qa = $helper->getLenearTopicFilterOptions();
+    $lenear_sort_qa = $helper->getLenearSortQuestionsAnswersOptions();
+    $theme_sort_topic = $helper->getThemeSortTopicsOptions();
+    $home_private_community = $helper->getPrivateMessagesOptions();
+    $home_my_friends = $helper->getMyFriendsMessagesOptions();
+    $privacy_person_data = $helper->getPrivacyPersonOptions();
+    $privacy_show_email = $helper->getPrivacyShowEmailOptions();
+    $privacy_online_status = $helper->getPrivacyShowOnlineOptions();
+    $likes_period_rec = $helper->getPeriodLikeReceivedOptions();
+    $likes_period_aut = $helper->getPeriodLikeAuthorsOptions();
+    $tagging_cloud_filter = $helper->getTaggingCloudOptions();
+    $tagging_cloud_age = $helper->getTaggingCloudAgeOptions();
+    $all_posts = $helper->getAllPostOptions();
+    $mobile_pictures_posts = $helper -> getMobilePicturesInPosts();
+   
+?>
+<div class="change-user-pass">
+    <a href="<?= $block->getBaseUrl(); ?>customer/account/edit" class="username"><span><?= $block->escapeHtml(__('Change User Name') ); ?></span></a>
+    <a href="<?= $block->getBaseUrl(); ?>customer/account/edit/changepass" class="password"><span><?= $block->escapeHtml(__('Change Password') ); ?></span></a>
+</div>
+<form class="form subscribe"
+    novalidate
+    action="#"
+    method="post"
+    data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+    id="community-customer-form"
+    enctype="multipart/form-data" >
+    <fieldset class="fieldset">
+        <div class="community_customer product data items">
+            <?= $block->getChildHtml('community.customer.tab'); ?>
+            <!-- Tab profile -->
+            <div id="tab-profile" class="item content" data-role="content">
+                <div class="product data items"
+                data-mage-init='{"mage/tabs": {"openedState": "active", "animate": {"duration": 100}, "active": 1, "disabled": [13], "disabledState": "disabled"}}'>
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-email"><?= $block->escapeHtml(__('Email') ); ?></a>
+                    </div>
+                    <div id="tab-email" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('E-mal Notification') ) ?></span></legend>
+                        <div class="control">
+                            <label class="label" for="email">	
+                                <span>
+                                    <?= $block->escapeHtml(__('Current E-mail:') ); ?>
+                                    <?= ($profile && $profile->getEmail()) ? $profile->getEmail() : $block->getEmail(); ?>
+                                </span>
+                            </label>
+                            <div class="field email ">
+                                <label class="label" for="email"><span><?= $block->escapeHtml(__('New e-mail address')) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="new_email" 
+                                        id="new-email" 
+                                        title="<?= $block->escapeHtmlAttr(__('Email')) ?>" 
+                                        class="input-text" type="email" 
+                                        data-validate="{required:false, 'validate-email':true}"/>
+                                </div>
+                            </div>
+                            <div class="field email ">
+                                <label class="label" for="email"><span><?= $block->escapeHtml(__('Confirm new e-mail address')) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="confirm_email" 
+                                        id="confirm-email" 
+                                        title="<?= $block->escapeHtmlAttr(__('Email') ) ?>" 
+                                        class="input-text" 
+                                        type="email" 
+                                        data-validate="{required:false, 'validate-email':true}"/>
+                                </div>
+                            </div>
+                            <div class="email-wrapper">
+                                <div class="field email ">
+                                    <label class="label required-1" for="sent-email"><span><?= $block->escapeHtml(__('Do not sent me E-mail') ) ?></span></label>
+                                    <div class="control">
+                                        <input 
+                                            name="sent_email"  
+                                            title="<?= $block->escapeHtmlAttr(__('Do not sent me E-mail')) ?>" 
+                                            class="input-text" 
+                                            type="checkbox" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="field verify ">
+                                <label class="label" for="veryfile-email"><span><?= $block->escapeHtml(__('E-mail address verification status') ) ?></span></label>
+                                <input name="verify_email" type="hidden" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-personal"><?= $block->escapeHtml(__('Personal Information')); ?></a>
+                    </div>
+                    <div id="tab-personal" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('Personal Information') ) ?></span></legend>
+                        <div class="control">
+                            <div class="field email">
+                                <label class="label required-1" for="email"><span><?= $block->escapeHtml(__('Signature')) ?></span></label> 
+                                <div class="control">
+                                    <input 
+                                        name="signiture"  
+                                        title="<?= $block->escapeHtmlAttr(__('Signature') )?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getSignature()) ? $profile->getSignature() : '' ?>"/>
+                                </div>
+                            </div>
+                            <div class="field email">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Title') )?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="title"  
+                                        title="<?= $block->escapeHtmlAttr(__('Title')) ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getTitle()) ? $profile->getTitle() : '' ?>" />
+                                </div>
+                            </div>
+                            <div class="field place">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Place')) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="place"  
+                                        title="<?= $block->escapeHtmlAttr(__('Place')) ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getPlace()) ? $profile->getPlace() : '' ?>" />
+                                </div>
+                            </div>
+                            <div class="field website">
+                                <label class="label" for="website"><span><?= $block->escapeHtml(__('Personal website') ) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="website"  
+                                        title="<?= $block->escapeHtmlAttr(__('Website'))  ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getWebsite()) ? $profile->getWebsite() : '' ?>" />
+                                </div>
+                            </div>
+                            <div class="field website">
+                                <label class="label required-1" for="biography"><span><?= $block->escapeHtml(__('Biography') ) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="biography"  
+                                        title="<?= $block->escapeHtmlAttr(__('Biography'))  ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getBiography()) ? $profile->getBiography() : '' ?>" />
+                                </div>
+                            </div>
+                            <div class="field private">
+                                <label class="label required-1" for="private"><span><?= $block->escapeHtml(__('Private notes')) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="private"  
+                                        title="<?= $block->escapeHtmlAttr(__('Private notes') ) ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getPrivate()) ? $profile->getPrivate() : '' ?>" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item title" data-role="collapsible">
+                        <a class="switch" data-toggle="trigger" href="#tab-screen"><?= $block->escapeHtml(__('CS Screen Name') ); ?></a>
+                    </div>
+                    <div id="tab-screen" class="item content" data-role="content">
+                        <legend class="label"><span><?= $block->escapeHtml(__('CS Screen Name') ) ?></span></legend>
+                        <div class="control">
+                            <div class="field tcq_number">
+                                <label class="label" for="tcq_number"><span><?= $block->escapeHtml(__('TCQ number') ) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="tcq_number"  
+                                        title="<?= $block->escapeHtmlAttr(__('TCQ number'))  ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getBiography()) ? $profile->getBiography() : '' ?>" />
+                                </div>
+                            </div>
+                            <div class="field acs_screen_name">
+                                <label class="label" for="acs_screen_name"><span><?= $block->escapeHtml(__('ACS screen name')) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="acs_screen_name"  
+                                        title="<?= $block->escapeHtmlAttr(__('ACS screen name') ) ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getPrivate()) ? $profile->getPrivate() : '' ?>" />
+                                </div>
+                            </div>
+                            <div class="field messenger_screen_name">
+                                <label class="label" for="messenger_screen_name"><span><?= $block->escapeHtml(__('MSN Messenger screen name') ) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="messenger_screen_name"  
+                                        title="<?= $block->escapeHtmlAttr(__('MSN Messenger screen name'))  ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getBiography()) ? $profile->getBiography() : '' ?>" />
+                                </div>
+                            </div>
+                            <div class="field yahoo_id">
+                                <label class="label" for="yahoo_id"><span><?= $block->escapeHtml(__('Yahoo ID')) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="yahoo_id"  
+                                        title="<?= $block->escapeHtmlAttr(__('Yahoo ID') ) ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getPrivate()) ? $profile->getPrivate() : '' ?>" />
+                                </div>
+                            </div>
+                            <div class="field skype_name">
+                                <label class="label" for="skype_name"><span><?= $block->escapeHtml(__('Skype Name')) ?></span></label>
+                                <div class="control">
+                                    <input 
+                                        name="skype_name"  
+                                        title="<?= $block->escapeHtmlAttr(__('Skype Name') ) ?>" 
+                                        class="input-text" 
+                                        type="text" 
+                                        data-validate="{required:false}" 
+                                        value="<?= ($profile->getPrivate()) ? $profile->getPrivate() : '' ?>" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>    
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="button" data-action="update-profile" class="action submit primary" id="community-custom-btn">
+                <span><?= $block->escapeHtml(__('Save')); ?></span>
+            </button>
+        </div>
+        <div class="primary">
+            <button type="button"  class="action reset primary" id="community-reset-btn">
+                <span><?= $block->escapeHtml(__('Reset')); ?></span>
+            </button>
+        </div>
+    </div>
+    <div class="msg"></div>
+
+</form>
+<div data-mage-init='{"community_customer": {}}'>
+    
+</div>

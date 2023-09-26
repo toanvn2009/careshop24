@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!--
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Careshop_CommunityTesterProduct::community_tester_group" title="Community Tester Group" module="Careshop_CommunityTesterProduct" sortOrder="15" resource="Careshop_CommunityTesterProduct::community_tester_group" parent="Careshop_Community::community"/>
+        <add id="Careshop_CommunityTesterProduct::tester" title="Manage Tester" module="Careshop_CommunityTesterProduct" sortOrder="10" action="communitytester/tester" resource="Careshop_CommunityTesterProduct::tester" parent="Careshop_CommunityTesterProduct::community_tester_group"/>
+    </menu>
+</config>

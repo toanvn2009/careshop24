@@ -1,0 +1,103 @@
+<?php 
+	$data = $block->getDataNotificationsCustomer(); 
+?>
+<div class="block block-customer-notifications">
+	<div class="block-title">
+		<strong id="block-customer-notifications-heading" role="heading" aria-level="2"><?= $block->escapeHtml(__('Notifications')) ?></strong>
+	</div>
+	<div class="block-content">
+		<form class="form form-notifications"
+			  action="<?php echo $block->getBaseUrl() ?>"
+			  method="post"
+			  id="notifications-form">
+			<?= $block->getBlockHtml('formkey') ?>
+			<div class="primary"><button type="submit" class="action login primary" name="send" id="send2"><span><?= $block->escapeHtml(__('See Community Notification Settings')) ?></span></button></div>
+			<fieldset class="fieldset login">
+				<div class="actions-switch">
+					<div class="actions-switch-notifications">
+						<div class="input_checkbox">
+							<input type="checkbox" class="admin__actions-switch-checkbox" name="package_shipment" <?php echo $block->getChecked($data->getPackageShipment()) ?>>
+							<label for="input_checkbox"></label>
+						</div>
+						<label class="admin__actions-switch-label">
+							<span class="admin__actions-switch-text"><?= $block->escapeHtml(__('Package Shipment')) ?></span>
+						</label>
+					</div>
+					<div class="actions-notifications">
+						<span class="admin__actions-switch-text"><?= $block->escapeHtml(__('Send me an e-mail once my order has been shipped.')) ?></span>
+					</div>
+				</div>
+				<div class="actions-switch">
+					<div class="actions-switch-notifications">
+						<div class="input_checkbox">
+							<input type="checkbox" class="admin__actions-switch-checkbox" name="order_confirmation" <?php echo $block->getChecked($data->getOrderConfirmation()) ?>>
+							<label for="input_checkbox"></label>
+						</div>
+						<label class="admin__actions-switch-label">
+							<span class="admin__actions-switch-text"><?= $block->escapeHtml(__('Order Confirmation')) ?></span>
+						</label>
+					</div>
+					<div class="actions-notifications">
+						<span class="admin__actions-switch-text"><?= $block->escapeHtml(__('Send me an order confirmation e-mail once my order has been placed.')) ?></span>
+					</div>
+				</div>
+				<div class="actions-switch">
+					<div class="actions-switch-notifications">
+						<div class="input_checkbox">
+							<input type="checkbox" class="admin__actions-switch-checkbox" name="status_update" <?php echo $block->getChecked($data->getStatusUpdate()) ?>>
+							<label for="input_checkbox"></label>
+						</div>
+						<label class="admin__actions-switch-label">
+							<span class="admin__actions-switch-text"><?= $block->escapeHtml(__('Status Update')) ?></span>
+						</label>
+					</div>
+					<div class="actions-notifications">
+						<span class="admin__actions-switch-text"><?= $block->escapeHtml(__('Send me an e-mail if the delivery status of an ordered item changes')) ?></span>
+					</div>
+				</div>
+				<div class="actions-switch">
+					<div class="actions-switch-notifications">
+						<div class="input_checkbox">
+							<input type="checkbox" class="admin__actions-switch-checkbox" name="promotions" <?php echo $block->getChecked($data->getPromotions()) ?>>
+							<label for="input_checkbox"></label>
+						</div>
+						<label class="admin__actions-switch-label">
+							<span class="admin__actions-switch-text"><?= $block->escapeHtml(__('Promotions')) ?></span>
+						</label>
+					</div>
+					<div class="actions-notifications">
+						<span class="admin__actions-switch-text"><?= $block->escapeHtml(__('Please send me promotional offers.')) ?></span>
+					</div>
+				</div>
+				<div class="actions-switch">
+					<div class="actions-switch-notifications">
+						<div class="input_checkbox">
+							<input type="checkbox" class="admin__actions-switch-checkbox" name="reviews_impovement" <?php echo $block->getChecked($data->getReviewsImpovement()) ?>>
+							<label for="input_checkbox"></label>
+						</div>
+						<label class="admin__actions-switch-label">
+							<span class="admin__actions-switch-text"><?= $block->escapeHtml(__('Reviews & Impovement')) ?></span>
+						</label>
+					</div>
+					<div class="actions-notifications">
+						<span class="admin__actions-switch-text"><?= $block->escapeHtml(__('Please send me reviews & Improvement')) ?></span>
+					</div>
+				</div>
+				<div class="actions-switch">
+					<div class="actions-switch-notifications">
+						<div class="input_checkbox">
+							<input type="checkbox" class="admin__actions-switch-checkbox" name="subcription_to_newsletter" <?php echo $block->getChecked($data->getSubcriptionToNewsletter()) ?>>
+							<label for="input_checkbox"></label>
+						</div>
+						<label class="admin__actions-switch-label">
+							<span class="admin__actions-switch-text"><?= $block->escapeHtml(__('Subcription to Newsle')) ?></span>
+						</label>
+					</div>
+					<div class="actions-notifications">
+						<span class="admin__actions-switch-text"><?= $block->escapeHtml(__('Send meup dates')) ?></span>
+					</div>
+				</div>
+			</fieldset>	
+		</form>
+	</div>
+</div>

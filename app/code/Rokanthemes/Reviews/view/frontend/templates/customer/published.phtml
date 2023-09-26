@@ -1,0 +1,55 @@
+<?php
+	$listAlls = $block->getReviewsPublished();  
+    $mediaUrl = $block->mediaUrl();
+?>
+<div class="rokan-reviews">
+	<div class="rokan-review-action block-action">
+		<a href="<?= $block->escapeUrl($this->getUrl('reviews/index/index')) ?>" class="action btn darken"><?php echo __('Ready To Review / Improve') ?></a>
+		<a href="<?= $block->escapeUrl($this->getUrl('reviews/customer/published')) ?>"" class="active action btn grey"><?php echo __('Published') ?></a>
+	</div>
+	<div class="rokan-review-published products-grid">
+		<ol class="product-items">
+			<?php if(count($listAlls) > 0){ ?>
+				<?php foreach ($listAlls as $_item){ ?>
+					<li class="product-item">
+						<div class="info">
+							<span><?php echo __('Published') ?></span>
+						</div>
+						<div class="published-info">
+							<div class="published-info-header">
+								<div class="avartar product-photo"><img src="<?php echo $mediaUrl ;?>wysiwyg/avatar.jpg"/></div>
+								<div class="rating_details">
+									<div class="rating-summary item" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating">
+										<div class="rating-result" title="<?php echo $block->getReviewsRating($_item['review_id']) ?>%">
+											<meta itemprop="worstRating" content="1">
+											<meta itemprop="bestRating" content="100">
+											<span style="width:<?php echo $block->getReviewsRating($_item['review_id']) ?>%">
+												<span itemprop="ratingValue"><?php echo $block->getReviewsRating($_item['review_id']) ?>%</span>
+											</span>
+										</div>
+									</div>
+									<div class="title-info">
+										<?php echo $_item['title'] ?>
+									</div>
+									<div class="created_at-info">
+										<?php echo $_item['created_at'] ?>
+									</div>
+									<div class="verified-purchase">
+										<span><?php echo __('Verified Purchase') ?></span>
+									</div>
+								</div>
+							</div>
+							<div class="published-info-des">
+								<div class="detail-info">
+									<?php echo $_item['detail'] ?>
+								</div>
+							</div>
+						</div>
+					</li>
+				<?php } ?>
+			<?php }else{ ?>
+				<p><?php echo __('There are no reviews yet published.') ?></p>
+			<?php } ?>
+		</ol>
+	</div>
+</div>

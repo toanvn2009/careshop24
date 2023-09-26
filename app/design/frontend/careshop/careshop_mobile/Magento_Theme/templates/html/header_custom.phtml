@@ -1,0 +1,149 @@
+<?php
+    $themeHelper = $this->helper('Rokanthemes\RokanBase\Helper\Data');
+	$countryCollection = $themeHelper->getAllowedCountries();
+	$mediaUrl = $themeHelper->getUrlMedia();
+	$currencyCode = $themeHelper->getCurrencyCode();
+?>
+<div class="header-container">
+	<div class="web-two-topbar-navi-menutop-container">
+		<div class="container">
+			<div class="flex-layout">
+				<div class="topbar-freeshiping-content">
+					<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('topbar-freeshiping')->toHtml(); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="web-three-logo-menu-navi-container">
+		<div class="container">
+			<div class="flex-layout">
+				<div class="logo-container">
+					<?= $this->getChildHtml('logo'); ?>
+				</div>
+				<div class="primary-menu-container">
+					<ul class="store-lang">
+						<li class="lang-currency-mobile">
+							<div class="customer-lang-view">
+								<a class="customer-lang-currency menu-mobile-custom" href="#" data-view="myaccount-popup-view-mobi">
+									<?php
+									$country_code = isset($_COOKIE['ship_to_country_code']) ? $_COOKIE['ship_to_country_code'] : 'ch';
+									$country_name = isset($_COOKIE['ship_to_country_name']) ? $_COOKIE['ship_to_country_name'] : 'Switzerland';
+									if ($themeHelper->isLoggedIn()){
+									?> 
+										<span><i class="fa fa-user"></i><?= $themeHelper->getCustomerFullName(); ?></span>
+									<?php }else{ ?>
+										<span href="<?= $this->getUrl('customer/account/login');?>"><i class="fa fa-user"></i><?= __('LOG IN'); ?> / <?= __('SIGN UP'); ?></span>
+									<?php } ?>
+									
+								</a>
+								<a class="customer-lang-currency menu-mobile-custom" href="#" data-view="popup-lang-container">
+									<span class="lang-currency-click-open"><span class="fixed-get-language-code"><?= strtoupper($themeHelper->getStoreCode());?></span> / <span class="fixed-get-currency-code"><?= $currencyCode;?></span> / <img src="<?= $mediaUrl.'flags/'.$country_code.'.png';?>" alt="<?= $country_name;?>" title="<?= $country_name;?>"  /></span>
+								</a>
+							</div>
+							<div class="custom-content-menu-mobi active">
+								<div class="popup-lang-container">
+									<ul>
+										<li>
+											<label><?= __('Language');?></label>
+											<div><?= $this->getChildHtml('store_language'); ?></div>
+										</li>
+										<li>
+											<label><?= __('Currency');?></label>
+											<div><?= $this->getChildHtml('currency'); ?></div>
+										</li>
+										<li>
+											<label><?= __('Ship to');?></label>
+											<div class="store-ship-to-popup-view">
+												<div class="switcher ship-to switcher-ship-to" id="switcher-ship-to-country">
+													<div class="actions dropdown options switcher-options">
+														<div class="action toggle switcher-trigger"
+															 id="switcher-ship-to-country-trigger"
+															 data-mage-init='{"dropdown":{}}'
+															 data-toggle="dropdown"
+															 data-trigger-keypress-button="true">
+															<strong id="append-switcher-ship-to-country">
+																<img src="<?= $mediaUrl.'flags/'.$country_code.'.png';?>" alt="<?= $country_name;?>" title="<?= $country_name;?>"/><span> <?= $country_name;?></span>
+															</strong>
+														</div>
+														<ul class="dropdown switcher-dropdown" data-target="dropdown">
+															<?php 
+																foreach($countryCollection as $country_val){
+																	if ($country_val['value'] != '' ) {
+															?>
+															<li class="switcher-option">
+																<a href="#" data-country="<?= strtolower($country_val['value']);?>"><img src="<?= $mediaUrl.'flags/'.strtolower($country_val['value']);?>.png" alt="<?= $country_val['label'];?>" title="<?= $country_val['label'];?>" /> <?= $country_val['label'];?></a>
+															</li>
+															<?php } 
+															}
+															?>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+								<div class="myaccount-popup-view-mobi">
+									
+										<?php 
+										if ($themeHelper->isLoggedIn()){
+										?>
+										<ul>
+											<li><a href="<?= $this->getUrl('customer/account/index');?>"><?= __('My Account'); ?></a></li>
+											<li><a href="<?= $this->getUrl('customer/account/edit');?>"><?= __('Edit Account Details'); ?></a></li>
+											<li><a href="<?= $this->getUrl('sales/order/history');?>"><?= __('Order History'); ?></a></li>
+											<li><a href="<?= $this->getUrl('wishlist');?>"><?= __('Wish List'); ?></a></li>
+											<li><a href="<?= $this->getUrl('newsletter/manage');?>"><?= __('My Subscriptions'); ?></a></li>
+											<li><a href="<?= $this->getUrl('customer/account/logout');?>"><?= __('Log Out'); ?></a></li>
+										</ul>
+										<?php }else{ ?>
+										<?= $this->getChildHtml('customer_form_login.mobi'); ?>
+										<?php } ?>
+									
+								</div>
+							</div>
+						</li>
+						<li class="stores-li-content store-icon">
+							<a href="#"><span class="stores"><?= __('Stores'); ?></span></a>
+						</li>
+						<li class="stores-li-content">
+							<a href="#" class="menu-mobile-custom-search"><span class="stores"><span class="search"><i class="fa fa-search"></i><?= __('Search'); ?></span></a>
+							<div class="search-popup-view custom-content-menu-mobi">
+								<?= $this->getChildHtml('topSearch'); ?>
+							</div>
+						</li>
+					</ul>
+					<?= $this->getChildHtml('store.menu'); ?>
+				</div>
+				<div class="search-myaccount-minicart-container">
+					<ul>
+						<li class="font_icon_wishlist"><a href="<?= $this->getUrl('wishlist');?>" class="icon_wishlist"><i class="fa fa-heart-o"></i></a></li>
+						<li class="minicart-li-content-show-hide">
+							<?= $this->getChildHtml('minicart'); ?>
+						</li>
+						<li class="static-link-li-content-show-hide"> 
+							<a href="#" class="button-click-view-popup-static-link"><i class="fa fa-info-circle"></i></a>
+							<div class="static-link-popup-view">
+								<ul>
+									<li><a href="#"><?= __('Customer Service'); ?></a></li>
+									<li><a href="#"><?= __('Contact Us'); ?></a></li>
+									<li><a href="#"><?= __('Returns & Repairs'); ?></a></li>
+									<li><a href="#"><?= __('Shipping Information'); ?></a></li>
+									<li><a href="#"><?= __('FAQ (FREQUENTLY ASKED QUESTIONS)'); ?></a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="web-one-topbar-navi-advertisement-container">
+		<div class="topbar-navi-advertisement-content">
+			<div class="container">
+				<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('topbar-navi-advertisement')->toHtml(); ?>
+				<a href="#" class="button-closed-topbar-navi-advertisement"><span>x</span></a>
+			</div>
+		</div>
+	</div>	
+</div>

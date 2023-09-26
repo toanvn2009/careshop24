@@ -1,0 +1,18 @@
+<?php 
+$blockObject= $block->getLayout()->createBlock('Careshop\CommunityIdea\Block\Idea\Success');
+$params = $blockObject->getRequest()->getParams(); 
+$reply_url = $block->getUrl('community/idea/view',array('id'=>( $params['id'] ) ? $params['id'] : '' )); 
+$return_url = $block->getUrl('community/idea'); 
+?>
+<div class="success_page">
+    <p> 
+        <?= $block->escapeHtml(__('Posted!') ); ?> <a href="<?= $reply_url; ?>"><?= $block->escapeHtml(__('Click here to return to the message') ); ?> </a>
+    </p>
+    <p><a href="<?= $return_url; ?>"><?= $block->escapeHtml(__('Return to previous location') ); ?> </a> </p>
+</div>
+<style>
+.success_page {
+    text-align: center; 
+}
+.page-title-wrapper {display:none;}
+</style>

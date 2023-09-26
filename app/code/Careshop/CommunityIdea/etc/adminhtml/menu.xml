@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Careshop_CommunityIdea::community_idea_group" title="Community Idea Group" module="Careshop_CommunityIdea" sortOrder="5" resource="Careshop_CommunityIdea::community_idea_group" parent="Careshop_Community::community"/>
+        <add id="Careshop_CommunityIdea::idea" title="Manage Ideas" module="Careshop_CommunityIdea" sortOrder="10" action="community/idea" resource="Careshop_CommunityIdea::idea" parent="Careshop_CommunityIdea::community_idea_group"/>
+        <add id="Careshop_CommunityIdea::topic" title="Manage Topics" module="Careshop_CommunityIdea" sortOrder="30" action="community/topic" resource="Careshop_CommunityIdea::topic" parent="Careshop_CommunityIdea::community_idea_group"/>
+        <add id="Careshop_CommunityIdea::category" title="Categories" module="Careshop_CommunityIdea" sortOrder="40" action="community/category" resource="Careshop_CommunityIdea::category" parent="Careshop_CommunityIdea::community_idea_group"/>
+        <add id="Careshop_CommunityIdea::configuration" title="Configuration" module="Careshop_CommunityIdea" sortOrder="70" action="adminhtml/system_config/edit/section/community" resource="Careshop_CommunityIdea::configuration" parent="Careshop_CommunityIdea::community_idea_group"/>
+    </menu>
+</config>

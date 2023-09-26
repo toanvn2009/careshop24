@@ -1,0 +1,144 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+/** @var \Magento\Customer\Block\Address\Grid $block */
+$customerAddressView = $block->getData('customer_address');
+$helper = $this->helper('Rokanthemes\Customaddress\Helper\Data');
+?>
+
+<div class="block block-addresses-list">
+    <div class="block-title"><strong><?= $block->escapeHtml(__('Addresses')) ?></strong></div>
+    <div class="block-content">
+        <?php if ($_pAddsses = $block->getAdditionalAddresses()) : ?>
+
+            <div class="table-wrapper additional-addresses">
+                <table class="data table table-additional-addresses-items history" id="additional-addresses-table">
+                    <caption class="table-caption"><?= $block->escapeHtml(__('Additional addresses')) ?></caption>
+                    <tbody>
+                    <?php foreach ($_pAddsses as $address) : ?>
+                        <tr>
+                            <?php
+                                $confirm_message = "";
+                                $confirm_message .= $address->getFirstname().' ';
+                                $confirm_message .= $address->getLastname().', ';
+                                $confirm_message .= $block->getStreetAddress($address).', ';
+                                $confirm_message .= $address->getPostcode().' ';
+                                $confirm_message .= $address->getCity().', ';
+
+                                $confirm_message .= $block->getCountryByCode($address->getCountryId());
+
+                                if($helper->getEmailbyAddressId($address->getId()) != "")
+                                    $confirm_message .= ', '.$helper->getEmailbyAddressId($address->getId());
+                                if($address->getTelephone())
+                                    $confirm_message .= ', '.$address->getTelephone();
+                            ?>
+                            <td data-th="<?= $block->escapeHtmlAttr(__('Address Full')) ?>" class="col address-full"><?= $confirm_message ?></td>
+                            <td data-th="<?= $block->escapeHtmlAttr(__('Actions')) ?>" class="col actions">
+                                <a class="action edit" href="<?= $block->escapeUrl($block->getUrl('customer/address/edit', ['id' => $address->getId()])) ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                                        <path d="M2 17H3.4L12.025 8.375L10.625 6.975L2 15.6V17ZM16.3 6.925L12.05 2.725L13.45 1.325C13.8333 0.941667 14.3043 0.75 14.863 0.75C15.4217 0.75 15.8923 0.941667 16.275 1.325L17.675 2.725C18.0583 3.10833 18.2583 3.571 18.275 4.113C18.2917 4.655 18.1083 5.11733 17.725 5.5L16.3 6.925ZM14.85 8.4L4.25 19H0V14.75L10.6 4.15L14.85 8.4ZM11.325 7.675L10.625 6.975L12.025 8.375L11.325 7.675Z" fill="#666666"/>
+                                    </svg>
+                                </a>
+                                <a class="action delete" href="#" role="delete-address" data-address="<?= $block->escapeHtmlAttr($address->getId()) ?>">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" viewBox="0 0 16 18" fill="none">
+                                        <path d="M3 18C2.45 18 1.979 17.804 1.587 17.412C1.195 17.02 0.999333 16.5493 1 16V3H0V1H5V0H11V1H16V3H15V16C15 16.55 14.804 17.021 14.412 17.413C14.02 17.805 13.5493 18.0007 13 18H3ZM13 3H3V16H13V3ZM5 14H7V5H5V14ZM9 14H11V5H9V14Z" fill="#666666"/>
+                                    </svg>
+                                </a>
+                                <div class="popup-modal" style="display:none">
+                                    <h3><?php echo $confirm_message; ?></h3>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php if ($block->getChildHtml('pager')) : ?>
+                <div class="customer-addresses-toolbar toolbar bottom"><?= $block->getChildHtml('pager') ?></div>
+            <?php endif ?>
+        <?php else : ?>
+            <p class="empty"><?= $block->escapeHtml(__('You have no other address entries in your address book.')) ?></p>
+        <?php endif ?>
+    </div>
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="button" role="add-address" title="<?= $block->escapeHtmlAttr(__('New Address')) ?>" class="action primary add"><span><?= $block->escapeHtml(__('New Address')) ?></span></button>
+        </div>
+    </div>
+</div>
+<div id="popup-modal-delete-address">
+</div>
+<script type="text/x-magento-init">
+    {
+        ".page-main": {
+            "address": {
+                "deleteAddress": "td a[role='delete-address']",
+                "deleteUrlPrefix": "<?= $block->escapeJs($block->escapeUrl($block->getDeleteUrl())) ?>id/",
+                "addAddress": "button[role='add-address']",
+                "addAddressLocation": "<?= $block->escapeJs($block->escapeUrl($block->getAddAddressUrl())) ?>"
+            }
+        }
+    }
+</script>
+
+<script>
+    require(
+        [
+            'jquery',
+            'mage/url',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            url,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                modalClass: 'modal-popup-delete-address',
+                responsive: true,
+                innerScroll: true,
+                title: '<?= __('Are you sure you want to delete this address?') ?>',
+                buttons: [{
+                    text: $.mage.__('Cancel'),
+                    class: 'popup-cancel-address',
+                    click: function () {
+                        this.closeModal();
+                    }
+                },
+                {
+                    text: $.mage.__('Delete'),
+                    class: 'popup-delete-address',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }
+                ]
+            };
+            var popup = modal(options, $('#popup-modal-delete-address'));
+            var formkeys = $("[name='form_key']");
+            var formkey = '';
+
+            formkeys.each(function( index ) {
+                formkey = $( this ).val();
+            });
+            $(document).ready(function() {
+                $(document).on("click" , '.popup-delete-address', function(event){
+                    var id = $(this).attr("data-address");
+                    var delete_URL = url.build("customer/address/delete/id/"+id+"/form_key/")+formkey;
+                    window.location.href = delete_URL;
+                });
+                $(".action.delete").click(function(event) {
+                    var id = $(this).attr("data-address");
+                    $('#popup-modal-delete-address').html($(this).closest('.col.actions').find('.popup-modal').text());
+                    $('.popup-delete-address').attr('data-address', id);
+                    $('#popup-modal-delete-address').modal('openModal');
+                    return false;
+                });
+            });
+        }
+    );
+</script>

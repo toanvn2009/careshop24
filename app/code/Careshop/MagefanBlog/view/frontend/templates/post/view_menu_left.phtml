@@ -1,0 +1,33 @@
+<?php
+    $_post = $block->getPost();
+    $cate = $_post->getParentCategories();
+    $name_c = __('Careshop');
+    $ul_post = false;
+    $post_collections = [];
+    if(count($cate) > 0){
+    	foreach($cate as $cat){
+    		$name_c = $cat->getTitle();
+    		$post_collections = $block->getPostCollectionByCatIdAndNotRootPost($cat->getId());
+    		$ul_post = true;
+    		break;
+    	}
+    }
+?>
+<h2 class="sidebar-title"><?php echo $name_c;?></h2>
+<?php if($ul_post){
+	if(count($post_collections) > 0){
+		echo '<ul>';
+		foreach ($post_collections as $val_post) {
+			if($val_post->getRootPost() != 1){
+				if($val_post->getId() == $_post->getId()){
+					echo '<li class="active"><a href="'.$val_post->getPostUrl().'">'.$val_post->getTitle().'</a></li>';
+				}
+				else{
+					echo '<li><a href="'.$val_post->getPostUrl().'">'.$val_post->getTitle().'</a></li>';
+				}
+			}
+		}
+		echo '</ul>';
+	}
+}
+?>

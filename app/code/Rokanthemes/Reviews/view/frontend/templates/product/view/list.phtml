@@ -1,0 +1,39 @@
+<?php
+$_items = $block->getReviewsCollection();
+?>
+<?php if (count($_items)) : ?>
+	<div class="title">
+		<strong><?= $block->escapeHtml(__('Product Improvement Update.')) ?></strong>
+	</div>
+	<div class="block improvement-list" id="customer-improvement">
+		<?php 
+			
+		?>
+		<ol class="items improvement-items">
+			<?php foreach ($_items as $improve) : ?>  
+				<?php 
+					$product_item = $block->getProductItem($improve['product_id_key']);
+					$imageUrl = $this->helper('Magento\Catalog\Helper\Image')
+								->init($product_item, 'product_base_image')
+								->constrainOnly(TRUE)
+								->keepAspectRatio(TRUE)
+								->keepTransparency(TRUE)
+								->keepFrame(FALSE)
+								->resize(250, 250)->getUrl();
+				?>
+				<li class="item improve-item">
+					<div class="product-photo"><img src="<?php echo $imageUrl ;?>"/></div>
+					<div class="improve-info">
+						<div class="improve-title" itemprop="name"><?= $block->escapeHtml($improve['title']) ?></div>
+						<div class="improve-content" itemprop="description">
+							<?= /* @noEscape */ nl2br($block->escapeHtml($improve['detail'])) ?>
+						</div>
+					</div>
+				</li>
+			<?php endforeach; ?>
+		</ol>
+		<div class="toolbar review-toolbar">
+			<?= $block->getChildHtml('toolbar') ?>
+		</div>
+	</div>
+<?php endif;?>

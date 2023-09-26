@@ -1,0 +1,21 @@
+
+<div class="community-tab">
+    <div class="item title<?php if (strpos($block->getStoreManagerData()->getCurrentUrl(false), $block->getBaseUrl().'community/customer/profile') !== false) { echo ' active'; } ?>">
+        <a class="switch" href="<?= $block->getBaseUrl(); ?>community/customer/profile"><?= $block->escapeHtml(__('My profile') ); ?></a>
+    </div>
+    <div class="item title<?php if (strpos($block->getStoreManagerData()->getCurrentUrl(false), $block->getBaseUrl().'community/customer/setting') !== false) { echo ' active'; } ?>">
+        <a class="switch" href="<?= $block->getBaseUrl(); ?>community/customer/setting"><?= $block->escapeHtml(__('Settings')) ; ?></a>
+    </div>
+    <div class="item title<?php if (strpos($block->getStoreManagerData()->getCurrentUrl(false), $block->getBaseUrl().'community/customer/avatars') !== false) { echo ' active'; } ?>">
+        <a class="switch" href="<?= $block->getBaseUrl(); ?>community/customer/avatars"><?= $block->escapeHtml(__('Avatars')); ?></a>
+    </div>
+    <div class="item title<?php if (strpos($block->getStoreManagerData()->getCurrentUrl(false), $block->getBaseUrl().'community/customer/subbook') !== false) { echo ' active'; } ?>">
+        <a class="switch" href="<?= $block->getBaseUrl(); ?>community/customer/subbook"><?= $block->escapeHtml(__('Subscriptions & Bookmarks')); ?></a>
+    </div>
+    <div class="item title<?php if (strpos($block->getStoreManagerData()->getCurrentUrl(false), $block->getBaseUrl().'community/customer/macros') !== false) { echo ' active'; } ?>">
+        <a class="switch" href="<?= $block->getBaseUrl(); ?>community/customer/macros"><?= $block->escapeHtml(__('Macros') ); ?></a>
+    </div>
+    <div class="item title<?php if (strpos($block->getStoreManagerData()->getCurrentUrl(false), $block->getBaseUrl().'community/customer/mobile') !== false) { echo ' active'; } ?>">
+        <a class="switch" href="<?= $block->getBaseUrl(); ?>community/customer/mobile"><?= $block->escapeHtml(__('Mobile') ); ?></a>
+    </div>
+</div>

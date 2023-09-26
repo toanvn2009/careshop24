@@ -1,0 +1,61 @@
+<?php 
+    $_product = $block->getProduct();
+    $class_add_to_cart = 'disable-add-to-cart-product-button';
+    if($_product->getTypeId() == 'simple'){
+        $class_add_to_cart = 'enable-add-to-cart-product-button';
+    }
+    $_helper = $this->helper(Magento\Catalog\Helper\Output::class);
+    $c_development_stages = $_helper->productAttribute($_product, $_product->getCDevelopmentStages(), 'c_development_stages');
+?> 
+<?php $buttonTitle = __('PRE-ORDER'); ?>
+<?php $buttonBACKIT = __('BACK IT'); ?>
+<?php if ($_product->isSaleable() && $c_development_stages == '5586') {?>
+<div class="box-tocart">
+    <div class="fieldset">
+        <?php if ($block->shouldRenderQuantity()) :?>
+        <div class="field qty" style="display: none;">
+            <label class="label" for="qty"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+            <div class="control">
+                <input type="number"
+                       name="qty"
+                       id="qty"
+                       min="0"
+                       value="<?= $block->getProductDefaultQty() * 1 ?>"
+                       title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                       class="input-text qty"
+                       data-validate="<?= $block->escapeHtmlAttr(json_encode($block->getQuantityValidators())) ?>"
+                       />
+            </div>
+        </div>
+        <?php endif; ?>
+        <div class="actions">
+            <button type="submit"
+                    title="<?= $block->escapeHtmlAttr($buttonTitle) ?>"
+                    class="action primary tocart <?= $class_add_to_cart; ?>"
+                    id="product-addtocart-button" disabled>
+                <span><?= $block->escapeHtml($buttonTitle) ?></span>
+            </button>
+        </div>
+    </div>
+</div>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>
+<?php } else { ?>
+<div class="box-tocart">
+    <div class="fieldset">
+        <div class="actions">
+            <a href="<?= $block->getUrl('community/develop-the-product.html'); ?>"
+                    title="<?= $block->escapeHtmlAttr($buttonBACKIT) ?>"
+                    class="action primary tocart back-it">
+                <span><?= $block->escapeHtml($buttonBACKIT) ?></span>
+            </a>
+        </div>
+    </div>
+</div>
+<?php } ?>
+

@@ -1,0 +1,76 @@
+<?php
+/**
+ * BSS Commerce Co.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the EULA
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://bsscommerce.com/Bss-Commerce-License.txt
+ *
+ * @category  BSS
+ * @package   Bss_OneStepCheckout
+ * @author    Extension Team
+ * @copyright Copyright (c) 2017-2018 BSS Commerce Co. ( http://bsscommerce.com )
+ * @license   http://bsscommerce.com/Bss-Commerce-License.txt
+ */
+?>
+
+<?php /** @var \Magento\Framework\View\Element\Template $block */ ?>
+
+<?php // @codingStandardsIgnoreFile ?>
+
+<style type="text/css">
+    <?php if ($numberColor = $block->getCustomCss('step_number_color')) :?>
+        .step-title:before, #opc-sidebar .opc-block-summary > .title:before {
+            color: #<?= $numberColor;?> !important;
+        }
+    <?php endif; ?>
+    <?php if ($bgrColor = $block->getCustomCss('step_bgr_color')) :?>
+        .step-title:before, #opc-sidebar .opc-block-summary > .title:before {
+            background-color: #<?= $bgrColor;?> !important;
+        }
+        input[type="radio"]:checked, input[type="radio"]:checked::after {
+            background: #<?= $bgrColor;?> !important;
+        }
+    <?php endif; ?>
+    <?php if ($block->getCustomCss('css_code')) :?>
+        <?= $block->getCustomCss('css_code');?>
+    <?php endif; ?>
+</style>
+
+<script>
+    require(['jquery'], function($) {
+        setInterval(function(){
+            /*
+            let target0 = $('#shipping-new-address-form [name="shippingAddress.street.0"]:not(.customized1)');
+            if( target0.length ){
+                  target0.addClass('customized1');
+                  target0.replaceWith('<div class="field" name="shippingAddress.gender_field"> <label class="label fdfdsff" data-bind="attr: { for: element.uid }" for="AHI0XL8"> <span data-bind="i18n: element.label">Gender</span></label><div class="control"><select class="select" name="gender_field" id="AHI0XL8" aria-invalid="false"><option data-title="Male" value="1">Male</option><option data-title="Female" value="2">Female</option><option data-title="Not Specified" value="3">Not Specified</option></select> </div></div>');
+            }
+            */
+            let target = $('#shipping-new-address-form [name="shippingAddress.gender_field"]:not(.customized)');
+            if( target.length ){
+                  target.find('.control-cm-gender').remove();
+                  target.find('.control').attr("style","display: none !important;");
+                  $('<div class="control-cm-gender"><label class="label"><input name="cm-gender" type="radio" value="1" class="radio" checked="checked"> Mr </label> <label class="label"><input name="cm-gender" type="radio" value="2" class="radio"> Mrs </label></div>').insertBefore(target.find('.control'));
+                  target.addClass('customized');
+            }
+        },1000);
+
+        $(document).on("change",".control-cm-gender input.radio",function(){
+            var _val = $(this).val();
+            var _target = $(this).closest('.field').find('[name="gender_field"]');
+            _target.val(_val).trigger('change');
+        });
+        
+      $(document).on("click","#mobile_custom_buy",function(){ 
+              $('#buy_now').trigger('click');
+            });
+        setInterval(function(){
+            $('.custom_table_totle').insertAfter('.mobile_custom__totle');
+        },100);
+    });
+</script>
+

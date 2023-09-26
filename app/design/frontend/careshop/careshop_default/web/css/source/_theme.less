@@ -1,0 +1,121 @@
+//import all Typogrphy default style
+.lib-typography-all();
+//  Typogrphy
+@text__color: #303030;
+@font-size-ratio__base: 1.6;
+@font-size__base: unit(@font-size-unit-ratio * @font-size-ratio__base, px); // Base font size value in <b>px</b>
+@line-height__base: 1.8571428571429;
+ @media screen and (max-width: 767px){
+	@font-size-ratio__base: 1.4;
+ }
+//font family
+//@font-family__base: 'AvenirNextLTPro-Regular',sans-serif;
+//@font-family__serif: 'AvenirNextLTPro-Regular',sans-serif;
+//@font-family__monospace: 'AvenirNextLTPro-Regular',sans-serif;
+
+@font-family__base: 'Roboto Condensed', sans-serif;
+@font-family__serif: 'Roboto Condensed', sans-serif;
+@font-family__monospace: 'Roboto Condensed', sans-serif;
+//heading
+@heading__color__base: #1e1e1e;
+@heading__font-family__base: 'Roboto Condensed', sans-serif;
+@heading__font-weight__base: 700;
+@heading__line-height__base: 1.1;
+@heading__font-style__base: false;
+@heading__margin-top__base: @indent__base;
+@heading__margin-bottom__base: @indent__base;
+//h1
+@h1__font-size: ceil((@font-size__base * 2.25)); // 26px
+@h1__font-color: @heading__color__base;
+@h1__font-family: @heading__font-family__base;
+@h1__margin-top: 0;
+@h1__margin-bottom: 30px;  
+//h2
+@h2__font-size: ceil((@font-size__base * 1.415)); // 30px
+@h2__margin-top: 0;
+@h2__margin-bottom: 20px;
+//h3
+@indent__s: 0;
+@h3__font-size: ceil((@font-size__base * 1.125)); // 18px
+@h3__margin-top: 0;  
+@h3__margin-bottom: 15px;
+//link color
+@link__hover__color: @theme__color__primary;
+@link__hover__text-decoration: none;
+
+@breadcrumbs__font-size: @font-size__s; 
+
+//primary color
+@theme__color__primary: #f05735;
+@theme__color__primary-alt: @color-blue2;
+@theme__color__secondary: #008080;
+@theme__color__primary-alt:  #f05735;
+@primary__color: #f05735; 
+@active__color: @theme__color__primary;
+//footer
+@footercolor: @text__color;
+//rating
+@rating-icon__color: @color-gray78;
+
+@rating-icon__active__color: #5d8664;
+//button
+button, .btn {
+    .lib-button();
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    box-shadow: none;
+    letter-spacing: 1px;
+}
+//  Default = secondary button
+@button__font-family: @heading__font-family__base;
+@button__border-radius: 0;
+@button__background: @theme__color__primary;
+@button__border: 1px solid @theme__color__primary;
+@button__hover__background: darken(@theme__color__primary, 5%);
+@button__hover__border: 1px solid darken(@theme__color__primary, 5%);
+@button__font-size: unit(@font-size-unit-ratio * 1.6, px); // Base font size value in <b>px</b>
+@button__color: @color-white;
+@button__hover__color: @color-white;
+@button__hover__gradient-color-start: false;
+@button__hover__gradient-color-end: false;
+@button__padding: 12px 45px; // is set up to false when buttons don't depend on side paddings or have fixed width
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__s) {
+ 	@button__padding: 12px 15px;
+}
+
+//  Primary button
+@button-primary__background: @button__background;
+@button-primary__border: 1px solid @button__background;
+@button-primary__hover__background: @theme__color__primary;
+@button-primary__hover__border: 1px solid @theme__color__primary-alt;
+
+//  Large button
+@button__font-size__l: @button__font-size;
+@button__line-height__l: @button__line-height;
+@button__padding__l: @button__padding;
+
+//font-size
+
+.footprint-tooltip-bottom {
+    .lib-tooltip(bottom);
+}
+@footerbg: #ECF1F4;
+@lightcolor: #fff;
+@headercolor: #0D0D0D;
+@bordercolor: #cdcdcd;
+@primarycolor: #f05735;
+@secondcolor: #008080;
+@headingcolor: #0D0D0D;
+@headingfontweight: 700;
+
+// @headingfont: 'AvenirNextLTPro-Bold', sans-serif;
+// @bodyfont: 'AvenirNextLTPro-Regular', sans-serif;
+// @demifont: 'AvenirNextLTPro-Demi', sans-serif;
+
+@headingfont: 'Roboto Condensed', sans-serif;
+@bodyfont: 'Roboto Condensed', sans-serif;
+@demifont: 'Roboto Condensed', sans-serif;
+
+@greycolor: #999;
+@textcolor: #333;
+@ratecolor: #5d8664;	

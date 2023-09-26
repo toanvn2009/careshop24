@@ -1,0 +1,105 @@
+<?php
+    $categories_array = $block->getCategoriesTree();
+    $categories_array1 = $categories_array[1]['optgroup'][0]['optgroup'];
+    $add_new = $block->getUrl('community/idea/addidea'); 
+?>
+<form class="form" id="new_message_form"
+    novalidate
+    action="<?= $add_new ?>"
+    method="post"
+    data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+    enctype="multipart/form-data" 
+    data-mage-init='{"validation":{}}'> 
+    <div class="control">
+        <div class="field">
+            <label class="label" for="name"><span><?= $block->escapeHtml(__('Name')) ?></span></label>
+            <div class="control">
+                <input 
+                    name="name" 
+                    title="<?= $block->escapeHtmlAttr(__('Name')) ?>" 
+                    class="input-text" type="text" 
+                    data-validate="{required:true}"/>
+            </div>
+        </div> 
+        <div class="field">
+            <label class="label" for="name"><span><?= $block->escapeHtml(__('Descriptions')) ?></span></label>
+            <div class="control">
+                <textarea 
+                    id="post_content" 
+                    name="post_content" 
+                    title="<?= $block->escapeHtmlAttr(__('description')) ?>" 
+                    class="input-text" type="text" 
+                    data-validate="{required:true}"></textarea>   
+            </div>
+        </div>
+        <div class="field required">
+            <label class="label"><?php echo __('Select Category') ?>:</label>
+            <select name="categories_ids"  class="validate-select" >
+                <?php foreach($categories_array1 as $category){ ?>
+                    <option  class="parent" value="<?= $category['value'];?>"><?= $category['label'];?></option>
+                <?php if($category['optgroup']){
+                        $child_category = $category['optgroup'];
+                        foreach($child_category as $category1){
+                        ?> 
+                            <option  value="<?= $category1['value'];?>"><?= $category1['label'];?></option>
+                        <?php 
+                        }
+                    }
+                ?>   
+                <?php } ?>
+            </select>
+        </div>
+        <div class="submit">
+            <button id="submit_form"><?= $block->escapeHtml(__('Submit') ); ?></button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript">
+    require([
+        'jquery',
+        'mage/url',
+        'mage/mage',
+        'mage/adminhtml/wysiwyg/tiny_mce/setup'
+    ], function($,urlBuilder){
+        tinymce.init({
+            selector: "#post_content",
+            theme: "modern",
+            paste_data_images: true,
+            plugins: [
+                "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                "searchreplace wordcount visualblocks visualchars code fullscreen",
+                "insertdatetime media nonbreaking save table contextmenu directionality",
+                "emoticons template paste textcolor colorpicker textpattern"
+            ],
+            menubar: false,
+            image_advtab: true,
+            file_picker_callback: function(callback, value, meta) {
+                if (meta.filetype == 'image') {
+                    $('#upload').trigger('click');
+                    $('#upload').on('change', function() {
+                        var file = this.files[0];
+                    
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            console.log(e.target.result);
+                        callback(e.target.result, {
+                        alt: ''
+                    });
+                    };
+                    reader.readAsDataURL(file);
+                    });
+                }
+            }
+        });
+    var dataForm = $('#new_message_form');
+    dataForm.mage('validation', {});
+    $('#submit_form').click(function(){
+        dataForm.sumbmit();
+    });
+});
+</script>
+<style>
+#submit_form{margin-top:30px;}
+#new_message_form .field{margin-bottom:30px;}
+#new_message_form input{width:100%;}
+</style>

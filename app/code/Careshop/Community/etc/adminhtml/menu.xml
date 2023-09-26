@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Careshop_Community::community" title="Community" translate="title" module="Careshop_Community" sortOrder="15" dependsOnModule="Careshop_Community" resource="Careshop_Community::community"/>
+    </menu>
+</config>

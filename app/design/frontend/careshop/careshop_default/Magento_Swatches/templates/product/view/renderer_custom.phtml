@@ -1,0 +1,19 @@
+<?php
+$swatchproducts = json_decode($block->getJsonConfig(), true);
+if(isset($swatchproducts['attributes'][148]['options']) && count($swatchproducts['attributes'][148]['options']) > 0){
+$swatchOptions = $block->getDataSwatchColor();
+$exi = [];
+foreach ($swatchOptions  as $k_s => $val_s) {
+    $exi[$val_s['option_id']] = $val_s['value'];
+}
+$s = $swatchproducts['attributes'][148]['options'];
+if(count($s) > 0){
+?>
+<div class="color-swatch-options-container-left">
+    <ul>
+        <?php foreach ($s as $key => $value) { ?>
+            <li><a href="#" data-option="<?= $value['id'] ?>"><span style=" background-color: <?= $exi[$value['id']] ?>"></span></a></li>
+       <?php } ?>
+    </ul>
+</div> 
+<?php } } ?>

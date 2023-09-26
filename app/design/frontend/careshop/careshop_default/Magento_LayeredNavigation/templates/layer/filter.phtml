@@ -1,0 +1,49 @@
+<ol class="items">
+    <?php $i = 0; foreach ($filterItems as $filterItem) : ?>
+        <?php if($filterItem->getName() == 'Color'){ 
+            $arr_code = ['Black' => '#000000','Blue' => '#0a468e','Olive' => '#7d552c','Green' => '#015543','Gray' => '#777b7a','Silver' => '#c9c1aa','Orange' => '#f27c36','Pink' => '#ed0a6e','Purple' => '#44166c','Red' => '#d9182f','White' => '#f3f1f2','Yellow' => '#ecda11'];
+            $color_code = isset($arr_code[$filterItem->getLabel()]) ? $arr_code[$filterItem->getLabel()] : '#000000';
+        ?>
+            <?php if($i == 0){ ?>
+            <div class="swatch-attribute swatch-layered color">
+               <div class="swatch-attribute-options clearfix">
+            <?php } ?>
+                    <a href="<?= $block->escapeUrl($filterItem->getUrl()) ?>">
+                        <div class="swatch-option color swatch-option-custom-hover-fixed" aria-label="<?= /* @noEscape */ $filterItem->getLabel() ?>" option-label="<?= /* @noEscape */ $filterItem->getLabel() ?>" option-tooltip-value="<?= $color_code;?>" style="background: <?= $color_code;?> no-repeat center; background-size: initial;"></div>    
+                    </a>
+            <?php 
+                $i ++;
+                if($i == count($filterItems)){
+            ?>
+               </div>
+           </div>
+            <?php } ?>
+        <?php }else{ ?>
+            <li class="item">
+                <?php if ($filterItem->getCount() > 0) : ?>
+                    <a href="<?= $block->escapeUrl($filterItem->getUrl()) ?>">
+                        <?= /* @noEscape */ $filterItem->getLabel() ?>
+                        <?php if ($this->helper(\Magento\Catalog\Helper\Data::class)->shouldDisplayProductCountOnLayer()) : ?>
+                            <span class="count"><?= /* @noEscape */ (int)$filterItem->getCount() ?><span class="filter-count-label">
+                                <?php if ($filterItem->getCount() == 1) :
+                                    ?> <?= $block->escapeHtml(__('item')) ?><?php
+                                else :
+                                    ?> <?= $block->escapeHtml(__('item')) ?><?php
+                                endif;?></span></span>
+                        <?php endif; ?>
+                    </a>
+                <?php else :?>
+                    <?= /* @noEscape */ $filterItem->getLabel() ?>
+                    <?php if ($this->helper(\Magento\Catalog\Helper\Data::class)->shouldDisplayProductCountOnLayer()) : ?>
+                        <span class="count"><?= /* @noEscape */ (int)$filterItem->getCount() ?><span class="filter-count-label">
+                            <?php if ($filterItem->getCount() == 1) :
+                                ?><?= $block->escapeHtml(__('items')) ?><?php
+                            else :
+                                ?><?= $block->escapeHtml(__('items')) ?><?php
+                            endif;?></span></span>
+                    <?php endif; ?>
+                <?php endif; ?>
+            </li>
+        <?php } ?>
+    <?php endforeach ?>
+</ol>

@@ -1,0 +1,103 @@
+<?php
+	$listAlls = $block->getRepair(); 
+?>
+<div class="rokan-repair">
+	<div class="rokan-repair-action">
+		<div class="list-data-order-repair">
+			<div class="content-h"><h2><?php echo __('Select the order for repair') ?></h2></div>
+			<div class="list-data">
+			<?php if ($history = $block->getProceedData()): ?>
+				<div class="amrma-table-container">
+					<div class="table-wrapper returns-history">
+						<table class="data table table-returns-items history amrma-table" id="my-returns-table">
+							<caption class="table-caption"><?= $block->escapeHtml(__('Returns')) ?></caption>
+							<thead>
+							<tr>
+								<th scope="col" class="col id"><?= $block->escapeHtml(__('Items')) ?></th>
+								<th scope="col" class="col shipping"><?= $block->escapeHtml(__('Qty')) ?></th>
+								<th scope="col" class="col id"><?= $block->escapeHtml(__('Id')) ?></th>
+								<th scope="col" class="col date"><?= $block->escapeHtml(__('Date')) ?></th>
+								<th scope="col" class="col total"><?= $block->escapeHtml(__('Order #')) ?></th>
+								<th scope="col" class="col status"><?= $block->escapeHtml(__('Status')) ?></th>
+								<th scope="col" class="col actions"></th>
+							</tr>
+							</thead>
+							<tbody class="amrma-tbody">
+							<?php foreach ($history as $item): ?>
+								<tr class="amrma-row">
+									<td data-th="<?= $block->escapeHtml(__('Item')) ?>" class="col item">
+										<div class="amrma-image<?= ($block->isChatEnabled() && !empty($item['new_message']) ? ' new-message' : ''); ?>"><img src="<?= $block->escapeUrl($item['product_url'])?>"/></div>
+									</td>
+									<td data-th="<?= $block->escapeHtml(__('Qty')) ?>" class="col qty"><?= (double)$item['qty']; ?></td>
+									<td data-th="<?= $block->escapeHtml(__('Id')) ?>" class="col id"><?= $block->escapeHtml($item['request_id'])?></td>
+									<td data-th="<?= $block->escapeHtml(__('Date')) ?>" class="col date"><?= $block->escapeHtml($block->formatDate($item['created_at'])) ?></td>
+									<td data-th="<?= $block->escapeHtml(__('Order #')) ?>" class="col order"><?= $block->escapeHtml(str_pad($item[\Magento\Sales\Api\Data\OrderInterface::INCREMENT_ID], 9, '0', STR_PAD_LEFT)) ?></td>
+									<td data-th="<?= $block->escapeHtml(__('Status')) ?>" class="col status">
+									<span class="amrma-status -pending"<?= (!empty($item['status_color'])?' style="background-color: ' . $block->escapeHtml($item['status_color']) . '"':'') ?>>
+										<?= $block->escapeHtml($item['status_label']) ?>
+									</span>
+									</td>
+									<td class="col actions">
+										<a href="<?= $block->escapeUrl($item['view_url']); ?>" class="action view" title="<?= $block->escapeHtml(__('View')) ?>">
+											<?= $block->escapeHtml(__('View')) ?>
+										</a>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<?php if ($pager = $block->getPagerHtml()): ?>
+					<div class="toolbar">
+						<div class="amasty-rma-pager"><?= /** @noEscape */ $pager; ?></div>
+					</div>
+				<?php endif ?>
+			<?php else: ?>
+				<div class="message info empty"><?= $block->escapeHtml(__('You have placed no return request.')) ?></div>
+			<?php endif ?>
+			</div>
+		</div>
+		<div class="repair-content">
+			<div class="content-h"><h2><?php echo __('Or enter your order number') ?></h2></div>
+			
+			<div class="search-form-repair">
+				<div class="field repair">
+					<div class="label"> 
+						<p><?php echo __('Order numbers are 6 or more numeric digits.') ?></p>
+					</div>
+					<div class="control">
+						<div class="field">
+							<label class="label">
+								<span><?php echo __('Order Number') ?></span>
+							</label>
+							<div class="control">
+								<input id="search-orders" type="text" name="orders_number">
+							</div>
+						</div>
+						<div class="field">
+							<label class="label">
+								<span><?php echo __('Last Name') ?></span>
+							</label>
+							
+							<div class="control">
+								<input id="search-lastname" type="text" name="last_name">
+							</div>
+						</div>
+						<div class="nested">
+							<a class="action-repair advanced btn cap">
+								<i class="fa fa-search"></i><?php echo __('Search') ?> 
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="list-order-repair">
+			</div>
+		</div>
+		<div class="repair-content-f">
+			<div class="content-h"><h2><?php echo __("Can't find your order number?") ?></h2></div>
+			<div class="action"><a href="#"><?php echo __('Return & Repair Forms and Details') ?></a></div>
+		</div>
+	</div>
+</div>

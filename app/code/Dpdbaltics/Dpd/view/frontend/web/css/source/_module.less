@@ -1,0 +1,77 @@
+.dpd-pickup-point-map-marker-container {
+    line-height: 13px;
+
+    table > tbody > tr > td {
+        padding: 0;
+        margin: 0;
+    }
+
+    h2 {
+        margin: 0 0 10px;
+    }
+}
+
+#dpd-pickup-point-selected {
+    padding: 15px 0;
+
+    .label {
+        font-weight: bold;
+    }
+}
+
+#dpd-pickup-point-map {
+    width: 100%;
+    height: 500px;
+}
+
+.inputimagebefore() {
+    content: '';
+    position: relative;
+    display: inline-block;
+    height: 20px;
+    width: 100%;
+    bottom: -5px;
+    margin-right: 5px;
+    background: url('../AdeoWeb_Dpd/images/dpd_logo_black_text_120.png') no-repeat 0px center;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+}
+
+#dpd-image-holder::before {
+    .inputimagebefore;
+    max-width: 20px;
+    background: url('../AdeoWeb_Dpd/images/Lapinas_128x128.png') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+#dpd-logo-image-holder::before {
+    .inputimagebefore;
+}
+
+#dpd-image-holder {
+    position: relative;
+}
+
+#dpd-image-holder > span {
+    display: inline-block;
+    color: #589C2C;
+    font-size: 12px;
+}
+
+.table-checkout-shipping-method tbody td {
+    vertical-align: middle;
+}
+
+#additional_data_classic_dpd td, #additional_data_pickup_dpd td {
+    border: none;
+    padding: 0;
+}
+
+.dpd-pickup, .dpd-delivery-time {
+    padding-bottom: 20px;
+}

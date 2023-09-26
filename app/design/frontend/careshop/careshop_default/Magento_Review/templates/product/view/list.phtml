@@ -1,0 +1,69 @@
+<?php
+$_items = $block->getReviewsCollection()->getItems();
+$format = $block->getDateFormat() ?: \IntlDateFormatter::SHORT;
+$mediaUrl = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getUrlMedia();
+$params = $block->getRequest()->getParams(); 
+?>
+<?php if (count($_items)) : ?>
+<div class="block review-list" id="customer-reviews">
+	<div class="block-content">
+		<div class="toolbar review-toolbar">
+			<?= $block->getChildHtml('toolbar') ?>
+		</div>
+		<ol class="items review-items">
+		<?php foreach ($_items as $_review) : ?>
+			<li class="item review-item" itemscope itemprop="review" itemtype="http://schema.org/Review">
+				<div class="review-info">
+					<div class="review-details">
+						<div class="details-rate">
+							<?php if (count($_review->getRatingVotes())) : ?>
+								<div class="review-ratings">
+								<div class="label"><?= __('Rating') ?>: </div>
+								<?php foreach ($_review->getRatingVotes() as $_vote) : ?>  
+								<div class="rating-summary item" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+									<div class="rating-result" title="<?= $block->escapeHtmlAttr($_vote->getPercent()) ?>%">
+										<meta itemprop="worstRating" content = "1"/>
+										<meta itemprop="bestRating" content = "100"/>
+										<span style="width:<?= $block->escapeHtmlAttr($_vote->getPercent()) ?>%">
+											<span itemprop="ratingValue"><?= $block->escapeHtml($_vote->getPercent()) ?>%</span>
+										</span>
+									</div>
+								</div>
+								<?php endforeach; ?>
+								</div> 
+							<?php endif; ?>
+							<div class="review-details-value author" itemprop="author"><?= $block->escapeHtml($_review->getNickname()) ?></div>
+						</div>
+						<div class="review-title" itemprop="name">
+							<div class="title"><?= $block->escapeHtml($_review->getTitle()) ?></div>
+							<div class="review-date">
+								<time class="review-details-value" itemprop="datePublished" datetime="<?= $block->escapeHtmlAttr($block->formatDate($_review->getCreatedAt(), $format)) ?>"><?= Date('d M Y H:i',strtotime($_review->getCreatedAt())) ?></time>
+							</div>
+						</div>
+						<div class="review-content" itemprop="description">
+							<?= /* @noEscape */ nl2br($block->escapeHtml($_review->getDetail())) ?>
+						</div>
+						<?php if ($_review->getReplay()) { ?>
+						<div class="review-respon">
+							<div class="review-title" itemprop="name">
+								<div class="title"><?= $block->escapeHtml(__('Response from Careshop')) ?></div>
+								<div class="review-date">
+									<time class="review-details-value" itemprop="datePublished" datetime="<?= $block->escapeHtmlAttr($block->formatDate($_review->getReplayDate(), $format)) ?>"><?= Date('d M Y H:i',strtotime($_review->getReplayDate())) ?></time>
+								</div>
+							</div>
+							<div class="review-content" itemprop="description">
+								<?= /* @noEscape */ nl2br($block->escapeHtml($_review->getReplay())) ?>
+							</div>
+						</div>
+						<?php } ?>
+					</div>
+				</div>
+			</li>
+		<?php endforeach; ?>
+		</ol>
+		<div class="toolbar review-toolbar">
+			<?= $block->getChildHtml('toolbar') ?>
+		</div>
+	</div>
+</div>
+<?php endif;?>

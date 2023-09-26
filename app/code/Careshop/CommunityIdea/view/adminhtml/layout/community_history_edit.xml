@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Careshop\CommunityIdea\Block\Adminhtml\Idea\Edit" name="community_idea_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Careshop\CommunityIdea\Block\Adminhtml\Idea\Edit\Tabs" name="community_idea_tabs">
+                <block class="Careshop\CommunityIdea\Block\Adminhtml\Idea\Edit\Tab\Idea" name="community_idea_edit_tab_idea"/>
+                <block class="Careshop\CommunityIdea\Block\Adminhtml\Idea\Edit\Tab\Product" name="community_idea_edit_tab_product"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">idea</argument>
+                    <argument name="block" xsi:type="string">community_idea_edit_tab_idea</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">product</argument>
+                    <argument name="block" xsi:type="string">community_idea_edit_tab_product</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

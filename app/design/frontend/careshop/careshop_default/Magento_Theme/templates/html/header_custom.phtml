@@ -1,0 +1,133 @@
+<?php
+    $themeHelper = $this->helper('Rokanthemes\RokanBase\Helper\Data');
+	$countryCollection = $themeHelper->getAllowedCountries();
+	$mediaUrl = $themeHelper->getUrlMedia();
+	$currencyCode = $themeHelper->getCurrencyCode();
+?>
+<div class="header-container">
+	<div class="web-one-topbar-navi-advertisement-container">
+		<div class="topbar-navi-advertisement-content">
+			<div class="container">
+				<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('topbar-navi-advertisement')->toHtml(); ?>
+				<a href="#" class="button-closed-topbar-navi-advertisement"><span>x</span></a>
+			</div>
+		</div>
+	</div>
+	<div class="web-two-topbar-navi-menutop-container">
+		<div class="container">
+			<div class="flex-layout">
+				<div class="topbar-freeshiping-content">
+					<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('topbar-freeshiping')->toHtml(); ?>
+				</div>
+				<div class="topbar-special-offers-lang-currency-content">
+					<ul>
+						<li class="lang-currency-container">
+							<?php 
+								$country_code = isset($_COOKIE['ship_to_country_code']) ? $_COOKIE['ship_to_country_code'] : 'ch';
+								$country_name = isset($_COOKIE['ship_to_country_name']) ? $_COOKIE['ship_to_country_name'] : 'Switzerland';
+							?>
+							<a href="#" class="lang-currency-click-open lang-currency-click-open-pc"><span class="fixed-get-language-code"><?= strtoupper($themeHelper->getStoreCode());?></span> / <span class="fixed-get-currency-code"><?= $currencyCode;?></span> / <img src="<?= $mediaUrl.'flags/'.$country_code.'.png';?>" alt="<?= $country_name;?>" title="<?= $country_name;?>"  /></a>
+							<a href="#" class="lang-currency-click-close"><?= __('Close');?> X</a>
+							<div class="popup-lang-currency-container">
+								<div class="container">
+									<ul>
+										<li>
+											<label><?= __('Language');?></label>
+											<div><?= $this->getChildHtml('store_language'); ?></div>
+										</li>
+										<li>
+											<label><?= __('Currency');?></label>
+											<div><?= $this->getChildHtml('currency'); ?></div>
+										</li>
+										<li>
+											<label><?= __('Ship to');?></label>
+											<div class="store-ship-to-popup-view">
+												<div class="switcher ship-to switcher-ship-to" id="switcher-ship-to-country">
+											        <div class="actions dropdown options switcher-options">
+											            <div class="action toggle switcher-trigger"
+											                 id="switcher-ship-to-country-trigger"
+											                 data-mage-init='{"dropdown":{}}'
+											                 data-toggle="dropdown"
+											                 data-trigger-keypress-button="true">
+											                <strong id="append-switcher-ship-to-country">
+											                    <img src="<?= $mediaUrl.'flags/'.$country_code.'.png';?>" alt="<?= $country_name;?>" title="<?= $country_name;?>"  /><span> <?= $country_name;?></span>
+											                </strong>
+											            </div>
+                                                        <ul class="dropdown switcher-dropdown" data-target="dropdown">
+                                                            <?php
+                                                            foreach($countryCollection as $country_val){
+                                                                if ($country_val['value'] != '' ) {
+                                                                    ?>
+                                                                    <li class="switcher-option">
+                                                                        <a href="#" data-country="<?= strtolower($country_val['value']);?>"><img src="<?= $mediaUrl.'flags/'.strtolower($country_val['value']);?>.png" alt="<?= $country_val['label'];?>" title="<?= $country_val['label'];?>" /> <?= $country_val['label'];?></a>
+                                                                    </li>
+                                                                <?php }
+                                                            }
+                                                            ?>
+                                                        </ul>
+											        </div>
+											    </div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="web-three-logo-menu-navi-container">
+		<div class="container">
+			<div class="flex-layout">
+				<div class="logo-container">
+					<?= $this->getChildHtml('logo'); ?>
+				</div>
+				<div class="primary-menu-container">
+					<?= $this->getChildHtml('store.menu'); ?>
+				</div>
+				<div class="search-myaccount-minicart-container">
+					<ul>
+						<li class="myaccount-li-content-show-hide">
+							<a href="#" class="button-click-view-popup-myaccount">
+								<i class="fa fa-user"></i>
+								<?php if ($themeHelper->isLoggedIn()){ ?><span class="name"><?= $themeHelper->getSubstrCustomerFullName() ?></span><?php } ?>
+							</a>
+							<div class="popup-body myaccount-popup-view">
+								<ul>
+									<?php
+									if ($themeHelper->isLoggedIn()){
+									?>
+                                    <li><strong><?= $themeHelper->getCustomerFullName() ?></strong></li>
+									<li><a href="<?= $this->getUrl('customer/account/index');?>"><?= __('My Account'); ?></a></li>
+									<li><a href="<?= $this->getUrl('wishlist/');?>"><?= __('Wish List'); ?></a></li>
+									<li><a href="<?= $this->getUrl('sales/order/history');?>"><?= __('My Orders'); ?></a></li>
+									<li><a href="<?= $this->getUrl('customer/account/logout');?>"><?= __('Log Out'); ?></a></li>
+									<?php }else{ ?>
+									<li><a href="<?= $this->getUrl('customer/account/login');?>"><?= __('Sign In'); ?></a></li>
+									<li><a href="<?= $this->getUrl('customer/account/create');?>"><?= __('Sign Up'); ?></a></li>
+									<?php } ?>
+								</ul>
+							</div>
+						</li>
+						<li class="minicart-li-content-show-hide">
+							<?= $this->getChildHtml('minicart'); ?>
+						</li>
+						<li class="information-li-content-show-hide">
+							<a href="#" class="button-click-view-popup-information"><i class="fa fa-info-circle"></i></a>
+<!--							<div class="myaccount-popup-view">-->
+							<div class="popup-body information-popup-view">
+								<ul>
+									<li><a href="<?= $this->getUrl('about-us');?>"><?= __('About Us'); ?></a></li>
+									<li><a href="<?= $this->getUrl('frequently-ask-questions');?>"><?= __('FAQ'); ?></a></li>
+									<li><a href="<?= $this->getUrl('returns-and-warranty');?>"><?= __('Returns & Warranty'); ?></a></li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

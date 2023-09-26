@@ -1,0 +1,106 @@
+<?php 
+    $profile = $block->getProfileByCustommerID();
+    $setting = $block->getSettingByCustommerID();
+    $tagging = $block->getTaggingByCustomerId();
+    $sub_bookmarks = $block->getSubscriptionBookmarks();
+    $macros = $block->getMacrosByCustomerId();
+    $helper = $block->getHelper();
+    $timezones = $helper->getListTimeZone();
+    $media_url = $helper->getMediaUrl();
+    $default_avatars = $helper->getListDefaultAvatar();
+    $list_avatar = $block->getAvatars();
+    $email_contents = $helper->getEmailContentOptions();
+    $email_formats = $helper->getEmailFormatOptions();
+    $board_layout_opts = $helper->getBoardLayoutOptions();
+    $display_emoticon_opt = $helper->getEmoticonOptions();
+    $rich_editor = $helper->getEditorPostOptions();
+    $display_format_date_opt = $helper->getFormatDateOptions();
+    $display_show_date_opt = $helper->getFormatDateOptions();
+    $display_listview_opt = $helper->getListViewOptions();
+    $display_liststyle_opt= $helper->getListStyleOptions();
+    $default_flag_topic = $helper->getDefaultFlagTopicsOptions();
+    $default_sort_topics = $helper->getDefaultSortTopicsOptions();
+    $lenear_sort_topic = $helper->getLenearSortTopicsOptions();
+    $lenear_filter_qa = $helper->getLenearTopicFilterOptions();
+    $lenear_sort_qa = $helper->getLenearSortQuestionsAnswersOptions();
+    $theme_sort_topic = $helper->getThemeSortTopicsOptions();
+    $home_private_community = $helper->getPrivateMessagesOptions();
+    $home_my_friends = $helper->getMyFriendsMessagesOptions();
+    $privacy_person_data = $helper->getPrivacyPersonOptions();
+    $privacy_show_email = $helper->getPrivacyShowEmailOptions();
+    $privacy_online_status = $helper->getPrivacyShowOnlineOptions();
+    $likes_period_rec = $helper->getPeriodLikeReceivedOptions();
+    $likes_period_aut = $helper->getPeriodLikeAuthorsOptions();
+    $tagging_cloud_filter = $helper->getTaggingCloudOptions();
+    $tagging_cloud_age = $helper->getTaggingCloudAgeOptions();
+    $all_posts = $helper->getAllPostOptions();
+    $mobile_pictures_posts = $helper -> getMobilePicturesInPosts();
+   
+?>
+<div class="change-user-pass">
+    <a href="<?= $block->getBaseUrl(); ?>customer/account/edit" class="username"><span><?= $block->escapeHtml(__('Change User Name') ); ?></span></a>
+    <a href="<?= $block->getBaseUrl(); ?>customer/account/edit/changepass" class="password"><span><?= $block->escapeHtml(__('Change Password') ); ?></span></a>
+</div>
+<form class="form subscribe"
+    novalidate
+    action="#"
+    method="post"
+    data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+    id="community-customer-form"
+    enctype="multipart/form-data" >
+    <fieldset class="fieldset">
+        <div class="community_customer product data items">
+            <?= $block->getChildHtml('community.customer.tab'); ?>
+            <div id="tab-mobile-opt" class="item content" data-role="content">
+                <legend class="label mb-4"><span><?= $block->escapeHtml(__('Mobile Settings') ) ?></span></legend>
+                <div class="control">
+                    <label class="label" for="title"><span><?= $block->escapeHtml(__('Mobile signatures')) ?></span></label>
+                    <div class="field name w-65">
+                        <label class="label" for="title"><span><?= $block->escapeHtml(__('Default home page for mobile device')) ?></span></label>
+                        <div class="control">
+                            <select name="mobile_homepage">
+                                <option value="1"><?= $block->escapeHtml(__('Use default settings(community page)') ); ?></option>
+                            </select>    
+                        </div>
+                    </div>
+                    <div class="field name">
+                                <label class="label" for="title"><span><?= $block->escapeHtml(__('Show pictures in posts')) ?></span></label>
+                                <?php 
+                                    foreach ($mobile_pictures_posts	 as $value => $label) {
+                                ?>
+                                        <div class="form-group">
+                                            <label class="label" for="title"><span><?= $block->escapeHtml($label) ?></span></label>   
+                                            <input 
+                                                name="mobile_pictures"  
+                                                title="<?= $block->escapeHtmlAttr($label) ?>"  class="input-text"
+                                                type="radio"
+                                                value="<?= $block->escapeHtmlAttr($value) ?>"
+                                                <?= ($setting->getData('mobile_pictures') && $setting->getData('mobile_pictures') == $value) ? 'checked' : '' ?> />
+                                        </div>        
+                                <?php 
+                                    }
+                                ?>
+                    </div>                  
+                </div>
+            </div>
+            <!-- End Tab Mobile  -->
+        </div>
+    </fieldset>    
+    <div class="actions-toolbar">
+        <div class="primary">
+            <button type="button" data-action="update-mobile" class="action submit primary" id="community-custom-btn">
+                <span><?= $block->escapeHtml(__('Save')); ?></span>
+            </button>
+        </div>
+        <div class="primary">
+            <button type="button"  class="action reset primary" id="community-reset-btn">
+                <span><?= $block->escapeHtml(__('Reset')); ?></span>
+            </button>
+        </div>
+    </div>
+    <div class="msg"></div>
+
+</form>
+<div data-mage-init='{"community_customer": {}}'>
+    
+</div>

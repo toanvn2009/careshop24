@@ -1,0 +1,132 @@
+<?php 
+$_product = $block->getProduct();
+if($_product->getId() == '1145'){ ?>
+
+<div class="boxer-price-calculator-fixed boxer-price-calculator-fixed-default">
+    <div class="final-price-box-f">
+        <span class="f-p-b">CHF 42.25 - 17.25 </span><span class="f-per-piece">(per piece)</span>
+    </div>
+    <div class="final-price-box4">4 Boxers: CHF 69.00 (17.25 per piece)</div>
+    <div class="final-price-box3">3 Boxers: CHF 63.00 (21.00 per piece)</div>
+    <div class="final-price-box2">2 Boxers: CHF 54.00 (27.00 per piece)</div>
+    <div class="product-price-save-fixed">
+        <div class="original-price-instead-of-page-detail">
+            <span class="label-instead-of-pro-detail">Instead of</span><span class="doub-dot">:</span><span class="value-instead-of-pro-detail">CHF 42.25</span>
+        </div>
+        <div class="original-price-instead-of-page-detail">
+            <span class="label-you-save-pro-detail">You save</span><span class="doub-dot">:</span><span class="value-you-save-pro-detail">CHF 100.00 - CHF 0.00 (59% - 36%)</span>
+        </div>
+    </div>
+</div>
+<div class="boxer-price-calculator-fixed boxer-price-calculator-fixed-1" style="display: none;">
+    <div class="final-price-box-f">
+        <span class="f-p-b">CHF 42.25 </span><span class="f-per-piece">(42.25/pc)</span>
+    </div>
+    <div class="product-price-save-fixed">
+        <div class="original-price-instead-of-page-detail">
+            <span class="label-instead-of-pro-detail">Instead of</span><span class="doub-dot">:</span><span class="value-instead-of-pro-detail">CHF 42.25</span>
+        </div>
+        <div class="original-price-instead-of-page-detail">
+            <span class="label-you-save-pro-detail">You save</span><span class="doub-dot">:</span><span class="value-you-save-pro-detail">CHF 0.00 (0%)</span>
+        </div>
+    </div>
+</div>
+<div class="boxer-price-calculator-fixed boxer-price-calculator-fixed-2" style="display: none;">
+    <div class="final-price-box-f">
+        <span class="f-p-b">CHF 54.00 </span><span class="f-per-piece">(27.00/pc)</span>
+    </div>
+    <div class="product-price-save-fixed">
+        <div class="original-price-instead-of-page-detail">
+            <span class="label-instead-of-pro-detail">Instead of</span><span class="doub-dot">:</span><span class="value-instead-of-pro-detail">CHF 84.50</span>
+        </div>
+        <div class="original-price-instead-of-page-detail">
+            <span class="label-you-save-pro-detail">You save</span><span class="doub-dot">:</span><span class="value-you-save-pro-detail">CHF 30.50 (36%)</span>
+        </div>
+    </div>
+</div>
+<div class="boxer-price-calculator-fixed boxer-price-calculator-fixed-3" style="display: none;">
+    <div class="final-price-box-f">
+        <span class="f-p-b">CHF 63.00 </span><span class="f-per-piece">(21.00/pc)</span>
+    </div>
+    <div class="product-price-save-fixed">
+        <div class="original-price-instead-of-page-detail">
+            <span class="label-instead-of-pro-detail">Instead of</span><span class="doub-dot">:</span><span class="value-instead-of-pro-detail">CHF 126.75</span>
+        </div>
+        <div class="original-price-instead-of-page-detail">
+            <span class="label-you-save-pro-detail">You save</span><span class="doub-dot">:</span><span class="value-you-save-pro-detail">CHF 63.75 (50%)</span>
+        </div>
+    </div>
+</div>
+<div class="boxer-price-calculator-fixed boxer-price-calculator-fixed-4" style="display: none;">
+    <div class="final-price-box-f">
+        <span class="f-p-b">CHF 69.00 </span><span class="f-per-piece">(17.25/pc)</span>
+    </div>
+    <div class="product-price-save-fixed">
+        <div class="original-price-instead-of-page-detail">
+            <span class="label-instead-of-pro-detail">Instead of</span><span class="doub-dot">:</span><span class="value-instead-of-pro-detail">CHF 169.00</span>
+        </div>
+        <div class="original-price-instead-of-page-detail">
+            <span class="label-you-save-pro-detail">You save</span><span class="doub-dot">:</span><span class="value-you-save-pro-detail">CHF 100.00 (59%)</span>
+        </div>
+    </div>
+</div>
+<?php }
+else{
+    $finalPriceModel = $_product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue();
+    if($_product->getId() == '1145'){
+        $pc_fixed = $finalPriceModel / 4;
+        $pc_original_fixed = $_product->getData('original_price') / 4;
+    ?>
+    <div class="fixed-box-functional-boxer-short-pc">
+        (<?= $pc_fixed; ?> / pc)
+    </div>
+    <script type="text/javascript">
+        require(
+            [
+                'jquery',
+                'Magento_Ui/js/modal/modal'
+            ],
+            function(
+                $,
+                modal
+            ) {
+                var fixed_pc_get = $('.product-info-main .product-info-price .product-info-top-left .price-box .price-wrapper').width();
+                $('.fixed-box-functional-boxer-short-pc').css('left', fixed_pc_get+ 'px');
+            }
+        );
+    </script>
+    <?php } ?>
+    <?php
+    if($_product->getData('original_price')){
+        $pricingHelper = $this->helper(\Magento\Framework\Pricing\Helper\Data::class);
+        $save = round(($finalPriceModel / $_product->getData('original_price')) * 100, 0);
+        $ro_configurable = $this->helper(\Rokanthemes\RokanBase\Helper\Configurablepro::class);
+        $con_price = $ro_configurable->getPriceRange($_product);
+    ?>
+    <div class="product-price-save-fixed">
+        <div class="original-price-instead-of-page-detail">
+            <span class="label-instead-of-pro-detail"><?= __('Instead of');?></span><span class="doub-dot">:</span><span class="value-instead-of-pro-detail"><?= $pricingHelper->currency($_product->getData('original_price'), true, false); ?></span>
+            <?php 
+            if($_product->getId() == '1145'){
+            ?>
+            <span class="fixed-box-functional-boxer-short-pc-original">(<?= $pc_original_fixed; ?> / pc)</span>
+            <?php } ?>
+        </div>
+        <?php 
+        if(isset($con_price['max']) && isset($con_price['min']) && $con_price['max'] > $con_price['min']){
+            $min_cu = $_product->getData('original_price') - $con_price['min'];
+            $min_pec = round(($min_cu / $_product->getData('original_price')) * 100, 0);
+            $max_cu = $_product->getData('original_price') - $con_price['max'];
+            $max_pec = round(($max_cu / $_product->getData('original_price')) * 100, 0);
+        ?>
+            <div class="original-price-instead-of-page-detail">
+                <span class="label-you-save-pro-detail"><?= __('You save');?></span><span class="doub-dot">:</span><span class="value-you-save-pro-detail"><span><?= $pricingHelper->currency($min_cu, true, false); ?> - <?= preg_replace("/[^0-9.]/", "", $pricingHelper->currency($max_cu, true, false)); ?></span><span>(<?= $min_pec.'-'.$max_pec;?>%)</span></span>
+            </div>
+        <?php }else{ ?>
+            <div class="original-price-instead-of-page-detail">
+                <span class="label-you-save-pro-detail"><?= __('You save');?></span><span class="doub-dot">:</span><span class="value-you-save-pro-detail"><?= $pricingHelper->currency(($_product->getData('original_price') - $finalPriceModel), true, false); ?> (<?= $save;?>%)</span>
+            </div>
+        <?php } ?>
+    </div>
+    <?php } ?>
+<?php } ?>

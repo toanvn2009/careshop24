@@ -1,0 +1,24 @@
+<div class="footer-container inner-page">
+	<div class="footer-top">
+		<div class="footer-newsletter"><div class="container"><?= $this->getChildHtml("subscribe"); ?></div></div>
+		<div class="container">
+			<div class="container-inner">
+				<div class="footer-static_text">
+					<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_static_text')->toHtml(); ?>
+				</div>
+				<div class="footer-short_link">
+					<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_short_link')->toHtml(); ?>
+				</div>
+			</div>
+		</div> 
+	</div>
+	<div class="footer-bottom">
+		<div class="container">
+			<div class="container-inner">
+				<div class="bottom_link">
+					<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('footer_bottom_link')->toHtml(); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

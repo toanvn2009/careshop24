@@ -1,0 +1,143 @@
+<?php 
+    $_product = $block->getProduct();
+    $class_add_to_cart = 'disable-add-to-cart-product-button';
+    if($_product->getTypeId() == 'simple'){
+        $class_add_to_cart = 'enable-add-to-cart-product-button';
+    }
+?>
+<?php $buttonTitle = __('Add to Cart'); ?>
+<?php if ($_product->isSaleable()) :?>
+<div class="box-tocart">
+    <div class="fieldset">
+        <?php if ($block->shouldRenderQuantity()) :?>
+        <div class="field qty" style="display: none;">
+            <label class="label" for="qty"><span><?= $block->escapeHtml(__('Qty')) ?></span></label>
+            <div class="control">
+                <input type="number"
+                       name="qty"
+                       id="qty"
+                       min="0"
+                       value="<?= $block->getProductDefaultQty() * 1 ?>"
+                       title="<?= $block->escapeHtmlAttr(__('Qty')) ?>"
+                       class="input-text qty"
+                       data-validate="<?= $block->escapeHtmlAttr(json_encode($block->getQuantityValidators())) ?>"
+                       />
+            </div>
+        </div>
+        <div class="parent-container-common-show-hide-fixed price"> 
+            <div class="fixed-select-qty-box box-select-common selector"><a href="#"><span><?= $block->escapeHtml(__('Qty')) ?></span><strong>1</strong></a></div>
+            <div class="show-hide-select-qty-box container-show-hide-attribute-common">
+                <ul class="select-qty-final-fixed-button">
+                    <li><a href="#" class="button-qty active">1</a></li>
+                    <li><a href="#" class="button-qty">2</a></li>
+                    <li><a href="#" class="button-qty">3</a></li>
+                    <li><a href="#" class="button-qty">4</a></li>
+                    <li><a href="#" class="button-qty">5</a></li>
+                    <li><a href="#" class="button-qty">6</a></li>
+                    <li><a href="#" class="button-qty">7</a></li>
+                    <li><a href="#" class="button-qty">8</a></li>
+                    <li><a href="#" class="button-qty">9</a></li>
+                    <li><a href="#" class="minus-system-qty-fixed"><i class="fa fa-minus"></i></a></li>
+                    <li><a href="#" class="up-and-down-qty-fixed button-qty">10</a></li>
+                    <li><a href="#" class="plus-system-qty-fixed"><i class="fa fa-plus"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <?php endif; ?>
+        <div class="parent-container-common-show-hide-fixed">
+            <div class="fixed-select-optional-box box-select-common"><a href="#"><span><?= __('Optional');?></span></a></div>
+            <div class="container-product-select-optional-box-fixed container-show-hide-attribute-common"> 
+                <?php 
+                    $pricingHelper = $this->helper(\Magento\Framework\Pricing\Helper\Data::class);
+                    $upSellProducts = $_product->getUpSellProducts(); 
+                    if (!empty($upSellProducts)) { ?>
+                        <ul>
+                    <?php
+                        foreach ($upSellProducts as $upSellProduct) { 
+                          $product_load = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getLoadProductById($upSellProduct->getEntityId());
+                        ?>
+                            <li>
+                              <div class="optional-item-list-product-fixed">
+                                  <div class="img-item-optional-list">
+                                      <img title="<?= $product_load->getName(); ?>" alt="<?= $product_load->getName(); ?>" src="<?= $this->helper('Rokanthemes\RokanBase\Helper\Data')->getUrlProductImage($product_load, 'product_base_image' ,80,80); ?>">
+                                  </div>
+    							  <div class="product-infor-right">
+    								  <div class="price-name-item-optional-list">
+    									  <div class="name-item-optional-list"><?= $product_load->getName(); ?></div>
+    									  <div class="price-item-optional-list"><?= $pricingHelper->currency($product_load->getPrice() , true, false);?></div>
+    								  </div>
+    								  <div class="qty-item-optional-list">
+    									  <div class="qty-minus"><a href="#" class="minus"><i class="fa fa-minus"></i></a></div>
+    									  <div class="qty-input"><input type="text"  name="qty_option_fixed_<?= $product_load->getId(); ?>" value="1" class="input-text-optional-qty qty-custom"></div>
+    									  <div class="qty-plus"><a href="#" class="plus"><i class="fa fa-plus"></i></a></div>
+    								  </div>
+    								  <div class="add-to-cart-item-optional-list">
+    									<button data-product-id="<?= $product_load->getId(); ?>" type="button" title="<?= $block->escapeHtml($buttonTitle) ?>" class="btn">
+    										<span><?= $block->escapeHtml($buttonTitle) ?></span>
+    									</button>
+    								  </div>
+    							</div>
+                              </div>
+                            </li>
+                        <?php 
+                        } ?>
+                        </ul>
+                        <?php 
+                    }else{
+                ?>
+                <div class="not-available-optional-item-list-product">
+                    <p><?= __('Not Available'); ?></p>
+                </div>
+            <?php } ?>
+            </div>
+        </div>
+        <div class="actions">
+            <button type="submit"
+                    title="<?= $block->escapeHtmlAttr($buttonTitle) ?>"
+                    class="action primary tocart <?= $class_add_to_cart; ?>"
+                    id="product-addtocart-button" disabled>
+                <span><?= $block->escapeHtml($buttonTitle) ?></span>
+            </button>
+            <a href="#"
+                title="<?= $block->escapeHtml(__('Test this product')) ?>"
+                class="action more test-it-now"><?= $block->escapeHtml(__('Test this product')) ?>
+            </a>
+            <?= $block->getChildHtml('', true) ?>
+        </div>
+    </div>
+</div>
+<?php endif; ?>
+<script type="text/x-magento-init">
+    {
+        "#product_addtocart_form": {
+            "Magento_Catalog/js/validate-product": {}
+        }
+    }
+</script>
+<script type="text/javascript">
+    require([
+        'jquery',
+        "mage/url",
+        'mage/adminhtml/wysiwyg/tiny_mce/setup'
+    ], function($,urlBuilder){
+        $(document).ready(function() {
+            var url = BASE_URL +'communitytester/tester/customer/';
+            $(".test-it-now").click(function(){
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    showLoader: true, 
+                    data: {
+                        product_id: "<?= $_product->getId() ?>"
+                    },
+                    success: function(response) {
+                    },
+                    error: function (xhr, status, errorThrown) {
+                    }
+                });
+                return false;
+            });
+        });
+    });
+</script>

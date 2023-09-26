@@ -1,0 +1,45 @@
+<?php if ($this->helper(\Magento\Wishlist\Helper\Data::class)->isAllow()) : ?>
+    <?= ($block->getChildHtml('wishlist.rss.link')) ?>
+	<div class="block-content">
+		<div class="block-action">
+			<a href="#" class="action wishlist active btn grey">
+				<span><?= $block->escapeHtml(__('Wishlist')) ?></span>
+			</a>
+			<a href="#" class="action voucher btn darken">
+				<span><?= $block->escapeHtml(__('Voucher')) ?></span>
+			</a>
+		</div>
+		<form class="form-wishlist-items" id="wishlist-view-form"
+			  data-mage-init='{"wishlist":{
+			  "addToCartUrl":<?= /* @noEscape */ $block->getItemAddToCartParams("%item%") ?>,
+			  "addAllToCartUrl":<?= /* @noEscape */ $block->getAddAllToCartParams() ?>,
+			  "commentString":""},
+			  "validation": {}}' action="<?= $block->escapeUrl($block->getUrl('wishlist/index/update', ['wishlist_id' => $block->getWishlistInstance()->getId()])) ?>" method="post">
+			<?= $block->getChildHtml('top') ?>
+			<?php if ($block->hasWishlistItems()) : ?>
+				<?= $block->getBlockHtml('formkey') ?>
+				<?php $block->getChildBlock('items')->setItems($block->getWishlistItems()); ?>
+				<?= $block->getChildHtml('items') ?>
+			<?php else : ?>
+				<div class="message info empty"><span><?= $block->escapeHtml(__('You have no items in your wish list.')) ?></span></div>
+			<?php endif ?>
+			<?= $block->getChildHtml('bottom') ?>
+		</form>
+	</div>
+    <script id="form-tmpl" type="text/x-magento-template">
+      <form id="wishlist-hidden-form" method="post" action="<%- data.url %>" class="no-display">
+          <% if (data.qty) { %>
+          <input name="qty" value="<%- data.qty %>">
+          <% } %>
+          
+          <% if (data.item) { %>
+          <input name="item" value="<%- data.item %>">
+          <% } %>
+          
+          <% if (data.entity) { %>
+          <input name="entity" value="<%- data.entity %>">
+          <% } %>
+      </form>
+    </script>
+    <div class="toolbar wishlist-toolbar"><br><?= $block->getChildHtml('wishlist_item_pager'); ?></div>
+<?php endif ?>

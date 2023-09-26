@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Sm. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Backend/etc/menu.xsd">
+    <menu>
+        <add id="Rokanthemes_ReturnsWarranty::warranty" title="Warranty" translate="title" module="Rokanthemes_ReturnsWarranty" sortOrder="100" parent="Magento_Sales::sales" action="returnswarranty/warranty/" resource="Rokanthemes_ReturnsWarranty::warranty"/>
+    </menu>
+</config>

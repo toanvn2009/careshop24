@@ -1,0 +1,19 @@
+<?php
+$url = $block->getReviewsUrl() . '#reviews';
+$urlForm = $block->getReviewsUrl() . '#review-form';
+?>
+    <?php $rating = $block->getRatingSummary(); ?>
+    <div class="product-reviews-summary short<?= !$rating ? ' no-rating' : '' ?>">
+        <?php if ($rating) :?>
+        <div class="rating-summary">
+            <span class="label"><span><?= $block->escapeHtml(__('Rating')) ?>:</span></span>
+            <div class="rating-result" title="<?= $block->escapeHtmlAttr($rating) ?>%">
+                <span style="width:<?= $block->escapeHtmlAttr($rating) ?>%"><span><?= $block->escapeHtml($rating) ?>%</span></span>
+            </div>
+        </div>
+        <?php endif;?>
+        <div class="reviews-actions">
+            <a class="action view" href="<?= $block->escapeUrl($url) ?>">(<?= $block->escapeHtml($block->getReviewsCount()) ?>)</a>
+        </div>
+    </div>
+

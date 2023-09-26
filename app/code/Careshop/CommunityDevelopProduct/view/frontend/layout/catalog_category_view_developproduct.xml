@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<body>
+        <referenceContainer name="columns.top">
+            <block class="Careshop\CommunityIdea\Block\Product\Developer" name="community.product.developer" template="Careshop_CommunityDevelopProduct::list_tab.phtml" />
+        </referenceContainer>
+        <referenceBlock name="category.products.list"> 
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Careshop_CommunityDevelopProduct::community/develop_product/list.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="breadcrumbs"> 
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Careshop_CommunityDevelopProduct::community/develop_product/breadcrumbs.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="category.products.list">
+            <block class="Magento\Catalog\Block\Product\ProductList\Item\Container" name="custom.block.container" as="custom-block-container">
+                <block class="Careshop\CommunityDevelopProduct\Block\Product\ProductList" name="custom.block" as="custom-block" template="Careshop_CommunityDevelopProduct::community/develop_product/custom_block.phtml">
+                    <arguments>
+                        <argument name="view_model" xsi:type="object">Careshop\CommunityDevelopProduct\ViewModel\Catalog</argument>
+                    </arguments> 
+                </block>
+            </block>
+        </referenceBlock>
+	</body>
+</page>

@@ -1,0 +1,19 @@
+<!--@subject {{trans "Careshop - Confirm your email address"}}  @-->
+{{template config_path="design/email/header_template"}}
+<table width="100%">
+    <tr class="email-intro" style="font-family: Roboto; font-size: 21.5px;">
+        <td>
+            <p>
+                <p style="margin-bottom: 20px;"><b>{{trans "Hello : %customer_name" customer_name=$customer_name}}</b></p>
+                </br>
+                <p style="margin-bottom: 20px;">{{trans "The security of your account is very important for us. We would like to inform you that your email address on Careshop has been changed to %email_change and make sure that it was you." email_change=$email_change}}</p>
+                </br>
+                <p>{{trans "If you did not make this change yourself and no longer have access to your account, we recommend that you contact Customer Service immediately."}}</p>
+                </br>
+                <p>{{trans "Kind regards"}}</p>
+                <p>{{trans "Careshop"}}</p>
+            </p>
+        </td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

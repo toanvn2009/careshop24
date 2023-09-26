@@ -1,0 +1,195 @@
+<?= $block->getChildHtml('community.tabs.list'); ?>
+<div id="list_idea">
+<?php 
+    $collections = $block->getIdeaCollection();
+    $route =  $block->getRoute();
+    $setting_url = $block->getUrl('community/customer/account'); 
+    $categories_array = $block->getCategoriesTree();
+    $categories_array1 = $categories_array[1]['optgroup'][0]['optgroup'];
+    $members = $block->getAllAuthor(); 
+?>
+<div class="message_option">
+    <div id="new_message"><a href="<?= ( $block->isLogin()) ? $block->getUrl('community/idea/create') : $block->getUrl('customer/account/login'); ?>"><button><?= $block->escapeHtml(__('New Message') ); ?></button></a></div>
+    <?php if($collections->count()){ ?>
+    <div class="idea_option">
+        <select name="idea_option">
+            <option  value="0"><?= $block->escapeHtml(__('Option') ); ?></option>
+            <option  value="1"><?= $block->escapeHtml(__('Float the element up') ); ?></option>
+            <option  value="2"><?= $block->escapeHtml(__('Subscribe') ); ?></option>
+            <option  value="3"><?= $block->escapeHtml(__('Bookmart') ); ?></option>
+            <option  value="4"><a href=""><?= $block->escapeHtml(__('Edit My Settings') ); ?></a></option>
+        </select>
+    </div>
+    <div class="category_option">
+        <select name="category_option">
+            <option  value="0"><?= $block->escapeHtml(__('All Categories') ); ?></option>
+            <?php    
+                foreach($categories_array1 as $category){
+                ?>
+                <option  class="parent" value="<?= $category['value'];?>"><?= $category['label'];?></option>
+                <?php  
+                if($category['optgroup']){
+                    $child_category = $category['optgroup'];
+                    foreach($child_category as $category1){
+                        ?> 
+                        <option  value="<?= $category1['value'];?>"><?= $category1['label'];?></option>
+                        <?php 
+                    }
+                }
+                ?>   
+                <?php 
+                }
+            ?>
+        </select>
+    </div>
+    <div class="member_option">
+        <select name="member_option">
+          <option  value="0"><?= $block->escapeHtml(__('All Commnunity members') ); ?></option>
+          <?php 
+            foreach($members  as $member)
+            {
+              $author = $block->getAuthorByCustomerId($member->getCustomerId());
+              ?>
+               <option  value="<?= $member->getCustomerId(); ?>"><?= $member->getName(); ?></option>
+              <?php 
+            }
+          ?>
+        </select>
+    </div>
+    <div class="sortby_option">
+        <select name="sortby_option">
+          <option  value="0"><?= $block->escapeHtml(__('Sort by') ); ?></option>
+          <option  value="2"><?= $block->escapeHtml(__('Most Recent') ); ?></option>
+          <option  value="3"><?= $block->escapeHtml(__('Most Likes') ); ?></option>
+          <option  value="4"><?= $block->escapeHtml(__('Most Comments') ); ?></option>
+          <option  value="5"><?= $block->escapeHtml(__('Most Views') ); ?></option>
+          <option  value="6"><?= $block->escapeHtml(__('My Favorite') ); ?></option>
+        </select>
+    </div>
+    <?php } ?>
+</div>
+<?php if($collections->count()){ ?>
+<div class="page_next_previous">
+    <div class="next_previous">
+        <a href="#"><span><?= $block->escapeHtml(__('<< Message List') ); ?></span></a>
+        <a href="#"><span><?= $block->escapeHtml(__('<< Previous Topic') ); ?></span></a>
+        <a href="#"><span><?= $block->escapeHtml(__('<< Next Topic') ); ?></span></a>
+    </div>
+    <div class="page_list">
+        <?php if ($block->getPagerHtml()): ?>
+            <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+        <?php endif ?>
+    </div>
+</div>
+<?php } ?>
+<div class="table-wrappers">
+    <table>
+        <tr class="heading">
+            <th></th>
+            <th><?= $block->escapeHtml(__('Subject') ); ?></th>
+            <th><?= $block->escapeHtml(__('Reply') ); ?></th>
+            <th><?= $block->escapeHtml(__('New') ); ?></th>
+            <th><?= $block->escapeHtml(__('Author') ); ?></th>
+            <th><?= $block->escapeHtml(__('Like') ); ?></th>
+            <th><?= $block->escapeHtml(__('Views') ); ?></th>
+            <th><?= $block->escapeHtml(__('Newest post') ); ?></th>
+        </tr>
+        <?php if($collections->count()){
+            foreach($collections as $idea){
+                $author = $block->getAuthorByIdea($idea);
+                $view_idea = $block->getIdeaUrl($idea->getIdeaId());
+                $topic = $block->getPostByIdea($idea->getIdeaId());
+                $authorByCustomer = $block->getAuthorByCustomerId($topic->getCustomerId()); 
+                $number_post = $block->getNumberPostByIdea($idea->getId());
+                $reply_idea = $block->getCommentInIdea($idea);
+                $startdate = date('Y-m-d H:i:s');
+                $enddate =$idea->getCreatedAt();
+                $current_date_1 = $block ->convertTimeFromDate($startdate, $enddate);
+                ?>
+                <tr>
+                    <td>
+                        <span class="staus_idea_<?= ($idea->getStatusIdea()) ? $idea->getStatusIdea() : ''?> "><i class="fa fa-lightbulb-o"></i></span>
+                    </td>
+                    <td class="idea_name">
+                        <a href="<?= $block->escapeUrl($view_idea) ?>"><?= ($idea->getName()) ? $idea->getName() : '' ?></a>
+                    </td>
+                    <td><?= ($reply_idea) ? $reply_idea : 0 ?></td>
+                    <td><?= ($number_post) ?$number_post : 0  ?></td>
+                    <td><a href="<?= $block->getAuthorUrl( $author->getId()) ?>"><?= $author->getName() ?></a></td>
+                    <td><?= $block->getAllIdeaLikes($idea->getId()) ? $block->getAllIdeaLikes($idea->getId()) : 0; ?></td>
+                    <td><?= ($idea->getViews()) ? $idea->getViews() : 0 ?></td>
+                    <td>
+                    <div> <?= ( $current_date_1 ) ?  $current_date_1: '' ?></div>                  
+                    </td>
+                </tr>  
+                <?php
+            }    
+        } ?>
+  </table>
+</div>
+<?php if($collections->count()){ ?>
+<div class="page_next_previous">
+    <div class="next_previous">
+            <a href="#"><span><?= $block->escapeHtml(__('<< Message List') ); ?></span></a>
+            <a href="#"><span><?= $block->escapeHtml(__('<< Previous Topic') ); ?></span></a>
+            <a href="#"><span><?= $block->escapeHtml(__('<< Next Topic') ); ?></span></a>
+        </div>
+        <div class="page_list">
+            <?php if ($block->getPagerHtml()): ?>
+                        <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+            <?php endif ?>
+        </div>
+    </div>
+</div>
+<?php } ?>
+<script type="text/javascript">
+    require([
+        'jquery'
+    ], function($){
+        $('.idea_option select').click(function(){
+            var option = $(this).val();
+            var seting_url = "<?= $setting_url ?>";
+            if(option == 4) {
+                window.location.href= seting_url;
+            }
+        });
+    });
+</script>
+<style>
+#maincontent td { text-align:center;}
+.admin__action-multiselect-actions-wrap .action-default{display:none;}
+.report_post {color:red;}
+.like {color:blue;}
+#list_idea table {width:100%;}
+.staus_idea_1 .fa-lightbulb-o {color:orange;}
+.staus_idea_2 .fa-lightbulb-o {color:black;}
+.staus_idea_3 .fa-lightbulb-o {color:green;}
+.message_option { display:flex;}
+.message_option select { margin-left:45px;}
+.heading {background:#008080; color:#fff;}
+.inactive button{background:#000;}
+option.parent {
+    font-weight: bold;
+}
+.page-title-wrapper {display:none;}
+td.idea_name {
+    text-align: left !important;
+    width: 300PX;
+}
+.most_comment { text-align:right;}
+.community-idea-index .toolbar-amount { display:none; }
+.community-idea-index .limiter { display:none; }
+.community-idea-index .pages { margin-top:0;}
+.community-idea-index .pager { float:right;}
+.page_next_previous {
+    margin-top: 25px;
+}
+.next_previous {
+    float: left;
+}
+#new_message_form textarea {width:800px;height:200px;}
+.idea_desc { font-weight:bold;}
+p.idea_title {
+  margin-top:25px;
+}
+</style>

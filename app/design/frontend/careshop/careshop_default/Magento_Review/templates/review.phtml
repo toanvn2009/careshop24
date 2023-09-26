@@ -1,0 +1,134 @@
+<?php
+	$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+	$storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
+	$currentStoreId = $storeManager->getStore()->getId();
+	$rating = $objectManager->get("Magento\Review\Model\ResourceModel\Review\CollectionFactory");
+	$_collection = $rating->create()->addStoreFilter(
+		$currentStoreId
+	)->addStatusFilter(
+		\Magento\Review\Model\Review::STATUS_APPROVED
+	)->addEntityFilter(
+		'product',
+		$block->getProductId()
+	)->setDateOrder();
+	$_collection->load()->addRateVotes();
+	$rate_5 = 0;
+	$rate_4 = 0;
+	$rate_3 = 0;
+	$rate_2 = 0;
+	$rate_1 = 0;
+	foreach ($_collection as $_review) {
+		$rating_summary = 0;
+		foreach ($_review->getRatingVotes() as $_vote){
+			$rating_summary += $_vote->getPercent(); 
+		}
+		if ($rating_summary > 0) {
+			$rating_summary = ($rating_summary/count($_review->getRatingVotes()))/20;
+		}
+		if ($rating_summary == 0){
+			continue;
+		} else if ($rating_summary <= 1){
+			$rate_1++;
+		} else if ($rating_summary <= 2) {
+			$rate_2++;
+		} else if ($rating_summary <= 3) {
+			$rate_3++;
+		} else if ($rating_summary <= 4) {
+			$rate_4++;
+		} else {
+			$rate_5++;
+		}
+	}
+?>
+<div class="container-product-review-on-product">
+	<div id="product-review-container" data-role="product-review">
+		<div class="block-list">
+			<div class="list-rate-filter">
+				<div class="review-ratings rate_5">
+					<span class="ui-checkbox__box"></span>
+					<input type="checkbox" name="rate" value="5">
+					<div class="rating-summary item" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating">
+						<div class="rating-result" title="100%">
+							<meta itemprop="worstRating" content="1">
+							<meta itemprop="bestRating" content="100">
+							<span style="width:100%">
+								<span itemprop="ratingValue">100%</span>
+							</span>
+						</div>
+					</div>
+					<div class="ow-filters__rating-item_count"><?= $rate_5 ?></div>
+				</div>
+				<div class="review-ratings rate_4">
+					<span class="ui-checkbox__box"></span>
+					<input type="checkbox" name="rate" value="4">			  
+					<div class="rating-summary item" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating">
+						<div class="rating-result" title="100%">
+							<meta itemprop="worstRating" content="1">
+							<meta itemprop="bestRating" content="100">
+							<span style="width:100%">
+								<span itemprop="ratingValue">100%</span>
+							</span>
+						</div>
+					</div>
+					<div class="ow-filters__rating-item_count"><?= $rate_4 ?></div>
+				</div>
+				<div class="review-ratings rate_3">
+					<span class="ui-checkbox__box"></span>
+					<input type="checkbox" name="rate" value="3">			  
+					<div class="rating-summary item" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating">
+						<div class="rating-result" title="100%">
+							<meta itemprop="worstRating" content="1">
+							<meta itemprop="bestRating" content="100">
+							<span style="width:100%">
+								<span itemprop="ratingValue">100%</span>
+							</span>
+						</div>
+					</div>
+					<div class="ow-filters__rating-item_count"><?= $rate_3 ?></div>
+				</div>
+				<div class="review-ratings rate_2">
+					<span class="ui-checkbox__box"></span>
+					<input type="checkbox" name="rate" value="2">
+					<div class="rating-summary item" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating">
+						<div class="rating-result" title="100%">
+							<meta itemprop="worstRating" content="1">
+							<meta itemprop="bestRating" content="100">
+							<span style="width:100%">
+								<span itemprop="ratingValue">100%</span>
+							</span>
+						</div>
+					</div>
+					<div class="ow-filters__rating-item_count"><?= $rate_2 ?></div>
+				</div>
+				<div class="review-ratings rate_1">		
+					<span class="ui-checkbox__box"></span>
+					<input type="checkbox" name="rate" value="1">			  
+					<div class="rating-summary item" itemprop="reviewRating" itemscope="" itemtype="http://schema.org/Rating">
+						<div class="rating-result" title="100%">
+							<meta itemprop="worstRating" content="1">
+							<meta itemprop="bestRating" content="100">
+							<span style="width:100%">
+								<span itemprop="ratingValue">100%</span>
+							</span>
+						</div>
+					</div>
+					<div class="ow-filters__rating-item_count"><?= $rate_1 ?></div>
+				</div>
+			</div>
+			<div class="block-list-data block-review-list active">
+			</div>
+		</div>
+	</div>
+</div>
+<?= $block->getChildHtml() ?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Review/js/process-reviews": { 
+                "productReviewUrl": "<?= $block->escapeJs($block->getProductReviewUrl()) ?>",
+				"productId": "<?= $block->getProductId() ?>",
+                "reviewsTabSelector": "#tab-label-reviews"
+            }
+        }
+    }
+</script>

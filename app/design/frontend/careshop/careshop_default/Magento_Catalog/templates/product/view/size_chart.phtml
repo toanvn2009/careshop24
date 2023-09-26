@@ -1,0 +1,46 @@
+<?php
+$_product = $block->getProduct();
+?>
+<div class="product-size-chart-container-fixed">
+	<a href="#"><?= __('Size Chart');?></a>
+	<div id="id-product-pupup-size-chart" style="display:none;" class="container-product-pupup-size-chart">
+		<h4><?= __('Size Chart');?></h4>
+		<div class="fixed-content-pupup-size-chart">
+			<?= $this->helper('Magento\Catalog\Helper\Output')->productAttribute($_product, $_product->getSizeChart(), 'size-chart'); ?>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                modalClass: 'see-detail-modal-pupup-size-chart',
+                title: '',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+
+            var popup_size = modal(options, $('#id-product-pupup-size-chart'));
+            $(".product-size-chart-container-fixed a").on('click',function(){ 
+                $("#id-product-pupup-size-chart").modal("openModal");
+                return false;
+            });
+
+        }
+    );
+</script>

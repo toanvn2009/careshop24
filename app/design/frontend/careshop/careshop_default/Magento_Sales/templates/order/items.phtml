@@ -1,0 +1,85 @@
+<?php
+$params_url = $block->getRequest()->getParams(); 
+?>
+<div class="table-wrapper order-items">
+    <div class="order-items" id="my-orders-table" summary="<?= $block->escapeHtmlAttr(__('Items Ordered')) ?>">
+        <?php $items = $block->getItems(); ?>
+        <?php $giftMessage = ''?>
+        <?php foreach ($items as $item) :
+			$id_item = $item->getId();
+			$data_query = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getSalesOrderItemByItemId($id_item);
+			if(isset($data_query['item_id'])){
+				$id_item = $data_query['item_id'];
+			}
+			$data_query_rm = $this->helper('Rokanthemes\RokanBase\Helper\Data')->getAmastyRmaRequestItem($id_item);
+            if ($item->getParentItem()) :
+                continue;
+            endif;
+			if(isset($params_url['status']) && $params_url['status'] == 'returned' && !$data_query_rm){
+				continue;
+			}
+            ?>
+            <div class="item">
+                <?= $block->getItemHtml($item) ?>
+                <?php if ($this->helper(\Magento\GiftMessage\Helper\Message::class)->isMessagesAllowed('order_item', $item) && $item->getGiftMessageId()) : ?>
+                    <?php $giftMessage = $this->helper(\Magento\GiftMessage\Helper\Message::class)->getGiftMessageForEntity($item); ?>
+                    <div>
+                        <div class="col options">
+                            <a href="#"
+                               id="order-item-gift-message-link-<?= (int) $item->getId() ?>"
+                               class="action show"
+                               aria-controls="order-item-gift-message-<?= (int) $item->getId() ?>"
+                               data-item-id="<?= (int) $item->getId() ?>">
+                                <?= $block->escapeHtml(__('Gift Message')) ?>
+                            </a>
+                            <?php $giftMessage = $this->helper(\Magento\GiftMessage\Helper\Message::class)->getGiftMessageForEntity($item); ?>
+                            <div class="order-gift-message" id="order-item-gift-message-<?= (int) $item->getId() ?>" role="region" aria-expanded="false" tabindex="-1">
+                                <a href="#"
+                                   title="<?= $block->escapeHtmlAttr(__('Close')) ?>"
+                                   aria-controls="order-item-gift-message-<?= (int) $item->getId() ?>"
+                                   data-item-id="<?= (int) $item->getId() ?>"
+                                   class="action close">
+                                    <?= $block->escapeHtml(__('Close')) ?>
+                                </a>
+                                <dl class="item-options">
+                                    <dt class="item-sender"><strong class="label"><?= $block->escapeHtml(__('From')) ?></strong><?= $block->escapeHtml($giftMessage->getSender()) ?></dt>
+                                    <dt class="item-recipient"><strong class="label"><?= $block->escapeHtml(__('To')) ?></strong><?= $block->escapeHtml($giftMessage->getRecipient()) ?></dt>
+                                    <dd class="item-message"><?= /* @noEscape */ $this->helper(\Magento\GiftMessage\Helper\Message::class)->getEscapedGiftMessage($item) ?></dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif ?>
+            </div>
+        <?php endforeach; ?>
+    </div>
+</div>
+</div>
+</div>
+<?php if(isset($params_url['status'])){ ?>
+	<?php if($params_url['status'] != 'returned'){ ?>
+	<div class="total-summary-order">
+		<div class="total-summarys">
+			<div class="total-summary">
+				<?= $block->getChildHtml('order_totals') ?>
+			</div>
+	<?php }else{ ?>
+		<div>
+			<div>
+	<?php } ?>
+<?php }else{ ?>
+	<div class="total-summary-order">
+		<div class="total-summarys">
+			<div class="total-summary">
+				<?= $block->getChildHtml('order_totals') ?>
+			</div>
+<?php } ?>
+<?php if ($giftMessage) : ?>
+<script type="text/x-magento-init">
+    {
+        "a.action.show, a.action.close": {
+            "giftMessage": {}
+        }
+    }
+</script>
+<?php endif; ?>

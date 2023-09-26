@@ -1,0 +1,11 @@
+<?php
+$_product = $block->getProduct();
+$videos = $this->helper('Magento\Catalog\Helper\Output')->productAttribute($_product, $_product->getVideos(), 'videos');
+?>
+<div class="container-product-tab-gif-video">
+	<?php if ($videos) { ?>
+		<?= $videos ?>
+	<?php } else { ?>
+		<?= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('no-content-gif-360-video')->toHtml(); ?>
+	<?php } ?>
+</div>

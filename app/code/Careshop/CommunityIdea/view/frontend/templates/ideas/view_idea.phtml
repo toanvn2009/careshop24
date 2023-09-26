@@ -1,0 +1,476 @@
+<?php 
+    $idea = $block->getIdea();
+    $reply = $block->getUrl('community/idea/reply',['id' => $idea->getIdeaId()]);
+    $login = $block->getUrl('customer/account/login');
+    $report_url = ( $block->isLogin()) ? $block->getUrl('community/forum/report') : $block->getUrl('customer/account/login');
+    $topics = $block->getTopics($idea->getIdeaId());
+    $media_url = $block->getMediaUrl();
+    $avatar = "";
+    $add_comment_url = $block->getUrl('community/topic/comment'); 
+    $share_idea_url = $block->getUrl('community/idea'); 
+    $view_model = $block->getViewModel();
+?>
+<?= $block->getChildHtml('community.tabs.list'); ?> 
+<div id="community_view_idea">
+    <?php if($topics->count() ) : ?>
+    <div class="page_next_previous">
+        <?php if ($block->getPagerHtml()): ?>
+        <div class="next_previous">
+            <a href="#"><span><?= $block->escapeHtml(__('<< Message List') ); ?></span></a>
+            <a href="#"><span><?= $block->escapeHtml(__('<< Previous Topic') ); ?></span></a>
+            <a href="#"><span><?= $block->escapeHtml(__('<< Next Topic') ); ?></span></a>
+        </div>
+        <?php endif; ?>  
+        <div class="page_list">
+            <?php if ($block->getPagerHtml()): ?>
+                <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+            <?php endif ?>
+        </div>
+    </div>
+    <?php endif; ?>
+    <div id="idea_topics">
+        <div class="idea_topics">
+            <?php
+                $customer_id = $idea->getCustomerId();
+                if($customer_id >0 ) {
+                    $profile = $block->getCustomerProfile($customer_id);
+                    $avatar = $media_url.$profile->getAvatar();
+                }
+                $author = $block->getAuthorByCustomerId($customer_id);
+            ?>
+            <div class="idea_topics_flex">
+                <div class="left">
+                    <h2 class="author_name custom"><?= $author->getName(); ?></h2>
+                    <div class="avatar"><img src="<?= $block->escapeHtmlAttr($avatar) ?>" alt="image" /></div>
+                    <div class="number_post"><?= $block->escapeHtml(__('Post: ') ); ?> <?= $block->getCommentinTopic($customer_id); ?></div>
+                </div>
+                <div class="right">
+                    <h2 class="idea_name"><?= ($idea->getName()) ? $idea->getName() : '' ?></h2>
+                    <div class="date"><?= ($idea->getCreatedAt()) ? $block->getDateFormat($idea->getCreatedAt()) : '' ?></div>
+                    <div class="message"><?= ($idea->getPostContent()) ? $idea->getPostContent() : '' ?></div>
+                </div>
+                <script type="application/json" class="commentTopic">
+                    [{ "name":"<?= $idea->getName(); ?>","Description":<?= ($idea->getPostContent()) ? json_encode($idea->getPostContent()) : ''; ?> }]
+                </script>
+            </div>
+            <div class="action-content">
+                <div class="translate">
+                    <span class="icon-translate"></span>
+                    <?= $block->escapeHtml(__('Translate') ); ?>
+                </div>
+                <div class="action">
+                    <div class="action-forum">
+                        <div class="action-left">
+                            <div class="report_post"><a href="<?= $report_url; ?>"><?= $block->escapeHtml(__('Report Post') ); ?> </a></div>
+                        </div>
+                        <div class="action-right">
+                            <div class="share_reply">
+                                <div class="share">
+                                    <i class="fa fa-share-alt"></i>
+                                    <div class="addthis_inline_share_toolbox" style="display:none;"></div>
+                                </div>
+                                <div class="number_like">
+                                    <?php if ($idea->getLikes() > 0) { ?>
+                                    <span><?= $idea->getLikes() ?></span>
+                                    <?php } ?>
+                                    <?= ($idea->getLikes() > 1) ? $block->escapeHtml(__(' Likes') ) : $block->escapeHtml(__(' Like') ) ?>
+                                </div>
+                                <?php if ( $block->isLogin()) : ?>
+                                <div class="like_idea" data-idea_id ="<?= $idea->getId(); ?>"><i class="fa fa-thumbs-up"></i></div>
+                                <?php endif; ?>
+                                <div class="reply_message"><a href="<?= ( $block->isLogin()) ? $block->getUrl('community/idea/reply',['id' => 1]) : $block->getUrl('customer/account/login'); ?>"><button><?= $block->escapeHtml(__('Reply') ) ?></button></a></div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <?php 
+            foreach($topics as $topic) {
+                $idea_topic = $topic->getIdeaId();
+                $idea_data = $block->getIdeaById($idea_topic);
+                $customer_id = $topic->getCustomerId();
+                if($customer_id >0 ) {
+                    $profile = $block->getCustomerProfile($customer_id);
+                    $avatar = $media_url.$profile->getAvatar();
+                }
+                $author = $block->getAuthorByCustomerId($customer_id);
+                $commentIdea  = $block->getCommentByIdea($idea, $topic);  
+                $likeIdea = $block->getIdeaLikeFromTopic($topic->getId());
+        ?>
+        <div id="<?= $topic->getIdentifier() ?>" class="idea_topics">
+            <div class="idea_topics_flex">
+                <div class="left">
+                    <h2 class="author_name custom"><?= $author->getName(); ?></h2>
+                    <div class="avatar"><img src="<?= $block->escapeHtmlAttr($avatar) ?>" alt="image" /></div>
+                    <div class="number_post"><?= $block->escapeHtml(__('Post: ') ); ?> <?= $block->getCommentinTopic($customer_id); ?></div>
+                </div>
+                <div class="right">
+                    <h2 class="idea_name"><?= __('Subject:') ?> <?= $idea->getName(); ?></h2>
+                    <div class="date"><?= ($topic->getCreatedAt()) ? $block->getDateFormat($topic->getCreatedAt()) : '' ?></div>
+                    <div class="message"><?= ($topic->getDescription()) ? $topic->getDescription() : '' ?></div>
+                    <script type="application/json" class="commentTopic">
+                        [{ "name":"<?= $idea->getName(); ?>","Description":<?= ($topic->getDescription()) ? json_encode($topic->getDescription()) : ''; ?> }]
+                    </script>
+                </div>  
+            </div>
+            <div class="action-content">
+                <div class="translate">
+                    <span class="icon-translate"></span>
+                    <?= $block->escapeHtml(__('Translate') ); ?>
+                </div>
+                <div class="action">
+                    <div class="action-forum">
+                        <div class="action-left">
+                            <div class="report_post"><a href="<?= $report_url; ?>"><?= $block->escapeHtml(__('Report Post') ); ?> </a></div>
+                        </div>
+                        <div class="action-right">
+                            <div class="share_reply">
+                                <div class="share">
+                                    <i class="fa fa-share-alt"></i>
+                                    <div class="addthis_inline_share_toolbox" style="display:none;"></div>
+                                </div>
+                                <div class="number_like">
+                                    <span><?= $likeIdea; ?></span>
+                                    <?= ($likeIdea > 1) ? $block->escapeHtml(__(' Likes') ) : $block->escapeHtml(__(' Like') ) ?>
+                                </div>
+                                <?php if ( $block->isLogin()) : ?>
+                                <div class="like_idea" data-idea_id ="<?= $idea->getId(); ?>"  data-topic_id ="<?= $topic->getId(); ?>"><i class="fa fa-thumbs-up"></i></div>
+                                <?php endif; ?>
+                                <div class="reply_message"><a href="<?= ( $block->isLogin()) ? $block->getUrl('community/idea/reply',['id' => $idea->getIdeaId(), 'parent' => $topic->getIdentifier()]) : $block->getUrl('customer/account/login'); ?>"><button><?= $block->escapeHtml(__('Reply') ) ?></button></a></div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php if( $topic->getParent() ) { ?>
+            <?php
+                $topic_parent = $block->getTopicParentById($topic->getParent());
+                $customer_parent_id = $topic_parent->getCustomerId();
+                $profile_parent = $block->getCustomerProfile($customer_parent_id);
+                $avatar_parent = $media_url.$profile->getAvatar();
+                $author_parent = $block->getAuthorByCustomerId($customer_parent_id);
+            ?>
+            <div class="comment_topic">
+                <h2><?= __('Antworten') ?></h2>
+                <div class="msg_topic_comment" data-id="<?= $topic->getIdentifier() ?>">
+                    <div class="avatar">
+                        <h3 class="author_name custom"><?= $author->getName(); ?></h3>
+                        <img width="50px" src="<?= $block->escapeHtmlAttr( $media_url.$profile_parent->getAvatar()) ?>" alt="image" />
+                    </div>
+                    <div class="content_comment">
+                        <div><i><?= ($author_parent->getCreatedAt()) ? $block->getDateFormat($author_parent->getCreatedAt()) : ''; ?></i></div>
+                        <div><?= ($topic_parent->getDescription()) ? $topic_parent->getDescription() : ''; ?></div>    
+                    </div>
+                </div>    
+            </div>
+            <?php } ?>
+        </div>
+        <hr>
+        <?php } ?> 
+    </div>
+    <?php if($topics->count() ) : ?>
+    <div class="page_next_previous">
+        <div class="next_previous">
+            <a href="#"><span><?= $block->escapeHtml(__('<< Message List') ); ?></span></a>
+            <a href="#"><span><?= $block->escapeHtml(__('<< Previous Topic') ); ?></span></a>
+            <a href="#"><span><?= $block->escapeHtml(__('<< Next Topic') ); ?></span></a>
+        </div>
+        <div class="page_list">
+            <?php if ($block->getPagerHtml()): ?>
+                <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+            <?php endif ?>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>
+
+<script type="text/javascript">
+require(["jquery", "mage/url", "mage/validation"],function($, urlBuilder) {
+    $(document).ready(function() {
+        $(".like").click(function(){
+            var comment_id = $(this).data('comment_id');
+            var entity_id = $(this).data('entity_id');
+            var url = urlBuilder.build('community/forum/like/');
+            var _self = $(this);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                showLoader: true, 
+                data: {
+                    comment_id: comment_id,
+                    entity_id: entity_id   
+                },
+                success: function(response) {
+                    _self.parent().find('.number_like span.comment').html(response.like_comment);
+                },
+                error: function (xhr, status, errorThrown) {
+                }
+            });
+        });
+        $(".like_idea").click(function(){
+            var topic_id = $(this).data('topic_id');
+            var idea_id = $(this).data('idea_id');
+            var url = urlBuilder.build('community/forum/like/');    
+            var _self = $(this);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                showLoader: true, 
+                data: {
+                    topic_id: topic_id,
+                    idea_id: idea_id   
+                },
+                success: function(response) {
+                    _self.parent().find('.number_like span').html(response.like_idea);
+                },
+                error: function (xhr, status, errorThrown) {
+                }
+            });
+        });
+        $(".translate").click(function(){
+            var url_translate = "https://translation.googleapis.com/language/translate/v2?key=AIzaSyD4NiHHwE1YXUrBKSoeb1XdDQFK0oGQx18";
+            var url_detecting_translate = "https://translation.googleapis.com/language/translate/v2/detect?key=AIzaSyD4NiHHwE1YXUrBKSoeb1XdDQFK0oGQx18";
+            var name = $(this).closest('.idea_topics').find('.idea_name').text();
+            var message = $(this).closest('.idea_topics').find('.message').html().replace(/"/g, "'");
+            if ($(this).hasClass('community-translate')) {
+                return;
+            }
+            var url = urlBuilder.build('community/translate/index');
+            var _self = $(this);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                showLoader: true,
+                success: function(response) {
+                    _self.html(response.html);
+                    _self.addClass('community-translate');
+                    var settings_translate = {
+                        "url": url_translate,
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/json"
+                        },
+                        "data": JSON.stringify({
+                            "q": [
+                                ""+name+"",
+                                ""+message+""
+                            ],
+                            "target": ""+response.to+""
+                        }),
+                    };
+                    $.ajax(settings_translate).done(function (response) {
+                        _self.closest('.idea_topics').find('.idea_name').html(response.data.translations[0].translatedText);
+                        _self.closest('.idea_topics').find('.message').html(response.data.translations[1].translatedText.replace("&quot;",'"'));
+                    });
+                },
+                error: function (xhr, status, errorThrown) {
+                }
+            });
+        });
+        $('body').on("click",".languages__button",function() {
+            if ($(this).hasClass('opend')) {
+                $(this).removeClass('opend');
+                $(this).closest('.languages_translate').find('.languages_list').addClass('hidden');
+            } else {
+                $('.languages__button').removeClass('opend');
+                $('.languages_translate').find('.languages_list').addClass('hidden');
+                $(this).addClass('opend')
+                $(this).closest('.languages_translate').find('.languages_list').removeClass('hidden');
+            }
+        });
+        $('body').on("click",".community-translate .languages_item a",function() {
+            var url_translate = "https://translation.googleapis.com/language/translate/v2?key=AIzaSyD4NiHHwE1YXUrBKSoeb1XdDQFK0oGQx18";
+            var url_detecting_translate = "https://translation.googleapis.com/language/translate/v2/detect?key=AIzaSyD4NiHHwE1YXUrBKSoeb1XdDQFK0oGQx18";
+            var name = $(this).closest('.idea_topics').find('.idea_name').text();
+            var message = $(this).closest('.idea_topics').find('.message').html().replace(/"/g, "'");
+            var _self = $(this);
+            var target;
+            if ($(this).hasClass('detecting-language')) {
+                target = $(this).attr("data-value");
+                var target_text = $(this).attr("data-text");
+                $('.languages_translate').find('.languages__button').removeClass('opend');
+                $('.languages_translate').find('.languages_list').addClass('hidden');
+                $(this).closest('.languages_translate').find('.language_code').val(target);
+                $(this).closest('.languages_translate').find('.languages-value').html(target_text);
+                var settings_translate = {
+                    "url": url_translate,
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "q": [
+                            ""+name+"",
+                            ""+message+""
+                        ],
+                        "target": ""+target+""
+                    }),
+                };
+                $.ajax(settings_translate).done(function (response) {
+                    _self.closest('.idea_topics').find('.idea_name').html(response.data.translations[0].translatedText);
+                    _self.closest('.idea_topics').find('.message').html(response.data.translations[1].translatedText);
+                });
+            } else {
+                var value = $(this).attr("data-value");
+                var language_text = $(this).text();
+                $(this).closest('.languages_translate').find('.languages-value').html(language_text);
+                $('.languages_translate').find('.languages__button').removeClass('opend');
+                $('.languages_translate').find('.languages_list').addClass('hidden');
+                $(this).closest('.languages_translate').find('.language_code').val(value);
+                if ($(this).closest('.languages_translate').hasClass('languages_translate_to')) {
+                    target = $(this).attr("data-value");
+                } else {
+                    target = $(this).closest('.translate-form').find('.languages_translate_to .language_code').val();
+                }
+                var settings_translate = {
+                    "url": url_translate,
+                    "method": "POST",
+                    "timeout": 0,
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "data": JSON.stringify({
+                        "q": [
+                            ""+name+"",
+                            ""+message+""
+                        ],
+                        "target": ""+target+""
+                    }),
+                };
+                $.ajax(settings_translate).done(function (response) {
+                    _self.closest('.idea_topics').find('.idea_name').html(response.data.translations[0].translatedText);
+                    _self.closest('.idea_topics').find('.message').html(response.data.translations[1].translatedText);
+                });
+            }
+            return false;
+        });
+        $('#idea_topics .addthis_inline_share_toolbox').hide(); 
+        $('.at-svc-facebook').remove();
+        $('.share').click(function(){
+            $(this).find('.addthis_inline_share_toolbox').slideToggle();
+         })
+         //report post
+         $(".report_post_save").click(function(){
+            var topic_id = $(this).parent().find('.topic_id').val();
+            var report_content = $(this).parent().find('.report_content').val();
+            var self1 = $(this).closest('.idea_topics');
+            console.log(report_content);
+            if(!$.trim(report_content)){
+                alert('You need enter the content');
+                return false;
+            }
+            //console.log(report_content);
+            var url = urlBuilder.build('community/topic/report/');
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                showLoader: true, 
+                data: {
+                    topic_id: topic_id,
+                    report_content: report_content  
+                },
+                success: function(response) {
+                    self1.find('.report_form').hide();
+                    self1.find('.report_post').html('You reported succesfull this');
+                },
+                error: function (xhr, status, errorThrown) {
+                }
+            });
+        })
+            var url = BASE_URL +'community/idea/countview/';
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                showLoader: true, 
+                data: {
+                    idea_id: "<?= $idea ->getId(); ?>"   
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function (xhr, status, errorThrown) {
+                }
+            });
+
+            $('.report_post').click(function(){
+                $('.reply_form').hide();
+                $(this).closest('.action').find('.report_form').slideToggle();
+            });
+            $('.reply_message').click(function(){
+                $('.report_form').hide();
+                $(this).closest('.action').find('.reply_form').slideToggle();
+            });
+        
+    });
+});
+</script>        
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-62d90bcf8b2d4f5b"></script>
+<style>
+.report_post {color:red;}
+.like, .like_idea {color:#008080;}
+#idea_topics { width:100%;display:block; position: relative;}
+.left {width:30%; float:left; margin-top:30px;}
+.right{width:70%; float:right; margin-top:30px;}
+.idea_topics {clear:both; border-bottom: 1px solid #ccc; padding: 41px 29px 1px 10px;}
+.share {color:#008080;}
+.reply_form {display:none;}
+.order-products-toolbar.toolbar.bottom {clear:both;}
+.reply_message {}
+.share {}
+.share_reply { display:flex;}
+.comment_topic {
+    position:relative;
+    clear:both;
+    margin: 10px 30px; 
+}
+.msg_topic_comment {
+    margin-top:30px;
+}
+.comment_topic {}
+.show_hide_comment {color:#008080;}
+.share_reply div { margin-left:15px;}
+.page-title-wrapper { display:none;}
+.inactive button{background:#000;}
+div#community_view_idea {
+    margin-top: 45px;
+}
+.community-idea-view .limiter {display:none;}
+.community-idea-view .pager {float:right;}
+.idea_option_reply {display:flex;}
+.comment_option {
+    float: right;
+    margin-top: 15px;
+}
+.community-idea-view .toolbar .pages {margin-top:0;}
+.community-idea-view .toolbar-amount {display:none;}
+.page_next_previous {
+    clear: both;
+}
+.comment_option {
+    float: right;
+    margin-top: 41px;
+    clear: both;
+}
+.next_previous {
+    float: left;
+}
+.page_list {float:right;}
+#idea_topics{ margin-top:50px;}
+.community-idea-view  i:hover, .report_post:hover {cursor:pointer;}
+.community-idea-view textarea.content_message {
+    margin-top:15px;
+}
+.community-idea-view .submit {
+    cursor: pointer;
+}
+
+</style>

@@ -1,0 +1,49 @@
+<?php
+$slider = $block->getSlider();
+if ($slider && $slider->getSliderStatus() == 1) {
+    $banners = $block->getBannerCollection($slider);
+    if (count($banners) > 0) {
+        $sliderId = $slider->getSliderIdentifier();
+        $data_setting = $slider->getSliderSetting();
+
+        $store_id = $block->getStoreId();
+    
+        $items = (isset($data_setting['items'])) ? $data_setting['items'] : 1;
+        $items_bigdesktop = (isset($data_setting['items_bigdesktop'])) ? $data_setting['items_bigdesktop'] : 1;
+        $items_smalldesktop = (isset($data_setting['items_smalldesktop'])) ? $data_setting['items_smalldesktop'] : 1;
+        $items_bigtablet = (isset($data_setting['items_bigtablet'])) ? $data_setting['items_bigtablet'] : 1;
+        $items_tablet = (isset($data_setting['items_tablet'])) ? $data_setting['items_tablet'] : 1;
+        $items_smalltablet = (isset($data_setting['items_smalltablet'])) ? $data_setting['items_smalltablet'] : 1;
+        $items_mobile = (isset($data_setting['items_mobile'])) ? $data_setting['items_mobile'] : 1;
+        $auto = (isset($data_setting['auto'])) ? $data_setting['auto'] : 'false';
+        $autoplaytimeout = (isset($data_setting['autoplaytimeout'])) ? $data_setting['autoplaytimeout'] : 5000;
+        $autoplayhoverpause = (isset($data_setting['autoplayhoverpause'])) ? $data_setting['autoplayhoverpause'] : 'false';
+        $buttonsplaypause = (isset($data_setting['buttonsplaypause'])) ? $data_setting['buttonsplaypause'] : 'false';
+        $lazyload = (isset($data_setting['lazyload'])) ? $data_setting['lazyload'] : 'true';
+        $dots = (isset($data_setting['dots'])) ? $data_setting['dots'] : 'false';
+        $rewind = (isset($data_setting['rewind'])) ? $data_setting['rewind'] : 'false';
+        $nav = (isset($data_setting['nav'])) ? $data_setting['nav'] : 'false';
+        $navnext = (isset($data_setting['navnext'])) ? $data_setting['navnext'] : __('Next');
+        $navprev = (isset($data_setting['navprev'])) ? $data_setting['navprev'] : __('Prev');
+        $stagepadding = (isset($data_setting['stagepadding'])) ? $data_setting['stagepadding'] : 0;
+        $touchdrag = (isset($data_setting['touchdrag'])) ? $data_setting['touchdrag'] : 'false';
+        $mousedrag = (isset($data_setting['mousedrag'])) ? $data_setting['mousedrag'] : 'false';
+        $center = (isset($data_setting['center'])) ? $data_setting['center'] : 'false';
+        $loop = (isset($data_setting['loop'])) ? $data_setting['loop'] : 'false';
+        $margin = (isset($data_setting['margin'])) ? $data_setting['margin'] : 0;
+        $speed = (isset($data_setting['speed'])) ? $data_setting['speed'] : 250;
+        $rtl = (isset($data_setting['rtl'])) ? $data_setting['rtl'] : 'false';
+        ?>
+
+<div class="wrapper-the-blue-sky-slider owl-carousel owl-theme" data-buttonsplaypause="<?= /* @noEscape */ $buttonsplaypause;?>" data-rtl="<?= /* @noEscape */ $rtl;?>" data-items="<?= /* @noEscape */ $items;?>" data-bigdesktop="<?= /* @noEscape */ $items_bigdesktop;?>" data-smalldesktop="<?= /* @noEscape */ $items_smalldesktop;?>" data-bigtablet="<?= /* @noEscape */ $items_bigtablet;?>" data-tablet="<?= /* @noEscape */ $items_tablet;?>" data-smalltablet="<?= /* @noEscape */ $items_smalltablet;?>" data-mobile="<?= /* @noEscape */ $items_mobile;?>" data-margin="<?= /* @noEscape */ $margin;?>" data-loop="<?= /* @noEscape */ $loop;?>" data-center="<?= /* @noEscape */ $center;?>" data-mousedrag="<?= /* @noEscape */ $mousedrag;?>" data-touchdrag="<?= /* @noEscape */ $touchdrag;?>" data-stagepadding="<?= /* @noEscape */ $stagepadding;?>" data-nav="<?= /* @noEscape */ $nav;?>" data-navnext="<?= /* @noEscape */ $navnext;?>" data-navprev="<?= /* @noEscape */ $navprev;?>" data-rewind="<?= /* @noEscape */ $rewind;?>" data-dots="<?= /* @noEscape */ $dots;?>" data-lazyload="<?= /* @noEscape */ $lazyload;?>" data-autoplay="<?= /* @noEscape */ $auto;?>" data-autoplaytimeout="<?= /* @noEscape */ $autoplaytimeout;?>" data-autoplayhoverpause="<?= /* @noEscape */ $autoplayhoverpause;?>" data-speed="<?= /* @noEscape */ $speed;?>">
+        <?php foreach ($banners as $banner) {
+            $stores_ids = ($banner->getStoreIds() != '') ? json_decode($banner->getStoreIds(), true) : [-1];
+            if(in_array($store_id, $stores_ids) || in_array(0, $stores_ids)){
+        ?>
+        <div class="content-the-blue-sky-slider">
+            <?= $block->getContentElement($banner, $slider) ?>
+        </div>
+    <?php } } ?>
+    
+</div>
+<?php } } ?>

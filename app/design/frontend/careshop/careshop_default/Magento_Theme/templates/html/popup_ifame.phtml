@@ -1,0 +1,43 @@
+<div id="id-pupup-ifame-cms" style="display:none;">
+    <iframe class="html-iframe" src="" title="Cms Page" style="width: 100%;min-height: 400px;box-shadow: initial;border: none !important;"></iframe>
+</div>
+<script type="text/javascript">
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                modalClass: 'see-detail-modal-pupup-ifame',
+                title: '',
+                buttons: [{
+                    text: $.mage.__('Close'),
+                    class: '',
+                    click: function () {
+                        this.closeModal();
+                    }
+                }]
+            };
+            var popup_ifame = modal(options, $('#id-pupup-ifame-cms'));
+            $(".ifame-open").on('click',function(){ 
+                $('body').trigger('processStart');
+                var href = $(this).attr('href');
+                $('.html-iframe').attr('src',href);
+                $('.html-iframe').load( function() {
+                    $('.html-iframe').contents().find("head")
+                    .append($("<style type='text/css'>header,footer{display: none !important;}</style>"));
+                    $("#id-pupup-ifame-cms").modal("openModal");
+                    $('body').trigger('processStop');
+                });
+                return false; 
+            });
+        }
+    );
+</script>

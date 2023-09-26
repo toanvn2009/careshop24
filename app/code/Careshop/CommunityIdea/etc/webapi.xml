@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/community/idea" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getAllIdea"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/monthly" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getMonthlyArchive"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/monthly/:monthly/:year" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getIdeaMonthlyArchive"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/config" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getConfig"/>
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/view/:idea_id" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getIdeaView"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/author/name/:author_name" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getIdeaViewByAuthorName"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/tag/name/:tag_name" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getIdeaByTagName"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/product/:idea_id" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getProductByIdea"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/related/:idea_id" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getIdeaRelated"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/comment/add/:idea_id" method="POST">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="addCommentInIdea"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/comment" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getAllComment"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/comment/view/:commentId" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getCommentView"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/comment/list" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getCommentList"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/author/id/:author_id" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getIdeaViewByAuthorId"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/comment/:idea_id" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getIdeaComment"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/like/:idea_id" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getIdeaLike"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/list" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getIdeaList"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/create" method="POST">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="createIdea"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/delete/:idea_id" method="DELETE">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="deleteIdea"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/update/:idea_id" method="PUT">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="updateIdea"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/tag" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getAllTag"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/tag/view/:tag_id" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getTagView"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/tag/list" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getTagList"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/tag/create" method="POST">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="createTag"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/tag/delete/:tag_id" method="DELETE">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="deleteTag"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/tag/update/:tag_id" method="PUT">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="updateTag"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/topic" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getAllTopic"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/topic/view/:topic_id" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getTopicView"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/topic/list" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getTopicList"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/topic/idea/:topicId" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getIdeasByTopic"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/topic/create" method="POST">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="createTopic"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/topic/delete/:topic_id" method="DELETE">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="deleteTopic"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/topic/update/:topic_id" method="PUT">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="updateTopic"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/category" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getAllCategory"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/category/view/:category_id" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getCategoryView"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/category/idea/id/:category_id" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getIdeasByCategoryId"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/idea/category/:idea_id" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getCategoriesByIdeaId"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/category/idea/key/:category_key" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getIdeasByCategory"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/category/list" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getCategoryList"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/category/create" method="POST">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="createCategory"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/category/delete/:category_id" method="DELETE">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="deleteCategory"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/category/update/:category_id" method="PUT">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="updateCategory"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/author" method="GET">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="getAuthorList"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/author/create" method="POST">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="createAuthor"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/author/delete/:author_id" method="DELETE">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="deleteAuthor"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+    <route url="/V1/community/author/update/:author_id" method="PUT">
+        <service class="Careshop\CommunityIdea\Api\CommunityRepositoryInterface" method="updateAuthor"/>
+        <resources>
+            <resource ref="Careshop_CommunityIdea::community" />
+        </resources>
+    </route>
+</routes>

@@ -1,0 +1,9 @@
+<?php
+$item = $block->getItem();
+$product = $item->getProduct();
+?>
+<div class="product-photo">
+    <a class="product-item-photo" tabindex="-1" href="<?= $block->escapeUrl($block->getProductUrl($item)) ?>">
+        <?= $block->getImage($block->getProductForThumbnail($item), 'wishlist_thumbnail')->toHtml() ?>
+    </a>
+</div>

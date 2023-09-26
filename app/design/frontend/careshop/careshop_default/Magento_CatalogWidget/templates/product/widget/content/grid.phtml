@@ -1,0 +1,74 @@
+<?php
+use Magento\Framework\App\Action\Action;
+?>
+<?php if ($exist = ($block->getProductCollection() && $block->getProductCollection()->getSize())) : ?>
+    <?php
+    $type = 'widget-product-grid';
+
+    $mode = 'grid';
+
+    $image = 'new_products_content_widget_grid';
+    $items = $block->getProductCollection()->getItems();
+
+    $showWishlist = true;
+    $showCompare = true;
+    $showCart = true;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    $description = false;
+    $pricingHelper = $this->helper(\Magento\Framework\Pricing\Helper\Data::class);
+    $ro_configurable = $this->helper(\Rokanthemes\RokanBase\Helper\Configurablepro::class);
+    ?>
+    <div class="block widget block-products-list <?= /* @noEscape */ $mode ?>">
+        <div class="block-content">
+            <?= /* @noEscape */ '<!-- ' . $image . '-->' ?>
+            <div class="products-<?= /* @noEscape */ $mode ?> <?= /* @noEscape */ $mode ?>">
+                <ol class="product-items <?= /* @noEscape */ $type ?> owl-carousel owl-theme" data-rtl="false" data-items="3" data-bigdesktop="3" data-smalldesktop="3" data-bigtablet="3" data-tablet="2" data-smalltablet="2" data-mobile="1" data-margin="20" data-loop="false" data-center="false" data-mousedrag="true" data-touchdrag="true" data-stagepadding="1" data-nav="true" data-navnext="<?= __('Next');?>" data-navprev="<?= __('Prev');?>" data-rewind="true" data-dots="false" data-lazyload="false" data-autoplay="false" data-autoplaytimeout="5000" data-autoplayhoverpause="true" data-speed="250">
+                    <?php $iterator = 1; ?>
+                    <?php foreach ($items as $_item) : ?>
+                        <?= /* @noEscape */ ($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
+                        <div class="product-item-info">
+                            <a href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>" class="product-item-photo">
+                                <?= $block->getImage($_item, $image)->toHtml() ?>
+                            </a>
+                            <div class="product-item-details">
+                                <?= $block->getProductDetailsHtml($_item) ?>
+                                <strong class="product-item-name">
+                                    <a title="<?= $block->escapeHtmlAttr($_item->getName()) ?>"
+                                       href="<?= $block->escapeUrl($block->getProductUrl($_item)) ?>"
+                                       class="product-item-link">
+                                        <?= $block->escapeHtml($_item->getName()) ?>
+                                    </a>
+                                </strong>
+                                <?php if ($templateType) : ?>
+                                    <?= $block->getReviewsSummaryHtml($_item, $templateType) ?>
+                                <?php endif; ?>
+                                <?php if($_item->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE){ ?>
+                                    <div class="price-box-configurable-product-container">
+                                        <span class="final-price-configurable-product">
+                                            <?php $con_price = $ro_configurable->getPriceRange($_item);
+                                                if(isset($con_price['min'])){
+                                                    echo $pricingHelper->currency($con_price['min'], true, false);
+                                                    if(isset($con_price['max']) && $con_price['max'] > $con_price['min']){
+                                                        echo ' - '.preg_replace("/[^0-9.]/", "", $pricingHelper->currency($con_price['max'], true, false));
+                                                    }
+                                                }
+                                            ?>
+                                        </span>
+                                        <?php if($_item->getData('original_price')){ ?>
+                                        <span class="original-price-configurable-product">
+                                            <?= $pricingHelper->currency($_item->getData('original_price'), true, false); ?>
+                                        </span>
+                                        <?php } ?>
+                                    </div>
+                                <?php }else{ ?>  
+                                    <?= $block->getProductPriceHtml($_item, $type) ?>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <?= ($iterator == count($items) + 1) ? '</li>' : '' ?>
+                    <?php endforeach ?>
+                </ol>
+            </div>
+        </div>
+    </div>
+<?php endif;?>

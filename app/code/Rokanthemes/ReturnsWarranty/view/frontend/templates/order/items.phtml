@@ -1,0 +1,97 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// phpcs:disable Magento2.Templates.ThisInTemplate
+
+/** @var \Magento\Sales\Block\Order\Items $block */
+?>
+<div class="table-wrapper order-items">
+    <table class="data table table-order-items" id="my-orders-table" summary="<?= $block->escapeHtmlAttr(__('Items Ordered')) ?>">
+        <caption class="table-caption"><?= $block->escapeHtml(__('Items Ordered')) ?></caption>
+        <thead>
+            <?php if ($block->isPagerDisplayed()) : ?>
+                <tr>
+                    <td colspan="5" data-block="order-items-pager-top" class="order-pager-wrapper order-pager-wrapper-top">
+                        <?= $block->getPagerHtml() ?>
+                    </td>
+                </tr>
+            <?php endif ?>
+            <tr>
+				<th class="col name"><?= $block->escapeHtml(__('Product Image')) ?></th>
+                <th class="col name"><?= $block->escapeHtml(__('Product Name')) ?></th>
+                <th class="col sku"><?= $block->escapeHtml(__('SKU')) ?></th>
+                <th class="col action"><?= $block->escapeHtml(__('Action')) ?></th>
+            </tr>
+        </thead>
+        <?php $items = $block->getItems(); ?>
+        <?php $giftMessage = ''?>
+        <?php foreach ($items as $item) :
+            if ($item->getParentItem()) :
+                continue;
+            endif;
+            ?>
+            <tbody>
+                <tr id="order-item-row-<?= (int) $item->getId() ?>">
+					<td class="col image" data-th="<?= $block->escapeHtmlAttr(__('Product Name')) ?>">
+						<div class="image"><img src="<?php echo $block->getProductImage($item->getProductId()); ?>" /></div>
+					</td>
+					<td class="col name" data-th="<?= $block->escapeHtmlAttr(__('Product Name')) ?>">
+						<strong class="product name product-item-name"><?= $block->escapeHtml($item->getName()) ?></strong>
+						<?php if ($_options = $block->getItemOptions()) : ?>
+							<dl class="item-options">
+							<?php foreach ($_options as $_option) : ?>
+								<dt><?= $block->escapeHtml($_option['label']) ?></dt>
+								<?php if (!$block->getPrintStatus()) : ?>
+									<?php $_formatedOptionValue = $block->getFormatedOptionValue($_option) ?>
+									<dd>
+										<?php if (isset($_formatedOptionValue['full_view'])) : ?>
+											<?= $block->escapeHtml($_formatedOptionValue['full_view'], ['a']) ?>
+										<?php else : ?>
+											<?=$block->escapeHtml($_formatedOptionValue['value'], ['a']) ?>
+										<?php endif; ?>
+									</dd>
+								<?php else : ?>
+									<dd>
+										<?= /* @noEscape */ nl2br($block->escapeHtml($_option['print_value'] ?? $_option['value'])) ?>
+									</dd>
+								<?php endif; ?>
+							<?php endforeach; ?>
+							</dl>
+						<?php endif; ?>
+						<?php $addtInfoBlock = $block->getProductAdditionalInformationBlock(); ?>
+						<?php if ($addtInfoBlock) : ?>
+							<?= $addtInfoBlock->setItem($item)->toHtml() ?>
+						<?php endif; ?>
+						<?= $block->escapeHtml($item->getDescription()) ?>
+					</td>
+					<td class="col sku" data-th="<?= $block->escapeHtmlAttr(__('SKU')) ?>"><?= /* @noEscape */ $item->getSku() ?></td>
+					<td class="col action" data-th="<?= $block->escapeHtmlAttr(__('SKU')) ?>">
+						<?= /* @noEscape */ $block->getAction($item->getId()) ?>
+					</td>
+				</tr>
+            </tbody>
+        <?php endforeach; ?>
+        <tfoot>
+            <?php if ($block->isPagerDisplayed()) : ?>
+                <tr>
+                    <td colspan="5" data-block="order-items-pager-bottom" class="order-pager-wrapper order-pager-wrapper-bottom">
+                        <?= $block->getPagerHtml() ?>
+                    </td>
+                </tr>
+            <?php endif ?>
+            <?= $block->getChildHtml('order_totals') ?>
+        </tfoot>
+    </table>
+</div>
+<?php if ($giftMessage) : ?>
+<script type="text/x-magento-init">
+    {
+        "a.action.show, a.action.close": {
+            "giftMessage": {}
+        }
+    }
+</script>
+<?php endif; ?>

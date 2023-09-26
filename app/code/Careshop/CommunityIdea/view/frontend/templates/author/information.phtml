@@ -1,0 +1,205 @@
+<?php 
+    $media_url = $block->getMediaUrl();
+    $author = $block->getAuthor();
+    $startdate = date('Y-m-d H:i:s');
+?>      
+<?php if($author) :  ?>
+<div id="author_information">
+    <?php  
+        $profile = $block->getCustomerProfile($author->getId());
+        $avatar = $media_url.$profile->getAvatar();
+        $customer_id = $author->getId();
+        $like_received = $block->getUserHasLikedComment($customer_id);
+        $like_from_idea = $block->getAllLikesFromEntityID($customer_id);
+        $total_like = $like_received + $like_from_idea;
+        $user = $block->getCustomerInfo($customer_id);
+        $visitor = $block->getVisitors($customer_id);  
+        $last_vist = $block->convertTimeFromDate($startdate,$visitor->getLastVisitAt());
+        $authoParams = $block->getAuthorParams();
+    ?>
+    <div class="left">
+        <div class="information">
+            <img  src="<?= $block->escapeHtmlAttr( $media_url.$profile->getAvatar()) ?>" alt="image" />
+        </div>
+    </div>
+    <div class="right">
+        <div class="contact_me custom_tab">
+            <h2><?= ($author->getName()) ? $author->getName() : '' ?></h2>
+            <div class="text_newcomer"><?= $block->escapeHtml(__('| Newcomer')); ?></div>
+            <div class="online_status">
+                    <span class="status"><i class="fa fa-light fa-circle <?= ($last_vist>0) ? 'online' : 'offline'?> "></i></span>
+                </p>
+            </div>
+        </div>
+        <div class="form_contact_me">
+            <div class="date_like">
+                <div class="like">
+                    <p><?= $block->escapeHtml(__('Likes received:')); ?></p>
+                    <div class="like_received"><?= ($total_like) ? $total_like : 0 ?></div>
+                </div>
+                <div class="date_last">
+                    <p><?= $block->escapeHtml(__('Date of last visit:')); ?>
+                    <div class="date"><?= ($visitor->getLastVisitAt()) ? $block->convertTimeFromDate($startdate,$visitor->getLastVisitAt()) : ''?></div>
+                    </p>
+                </div>
+            </div>  
+            <div class="private_message_tab">
+                <div class="private_message">
+                    <div class="send_message"><?= $block->escapeHtml(__('Send this user a private message')); ?><span class="private"></span></div>
+                    <div class="add_friend"><button><?= $block->escapeHtml(__('Add Friend')); ?></button></div>
+                    <div class="ignore_friend"><button><?= $block->escapeHtml(__('Ignore Friend')) ?></button></div>
+                </div>
+                <div class="my_tag custom_tab"><h2 class="tab"><?= $block->escapeHtml(__('MY TAGS')); ?></h2>
+                    <div class="form_tags">
+                        <p><?= $block->escapeHtml(__('No Tags Yet')); ?></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="author_detai">
+    <div class="public_static custom_tab">
+        <h2 class="tab"><?= $block->escapeHtml(__('PUBLIC STATISTICS')); ?></h2>
+    </div>
+    <div class="form_public_static custom_tab_html">
+        <p><?= $block->escapeHtml(__('Registration date')); ?><span class="float-right"><?= ($user->getCreatedAt()) ? $block->convertTimeFromDate($startdate,$user->getCreatedAt()) : ''?></span></p>
+        <p><?= $block->escapeHtml(__('Date of last visit')); ?><span class="float-right"><?= ($visitor->getLastVisitAt()) ? $block->convertTimeFromDate($startdate,$visitor->getLastVisitAt()) : ''?></span></p>
+        <p><?= $block->escapeHtml(__('Total sent message')); ?><span class="float-right">1</span></p>
+    </div>
+    <div class="public_static custom_tab"><h2 class="tab"><?= $block->escapeHtml(__('ACTIVITY FEED FOR ').$author->getName()); ?></h2></div>
+    <div class="form_public_static custom_tab_html">
+        <?php foreach($block->getIdeaListActive() as $idea_info){ ?>
+            <p>
+                <div class="idea_name"><a href="<?= $block->getIdeaUrl($idea_info->getIdeaId()); ?>"><?= $block->escapeHtml($idea_info->getName()); ?></a>
+                    <span><?= $block->escapeHtml(__('set on ')) ?></span><span><a href="#"><?= $block->escapeHtml(__('Forum Careshop')) ?></a></span>
+                    <span><?= $block ->convertTimeFromDate($startdate, $idea_info->getCreatedAt()); ?></span>
+                </div>
+            </p>
+        <?php } ?>
+        <span class="status"></span>
+    </div>
+    <div class="public_static custom_tab"><h2 class="tab"><?= $block->escapeHtml(__('RECENT POST BY ').$author->getName()); ?></h2></div>
+    <div class="form_public_static custom_tab_html">
+        <table>
+            <tr class="heading">
+                <th class="aling-left"><?= $block->escapeHtml(__('Subject') ); ?></th>
+                <th><?= $block->escapeHtml(__('Show') ); ?></th>
+                <th><?= $block->escapeHtml(__('Posted') ); ?></th>
+            </tr>
+            <?php foreach($block->getIdeaList() as $idea_info){ ?>
+            <tr>
+                <td class="align-left">
+                    <div><a href="<?= $block->getIdeaUrl($idea_info->getIdeaId()); ?>"><?= $block->escapeHtml($idea_info->getName()); ?></a></div>
+                    <div><?= $block->escapeHtml(__('Forum Careshop')) ?></div>
+                </td>
+                <td><?= ($idea_info->getViews()) ? $idea_info->getViews() : 0 ?></td>
+                <td>
+                    <span><?= $block->convertTimeFromDate($startdate, $idea_info->getCreatedAt()); ?></span>
+                </td>
+            </tr>
+            <?php } ?>
+        </table>    
+        <div class="show_all"><a href="#"><?= $block->escapeHtml(__('Show All')) ?></a></div>
+    </div>
+
+</div>
+<div id="add_friend_success"><?= $block->escapeHtml(__('Successful implementation! Added moins to the ignore list.'));?></div>
+<div id="ignore_friend_success"><?= $block->escapeHtml(__('Successful implementation! Added moins to the contacts.'));?></div>    
+<?php endif; ?>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function(
+            $,
+            modal
+        ) {
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+            };
+            $('#add_friend_success').hide();
+            $('.add_friend').click(function(){
+              var popup = modal(options, $('#add_friend_success'));
+              $('#add_friend_success').modal('openModal');
+            });
+            $('#ignore_friend_success').hide();
+            $('.ignore_friend').click(function(){
+              var popup = modal(options, $('#ignore_friend_success'));
+              $('#ignore_friend_success').modal('openModal');
+            });
+            //$('.custom_tab_html').hide();
+            $('.custom_tab').click(function(){ 
+                var self = $(this);
+                $(this).next().slideToggle('slow',function(){
+                    self.toggleClass('active', $(this).is(':visible'));
+                });
+            })
+       
+        }
+    );
+</script>
+
+<style>
+div#author_information {
+    display: flex;
+}
+.left {
+    width: 70%;
+    display:flex;
+}
+.right {
+    width: 30%;
+}
+.left .information {
+    width:50%;
+}
+.left .like {
+    width:45%;
+    background: #7cb7e5;
+    height:140px;
+    padding: 25px 20px;
+    margin-top: 95px;
+} 
+.information img {width:400px;}
+div#author_detai {
+    width: 70%;
+    display: inline-block;
+    margin-top: 60px;
+}
+h2.tab {
+    background: #0000008f;
+    padding: 11px 15px;
+    color:#fff;
+}
+.ignore_friend {
+    margin: 20px 0px;
+}
+
+
+div#author_information button {
+    background:#9d9391;
+    border: 1px solid #9d9391;
+}
+.community-author-information .page-title-wrapper { display:none;}
+.like_received {
+    float: right;
+    border-radius: 10px;
+    font-size: 48px;
+    color: #fff !important;
+    padding: 0 20px 14px 13px;
+    margin: -16px 10px 11px 9px;
+}
+i.fa.fa-light.fa-circle.online {
+    color: orange;
+}
+.form_public_static table{width:100%; text-align:center;}
+td.align-left,th.aling-left {text-align:left;}
+.show_all a {float:right; color:#f05735}
+.community-author-information a { color:#f05735}
+.float-right { float:right;}
+</style>

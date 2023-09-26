@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.info.list.description.detail" remove="true"/>
+        <referenceBlock name="product.row.blockviewed" remove="true"/>
+        <referenceBlock name="product.info.details" remove="true"/>
+        <referenceBlock name="product.info.media.image.custom" remove="true"/>
+        <referenceBlock name="product.extent.button.custom.fix" remove="true"/>
+        <referenceContainer name="product.info.middle.left.sku.review" remove="true"/>
+        <referenceContainer name="columns">
+            <container name="product.details.developproduct" htmlTag="div" htmlClass="product-info-developproduct-details" after="-">
+                <block class="Magento\Catalog\Block\Product\View" name="product.info.developproduct.details" template="Careshop_CommunityDevelopProduct::product/view/details.phtml">
+                    <block class="Careshop\CommunityDevelopProduct\Block\Listforum" name="community.forum.list" template="Careshop_CommunityDevelopProduct::product/view/list_forum.phtml" />
+                </block> 
+            </container>
+        </referenceContainer>
+
+        <referenceBlock name="product.info.media.image">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Careshop_CommunityDevelopProduct::product/view/image.phtml</argument>
+            </action>
+            <arguments>
+                <argument name="view_model" xsi:type="object">Careshop\CommunityDevelopProduct\ViewModel\Catalog</argument>
+            </arguments>
+        </referenceBlock>
+        <referenceContainer name="columns.top">
+            <block class="Magento\Catalog\Block\Product\View" name="community.product.developer" template="Careshop_CommunityDevelopProduct::list_tab.phtml" />
+        </referenceContainer> 
+        <referenceBlock name="breadcrumbs"> 
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Careshop_CommunityDevelopProduct::community/develop_product/breadcrumbs.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="product.info"> 
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Careshop_CommunityDevelopProduct::product/view/form.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="product.info.addtocart"> 
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Careshop_CommunityDevelopProduct::product/view/addtocart.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="product.container.left">
+            <container name="product.details.developproduct.customer" htmlTag="div" htmlClass="product-info-developproduct-details-customer" before="-">
+                <block class="Magento\Catalog\Block\Product\View" name="product.info.developproduct.details.customer" template="Careshop_CommunityDevelopProduct::product/view/details-customer.phtml">
+                </block> 
+            </container> 
+        </referenceContainer>
+        <move element="product.info.price" destination="product.container.left" after="page.main.title"/>
+        <referenceContainer name="product.container.left">
+            <container name="product.details.developproduct.block" htmlTag="div" htmlClass="product-info-developproduct-details-block" after="product.info.price">
+                <block class="Magento\Catalog\Block\Product\View" name="product.info.developproduct.details.block" template="Careshop_CommunityDevelopProduct::product/view/custom-block.phtml">
+                    <arguments>
+                        <argument name="view_model" xsi:type="object">Careshop\CommunityDevelopProduct\ViewModel\Catalog</argument>
+                    </arguments> 
+                </block> 
+            </container>
+        </referenceContainer>
+        <referenceContainer name="product.container.left" htmlClass="product-container-left product-community community-develop" />
+	</body>
+</page>

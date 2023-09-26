@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+		<link src="Rokanthemes_RokanBase::css/owl.carousel.min.css"/>
+        <link src="Rokanthemes_RokanBase::css/owl.theme.default.min.css"/>
+    </head>
+    <body>
+    	<attribute name="class" value="common-color-type-square"/>
+        <referenceContainer name="after.body.start">
+            <block class="Rokanthemes\RokanBase\Block\Newsletterpopup" name="newsletter_popup" template="newsletterpopup.phtml" after="-"/>
+            <block class="Magento\Framework\View\Element\Template" name="content_popup" template="Rokanthemes_RokanBase::contentpopup.phtml" after="-"/>
+        </referenceContainer>
+    </body>
+</page>

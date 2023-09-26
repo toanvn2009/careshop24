@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!--
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Careshop_CommunityTalentProduct::community_talent_group" title="Community Talent Group" module="Careshop_CommunityTalentProduct" sortOrder="20" resource="Careshop_CommunityTalentProduct::community_talent_group" parent="Careshop_Community::community"/>
+        <add id="Careshop_CommunityTalentProduct::talent" title="Manage Talent" module="Careshop_CommunityTalentProduct" sortOrder="10" action="communitytalent/talent" resource="Careshop_CommunityTalentProduct::talent" parent="Careshop_CommunityTalentProduct::community_talent_group"/>
+    </menu>
+</config>

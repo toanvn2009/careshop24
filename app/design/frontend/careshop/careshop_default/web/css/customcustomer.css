@@ -1,0 +1,990 @@
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field .control input {
+    width: auto;
+    font-size: 16px;
+}
+
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field.gender label {
+    float: initial;
+    padding: 0;
+    margin: 0;
+    text-align: initial;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 150%;
+    width: auto;
+    float: left;
+}
+
+.customer-account-edit .field-name-firstname,
+.customer-account-edit .field-name-lastname,
+.customer-account-edit .field-dob,
+.customer-account-edit .phone,
+.customer-account-edit .language,
+.customer-account-edit .email,
+.customer-account-edit .password .password {
+    width: 49%;
+    float: left;
+}
+
+.customer-account-edit .choice {
+    width: 100%;
+    clear: both;
+}
+
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field-name-firstname .control input,
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field-name-lastname .control input,
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field-dob .control input,
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .phone .control input,
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .language .control input,
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .email .control input,
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .password .control input {
+    width: 90%;
+}
+
+.account .columns .column.main form:not(.review-form)>.fieldset .field .customer-dob button {
+    right: 52px;
+}
+
+body.customer-account-edit form .legend {
+    margin: 15px 0;
+}
+
+body.customer-account-edit form .legend span {
+    font-weight: bolder;
+}
+
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field.gender label {
+    margin-bottom: 5px;
+}
+
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field label {
+    font-weight: initial;
+}
+
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .language .control select {
+    background: #fff;
+    width: 90%;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.customer-account-edit .fieldset {
+    margin: 0 0 20px;
+}
+
+.customer-account-edit .fieldset.password .field {
+    clear: both;
+}
+
+.gender .control {
+    display: block;
+    width: 100%;
+    clear: both;
+    overflow: hidden;
+}
+
+.customer-account-edit .actions-toolbar .primary {
+    float: left;
+    text-transform: capitalize;
+}
+
+.customer-account-edit .actions-toolbar .secondary {
+    float: right;
+}
+
+.modal-popup-confirm-email {
+    max-width: 570px;
+    text-align: center;
+    margin: auto;
+}
+
+.modal-popup-confirm-email .modal-title {
+    font-weight: 700;
+    font-size: 32px;
+    text-align: center;
+    border: none;
+}
+
+.modal-popup-confirm-email h3 {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.modal-popup-confirm-email .popup-cancel-email {
+    float: left;
+    background: #F2F2F2;
+    border-color: #F2F2F2;
+    color: #000;
+    text-transform: capitalize;
+}
+
+.modal-popup-confirm-email .popup-confirm-email {
+    text-transform: capitalize;
+    float: right;
+}
+
+.modal-popup-confirm-email .modal-footer {
+    border-top: none;
+    padding-top: 0;
+}
+
+.modal-popup-confirm-email.modal-popup._inner-scroll .modal-inner-wrap {
+    border-radius: 16px;
+    background: #fff;
+}
+
+.modal-popup-confirm-email._inner-scroll .modal-header {
+    background: #fff;
+    border-radius: 16px;
+}
+
+.modal-popup-confirm-email._inner-scroll .modal-content {
+    background: #fff;
+}
+
+.modal-popup-confirm-email.modal-popup.modal-slide .modal-footer {
+    border-top: none;
+    border-radius: 16px;
+}
+
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field.gender label+label {
+    margin-left: 15px;
+}
+
+.customer-account-edit .columns .column.main form:not(.review-form) {
+    border-radius: 4px;
+}
+
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field .control input {
+    border-radius: 4px;
+}
+
+.customer-account-edit .columns .column.main form:not(.review-form) .actions-toolbar {
+    line-height: 48px;
+}
+
+.customer-account-edit .action.primary {
+    padding: 14px 47px;
+}
+
+/* --- fix style */
+.customer-account-edit select::-ms-expand {
+    display: none;
+    /* Ẩn biểu tượng mặc định của select */
+}
+
+.customer-account-edit select {
+    appearance: none;
+    /* Để ẩn biểu tượng trên Firefox */
+}
+
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field.language .control {
+    position: relative;
+}
+
+.customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field.language .control::after {
+    position: absolute;
+    content: '';
+    right: 65px;
+    top: 17.5px;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 8px solid #666666;
+}
+
+/* end */
+.customer-account-edit .actions-toolbar .primary a.back {
+    font-weight: 700;
+}
+
+.customer-account-edit .actions-toolbar .primary a.back:hover {
+    color: #f05735;
+}
+
+.customer-account-edit .actions-toolbar button.primary {
+    text-transform: inherit;
+}
+
+.customer-account-edit .modal-popup._inner-scroll .modal-content {
+    max-width: 96%;
+    margin: auto;
+}
+
+.customer-account-edit .modal-popup .modal-inner-wrap {
+    width: 100%;
+}
+
+.customer-account-edit .modal-slide .action-close {
+    padding: 11px 11px;
+}
+
+.customer-account-edit .modal-popup .modal-header,
+.customer-account-edit .modal-popup .modal-content,
+.customer-account-edit .modal-popup .modal-footer {
+    padding-left: 54px;
+    padding-right: 54px;
+}
+
+.customer-account-edit .modal-popup .modal-header .modal-title {
+    max-width: 80%;
+    margin: auto;
+}
+
+.customer-account-edit .modal-popup .modal-header {
+    padding-top: 45px;
+    padding-bottom: 20px;
+}
+
+.customer-account-edit .modal-popup._inner-scroll .modal-content {
+    padding-bottom: 20px;
+}
+
+.customer-account-edit .modal-popup .modal-footer {
+    padding-bottom: 45px;
+}
+
+.customer-account-edit .ui-datepicker .ui-datepicker-title select {
+    padding: 2px;
+    text-align: center;
+}
+
+/*Style for edit address */
+.customer-address-form .columns .column.main .form-address-edit {
+    border-radius: 8px;
+}
+
+.customer-address-form .form-address-edit .fieldset .legend span {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field {
+    width: 49%;
+    float: left;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field label {
+    font-size: 16px;
+    font-weight: 400;
+    color: #0D0D0D;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field .control input {
+    width: 90%;
+}
+
+.customer-address-form .delete_address {
+    float: right;
+    top: -30px;
+    position: relative;
+    background: none;
+    border: none;
+    color: #0D0D0D;
+    text-transform: capitalize;
+    padding: 0;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    line-height: 26px;
+    align-items: center;
+}
+
+.customer-address-form .delete_address:hover path {
+    fill:#F05735;
+}
+
+.customer-address-form .delete_address:hover span {
+    color:#F05735;
+}
+
+.customer-address-form .delete_address span {
+    margin-left: 10px;
+}
+
+.modal-popup-delete-address .popup-cancel-address:hover{
+    background: #DBDBDB;
+    border-color: #DBDBDB;
+}
+
+.form-address-edit{
+    box-shadow: none !important;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field.gender {
+    width: 100%;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field.gender label {
+    margin-bottom: 5px;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field.gender .control input {
+    width: auto;
+    font-size: 16px;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field.gender label {
+    float: initial;
+    padding: 0;
+    margin: 0;
+    text-align: initial;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 150%;
+    width: auto;
+    float: left;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field.gender label+label {
+    margin-left: 15px;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .country .control select {
+    background: #fff;
+    width: 90%;
+    font-size: 16px;
+    border-radius: 4px;
+    appearance: none;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field.country .control {
+    position: relative;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field.country .control::after {
+    position: absolute;
+    content: '';
+    right: 65px;
+    top: 17.5px;
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 8px solid #666666;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field .control input,
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field .control select {
+    width: 90%;
+    font-size: 16px;
+    font-weight: 400;
+    color: #0D0D0D;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field .control input {
+    border-radius: 4px;
+}
+
+.customer-address-form .actions-toolbar>.primary .action span,
+.customer-address-form .actions-toolbar>.secondary .action span {
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.customer-address-form .fieldset div.required>.label:after,
+.customer-address-form .fieldset>.field.required>.label:after {
+    display: none;
+}
+
+.customer-address-form .fieldset div.required>.label:after,
+.customer-address-form .fieldset>.field.required>.label:after {
+    display: none;
+}
+
+.customer-address-form .columns .column.main form:not(.review-form) .actions-toolbar {
+    line-height: 44px;
+}
+
+.customer-address-form .fieldset {
+    margin: 0 0 40px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.customer-address-form .fieldset.contact_info {
+    border: none;
+    padding-bottom: 2px;
+}
+
+.modal-popup-delete-address {
+    max-width: 425px;
+    text-align: center;
+    margin: auto;
+}
+
+.modal-popup-delete-address.modal-popup .modal-header {
+    padding: 50px 20px 20px 20px;
+}
+
+.modal-popup-delete-address.modal-popup .about_you{
+    display: none;
+}
+
+.modal-popup-delete-address.modal-popup._inner-scroll .modal-content {
+    padding: 20px;
+    padding-top: 0;
+    margin: 0;
+    max-width: 100%;
+}
+
+.modal-popup-delete-address.modal-popup .modal-header .modal-title{
+    font-size: 24px;
+}
+
+.modal-popup-delete-address .modal-title {
+    font-weight: 700;
+    font-size: 32px;
+    text-align: center;
+    border: none;
+}
+
+.modal-popup-delete-address h3 {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    text-align: left;
+}
+
+.modal-popup-delete-address .popup-cancel-address {
+    float: left;
+    background: #F2F2F2;
+    border-color: #F2F2F2;
+    color: #000;
+    text-transform: capitalize;
+}
+
+.modal-popup-delete-address .popup-delete-address {
+    text-transform: capitalize;
+    float: right;
+}
+
+.modal-popup-delete-address .modal-footer {
+    border-top: none;
+    padding-top: 0;
+}
+
+.modal-popup-delete-address.modal-popup._inner-scroll .modal-inner-wrap {
+    border-radius: 16px;
+    background: #fff;
+}
+
+.modal-popup-delete-address._inner-scroll .modal-header {
+    background: #fff;
+    border-radius: 16px;
+}
+
+.modal-popup-delete-address._inner-scroll .modal-content {
+    background: #fff;
+}
+
+.modal-popup-delete-address.modal-popup.modal-slide .modal-footer {
+    border-top: none;
+    border-radius: 16px;
+    padding: 0 20px 20px 20px;
+}
+
+.customer-address-form .modal-popup._inner-scroll .modal-content {
+    max-width: 96%;
+    margin: auto;
+}
+
+.customer-address-form .modal-popup .modal-inner-wrap {
+    width: 100%;
+}
+
+.customer-address-form .modal-slide .action-close {
+    padding: 11px 11px;
+}
+
+.customer-address-form .modal-popup .modal-header,
+.customer-address-form .modal-popup .modal-content,
+.customer-address-form .modal-popup .modal-footer {
+    padding-left: 54px;
+    padding-right: 54px;
+}
+
+.customer-address-form .modal-popup .modal-header .modal-title {
+    max-width: 80%;
+    margin: auto;
+}
+
+.customer-address-form .modal-popup .modal-header {
+    padding-top: 45px;
+    padding-bottom: 20px;
+}
+
+.customer-address-form .modal-popup._inner-scroll .modal-content {
+    padding-bottom: 20px;
+}
+
+.customer-address-form .modal-popup .modal-footer {
+    padding-bottom: 45px;
+}
+
+/*End style for edit address */
+
+/*Style for customer account index*/
+.customer-account-index .columns .column.main .block .box-title span,
+.customer-account-index .columns .column.main .block .block-title strong {
+    font-size: 20px;
+    font-weight: 700 !important;
+}
+
+.customer-account-index .columns .column.main .block .box-newsletter .box-title {
+    margin-bottom: 0px;
+}
+
+.customer-account-index .columns .column.main .block .box-content .title {
+    width: 110px;
+    display: inline-block;
+}
+
+.customer-account-index .columns .column.main .block .box-information .box-content p {
+    margin-bottom: 10px;
+}
+
+.customer-account-index .columns .column.main .box-actions .action {
+    padding-right: 20px;
+    text-decoration: none;
+}
+
+.customer-account-index .block-addresses-list .additional-addresses .table-additional-addresses-items {
+    width: 100%;
+}
+
+.customer-account-index .block-addresses-list .additional-addresses .table-additional-addresses-items tbody tr {
+    border-bottom: 1px solid #CCCCCC;
+    overflow: hidden;
+}
+
+.customer-account-index .block-addresses-list .additional-addresses .table-additional-addresses-items tbody tr:last-child {
+    border-bottom: none;
+}
+
+.block-addresses-list .additional-addresses .table-additional-addresses-items tbody tr td {
+    padding: 10px 0;
+}
+
+.customer-account-index .columns .column.main .block-addresses-list .block-title {
+    margin-bottom: 0px;
+}
+
+.customer-account-index .columns .column.main .block-addresses-list>tbody>tr>td {
+    padding: 10px 0;
+}
+
+.customer-account-index .columns .column .block-dashboard-info,
+.customer-account-index .columns .column .block-addresses-list {
+    border-radius: 8px;
+}
+
+.customer-account-index .columns .column .block-addresses-list .actions-toolbar .primary .action.add:before {
+    content: url(../images/icon_plus.png);
+    width: 16px;
+    height: 18px;
+    display: inline-block;
+    padding-right: 30px;
+    margin-top: -2px;
+}
+
+.customer-account-index .additional-addresses .table-additional-addresses-items .actions a{
+    text-decoration: none;
+}
+
+.customer-account-index .additional-addresses .table-additional-addresses-items .actions a:hover path {
+    fill:#F05735;
+}
+
+.customer-account-index .additional-addresses .table-additional-addresses-items .actions .edit span {
+    display: none;
+}
+
+.customer-account-index .columns .column .block-addresses-list .actions-toolbar .primary .action.add {
+    border-radius: 8px;
+    padding: 14px 13px;
+    display: inline-flex;
+}
+
+.customer-account-index .columns .column .block-addresses-list .actions-toolbar .primary .action.add span {
+    vertical-align: top;
+    text-transform: capitalize;
+}
+
+.customer-account-index .block-addresses-list .additional-addresses .table-additional-addresses-items tbody tr td.actions {
+    padding: 10px 0;
+    text-align: right;
+    min-width: 90px;
+}
+
+.customer-account-index .account .table-wrapper .action {
+    margin-right: 5px;
+}
+
+.customer-account-index .actions-toolbar .primary {
+    float: right;
+}
+
+.modal-popup-confirm-unsubscribe {
+    max-width: 570px;
+    text-align: center;
+    margin: auto;
+}
+
+.modal-popup-confirm-unsubscribe .modal-title {
+    font-weight: 700;
+    font-size: 32px;
+    text-align: center;
+    border: none;
+}
+
+.modal-popup-confirm-unsubscribe h3 {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.2;
+    text-align: left;
+}
+
+.modal-popup-confirm-unsubscribe .popup-cancel-unsubscribe {
+    float: left;
+    background: #F2F2F2;
+    border-color: #F2F2F2;
+    color: #000;
+    text-transform: capitalize;
+}
+
+.modal-popup-confirm-unsubscribe .popup-confirm-unsubscribe {
+    float: right;
+    background: #F05735;
+    border-color: #F05735;
+    color: #fff;
+    text-transform: capitalize;
+}
+
+.modal-popup-confirm-unsubscribe .popup-delete-address {
+    text-transform: capitalize;
+    float: right;
+}
+
+.modal-popup-confirm-unsubscribe .modal-footer {
+    border-top: none;
+    padding-top: 0;
+}
+
+.modal-popup-confirm-unsubscribe.modal-popup._inner-scroll .modal-inner-wrap {
+    border-radius: 16px;
+    background: #fff;
+}
+
+.modal-popup-confirm-unsubscribe._inner-scroll .modal-header {
+    background: #fff;
+    border-radius: 16px;
+}
+
+.modal-popup-confirm-unsubscribe._inner-scroll .modal-content {
+    background: #fff;
+}
+
+.modal-popup-confirm-unsubscribe.modal-popup.modal-slide .modal-footer {
+    border-top: none;
+    border-radius: 16px;
+}
+
+.customer-account-index .modal-popup._inner-scroll .modal-content {
+    max-width: 96%;
+    margin: auto;
+}
+
+.customer-account-index .modal-popup .modal-inner-wrap {
+    width: 100%;
+}
+
+.customer-account-index .modal-slide .action-close {
+    padding: 11px 11px;
+}
+
+.customer-account-index .modal-popup .modal-header,
+.customer-account-index .modal-popup .modal-content,
+.customer-account-index .modal-popup .modal-footer {
+    padding-left: 54px;
+    padding-right: 54px;
+}
+
+.customer-account-index .modal-popup .modal-header .modal-title {
+    max-width: 80%;
+    margin: auto;
+}
+
+.customer-account-index .modal-popup .modal-header {
+    padding-top: 45px;
+    padding-bottom: 20px;
+}
+
+.customer-account-index .modal-popup._inner-scroll .modal-content {
+    padding-bottom: 20px;
+}
+
+.customer-account-index .modal-popup .modal-footer {
+    padding-bottom: 45px;
+}
+
+/*End style for customer account index*/
+
+@media only screen and (max-width: 1200px) {
+    .customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field.country .control::after {
+        right: 55px;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field.country .control::after {
+        right: 50px;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+
+    .customer-account-edit .field,
+    .customer-account-edit .password .password {
+        width: 100%;
+    }
+
+    .customer-account-edit .sidebar {
+        display: none;
+    }
+
+    body.customer-account-edit .page-main.container {
+        background: none;
+    }
+
+    body.customer-account-edit .columns .column.main .page-title-wrapper .page-title>.base {
+        font-size: 12px;
+        font-weight: 700 !important;
+    }
+
+    body.customer-account-edit .columns .column.main .page-title-wrapper .page-title {
+        border-bottom: none;
+        margin-bottom: 0;
+        margin-top: 0;
+        padding: 0rem 1.5rem 2rem;
+    }
+
+    body.customer-account-edit .columns .column.main .page-title-wrapper .page-title>.base::before {
+        content: "Account Details / ";
+        font-size: 12px;
+        font-weight: 700 !important;
+    }
+
+    body.customer-account-edit header.page-header .header-container .web-three-logo-menu-navi-container {
+        border: none;
+        padding-bottom: 0;
+    }
+
+    body.customer-account-edit header.page-header {
+        margin-bottom: 10px !important;
+    }
+
+    .customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field .control input,
+    .customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .language .control select {
+        width: 100%;
+    }
+
+    .customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .field .customer-dob button {
+        right: 0px;
+    }
+
+    .customer-account-edit .columns .column.main form:not(.review-form)>.fieldset .gender .control input {
+        width: auto;
+    }
+
+    .customer-account-edit .columns .column.main form:not(.review-form) {
+        box-shadow: none;
+        background: #f7f7f7;
+        margin: 0 1.5rem 0;
+        border-radius: 8px;
+    }
+
+    .account .columns .column.main form:not(.review-form)>.fieldset .field.language .control::after {
+        right: 10px;
+    }
+
+    .customer-address-form form .legend {
+        margin-bottom: 10px;
+    }
+
+    .customer-address-form .fieldset {
+        margin: 0 0 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #CCCCCC;
+    }
+
+    .customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field.country .control::after {
+        right: 20px;
+    }
+
+    .customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field {
+        width: 100%;
+    }
+
+    .customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field .control input,
+    .customer-address-form .columns .column.main form:not(.review-form)>.fieldset .field .control select {
+        width: 100%;
+    }
+
+    .customer-address-form .columns .column.main .page-title-wrapper .page-title {
+        margin-bottom: 0;
+        border-bottom: 0;
+    }
+
+    .customer-address-form .columns .column.main .page-title-wrapper .page-title>.base {
+        font-size: 16px;
+    }
+
+    .customer-address-form .columns .column.main .page-title-wrapper .page-title>.base::before {
+        content: "Address Book / ";
+    }
+
+    .customer-address-form .columns .column.main form:not(.review-form) {
+        margin: 0 1.5rem 0;
+    }
+
+    body.customer-address-form .columns .column.main .page-title-wrapper .page-title {
+        padding: 0rem 1.5rem 2rem;
+    }
+
+    .customer-address-form .actions-toolbar .primary {
+        float: left;
+    }
+
+    .customer-address-form .actions-toolbar .secondary {
+        float: right;
+    }
+
+    .customer-address-form .actions-toolbar>.primary .action,
+    .customer-address-form .actions-toolbar>.secondary .action {
+        width: auto;
+    }
+
+    .customer-address-form .sidebar {
+        display: none;
+    }
+
+    .customer-account-index .columns .column.main .page-title-wrapper .page-title>.base:before {
+        content: "My Account / ";
+    }
+
+    .customer-account-index .columns .column.main .page-title-wrapper .page-title>.base {
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    .customer-account-index .columns .column.main .page-title-wrapper .page-title {
+        border-bottom: 0;
+        margin-bottom: 5px;
+    }
+
+    .customer-account-index .columns .column.main .block .box-title span,
+    .customer-account-index .columns .column.main .block .block-title strong {
+        font-size: 18px;
+        font-weight: 700 !important;
+    }
+
+    .customer-account-index .table-wrapper .table:not(.cart):not(.totals):not(.table-comparison) tbody>tr>td:first-child {
+        padding-top: 10px;
+    }
+
+    .table-wrapper .table:not(.cart):not(.totals):not(.table-comparison)>tbody>tr td[data-th]:before,
+    .table-wrapper .table:not(.cart):not(.totals):not(.table-comparison)>tbody>tr th[data-th]:before {
+        display: none;
+    }
+
+    .customer-account-index .block-addresses-list .additional-addresses .table-additional-addresses-items tbody tr td.address-full {
+        width: 90%;
+        float: left;
+    }
+
+    .customer-account-index .block-addresses-list .additional-addresses .table-additional-addresses-items tbody tr td.actions {
+        width: 10%;
+        float: right;
+        min-width: 0px;
+    }
+
+    .customer-account-index .table-wrapper .action {
+        margin-right: 0px;
+    }
+
+    .customer-account-index .actions-toolbar {
+        overflow: hidden;
+    }
+
+    .customer-account-index .table-wrapper .table:not(.cart):not(.totals):not(.table-comparison)>tbody>tr {
+        clear: both;
+    }
+
+    .customer-account-index .sidebar {
+        display: none;
+    }
+
+    .customer-account-index .columns .column .block-addresses-list .actions-toolbar .primary .action.add {
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+
+    .customer-account-index .modal-popup .modal-header,
+    .customer-account-index .modal-popup .modal-content,
+    .customer-account-index .modal-popup .modal-footer {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .modal-popup-confirm-unsubscribe .popup-cancel-unsubscribe,
+    .modal-popup-confirm-unsubscribe .popup-confirm-unsubscribe {
+        padding: 12px 20px;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+
+    .modal-popup-confirm-email .popup-confirm-email,
+    .modal-popup-confirm-email .popup-cancel-email {
+        padding: 12px 20px;
+    }
+
+    .customer-account-edit .modal-popup .modal-header,
+    .customer-account-edit .modal-popup .modal-content,
+    .customer-account-edit .modal-popup .modal-footer {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .modal-popup-delete-address .popup-delete-address,
+    .modal-popup-delete-address .popup-cancel-address {
+        padding: 12px 20px;
+    }
+
+    .customer-address-form .modal-popup .modal-header,
+    .customer-address-form .modal-popup .modal-content,
+    .customer-address-form .modal-popup .modal-footer {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .customer-account-index .modal-popup .modal-header,
+    .customer-account-index .modal-popup .modal-content,
+    .customer-account-index .modal-popup .modal-footer {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .modal-popup-confirm-unsubscribe .popup-cancel-unsubscribe,
+    .modal-popup-confirm-unsubscribe .popup-confirm-unsubscribe {
+        padding: 12px 20px;
+    }
+}

@@ -1,0 +1,17 @@
+<?php
+$gallery_images = json_decode($block->getGalleryImagesJson(), true);
+?>
+<div class="container-fixed-gallery-images-thumb">
+    <ul class="product_row">
+    <?php 
+        foreach ($gallery_images as $value){ ?>
+            <?php  if($value['isMain'] == 1){
+                echo '<li class="active"><a href="#" title="'.$value['caption'].'" data-position="'.$value['position'].'" data-image="'.$value['img'].'" data-thumb="'.$value['thumb'].'" data-caption="'.$value['caption'].'"><img src="'.$value['thumb'].'" alt="'.$value['caption'].'"></a></li>';
+            }
+            else{
+                echo '<li><a href="#" title="'.$value['caption'].'" data-position="'.$value['position'].'" data-image="'.$value['img'].'" data-thumb="'.$value['thumb'].'" data-caption="'.$value['caption'].'"><img src="'.$value['thumb'].'" alt="'.$value['caption'].'" ></a></li>';
+            } ?>
+        <?php } 
+    ?>
+    </ul>
+</div>

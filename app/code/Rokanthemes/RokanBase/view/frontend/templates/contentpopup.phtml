@@ -1,0 +1,52 @@
+<div id="super_deals_menu" class="super_deals_menu">
+	<div class="col-popup col-content">
+		<div class="content-popup">
+			<div class="content">
+				<?= __('Now, all products on sale! Enjoy!') ?>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="voucher_menu" class="voucher_menu">
+	<div class="col-popup col-content">
+		<div class="content-popup">
+			<div class="content">
+				<?= __('Available soon....') ?>
+			</div>
+		</div>
+	</div>
+</div>
+<script> 
+require(['jquery','Magento_Ui/js/modal/modal'], function($, modal){
+	$(document).ready(function(){
+		var options = {
+			type: 'popup',
+			responsive: true,
+			innerScroll: true,
+			title: '',
+			modalClass: 'menu-modal',
+			buttons: [{
+				text: 'close',
+				class: '',
+				click: function () {
+					this.closeModal();
+				}
+			}],
+			opened: function($event) {
+				$(".modal-footer").hide();
+			}
+		};
+
+		var popup_super = modal(options, $('#super_deals_menu'));
+		var voucher = modal(options, $('#voucher_menu'));
+		$(".supper-deals a").on('click',function(){ 
+			$("#super_deals_menu").modal("openModal");
+			return false;
+		});
+		$(".voucher a").on('click',function(){ 
+			$("#voucher_menu").modal("openModal");
+			return false;
+		});
+	});
+ });	 
+</script>

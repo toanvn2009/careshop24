@@ -1,0 +1,299 @@
+<?php
+    $develop = $block->getDevelop();
+    $reply = $block->getUrl('communitydevelop/forum/reply',['id' => $develop['entity_id']]);
+    $topics = $block->getTopics($develop['entity_id']);
+    $media_url = $block->getMediaUrl();
+    $avatar = "";
+    $add_comment_url = $block->getUrl('communitydevelop/forum/comment'); 
+    $share_idea_url = $block->getUrl('communitydevelop/forum'); 
+    $login = $block->getUrl('customer/account/login');
+?> 
+<div id="community_view_idea">
+    <div class="idea_option_reply">
+        <?php if ( $block->isLogin()) { ?>
+            <div id="reply_idea"><a href="<?= $reply; ?>"><button><?= $block->escapeHtml(__('Reply') ); ?></button></a></div>
+            <?php } else { ?>
+                <div class="idea_reply"></div>
+        <?php } ?>
+        <?php if($topics->count() ) : ?>
+        <div class="page_next_previous">
+            <?php if ($block->getPagerHtml()): ?>
+            <div class="next_previous">
+                <a href="#"><span><?= $block->escapeHtml(__('<< Message List') ); ?></span></a>
+                <a href="#"><span><?= $block->escapeHtml(__('<< Previous Topic') ); ?></span></a>
+                <a href="#"><span><?= $block->escapeHtml(__('<< Next Topic') ); ?></span></a>
+            </div>
+            <?php endif; ?>  
+            <div class="page_list">
+                <?php if ($block->getPagerHtml()): ?>
+                    <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+                <?php endif ?>
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>
+    <div id="idea_topics">
+        <?php 
+            foreach($topics as $topic) {
+                $customer_id = $topic->getCustomerId();
+                if($customer_id > 0 ) {
+                    $profile = $block->getCustomerProfile($customer_id);
+                    $avatar = $media_url.$profile->getAvatar();
+                }
+                $author = $block->getAuthorByCustomerId($customer_id);
+        ?>
+            <div class="idea_topics"> 
+                <div class="idea_topics_flex">
+                    <div class="left">
+                        <h2 class="author_name custom"><?= $author->getName(); ?></h2>
+                        <div class="avatar"><img src="<?= $block->escapeHtmlAttr($avatar) ?>" alt="image" /></div>
+                        <div class="number_post"><?= $block->escapeHtml(__('Post: ') ); ?> <?= $block->getCommentinForum($customer_id); ?></div>
+                    </div>
+                    <div class="right">
+                        <h2 class="idea_name"><?= ($topic->getName()) ? $topic->getName() : '' ?></h2>
+                        <div class="date"><?= ($topic->getCreatedAt()) ? $block->getDateFormat($topic->getCreatedAt()) : '' ?></h2></div>
+                        <div class="message"><?= ($topic->getDescription()) ? $topic->getDescription() : '' ?></div>
+                    </div>
+                </div>
+                <div class="action-content">
+                    <div class="translate"><span class="icon-translate"></span><?= $block->escapeHtml(__('Translate') ); ?></div>
+                    <div class="action">
+                    <?php
+                        $likeIdea = 10;
+                    ?>
+                        <div class="action-forum">
+                            <div class="action-left">
+                                <?php if ( $block->isLogin()) { ?>
+                                    <div class="report_post"> <?= $block->escapeHtml(__('Report Post') ); ?>  
+                                    </div> 
+                                <?php } else { ?>
+                                    <div class="report_post"><a href="<?= $login; ?>"><?= $block->escapeHtml(__('Report Post') ); ?> </a></div>
+                                <?php } ?>
+                            </div>
+                            <div class="action-right">
+                                <div class="share_reply">
+                                    <div class="share">
+                                        <i class="fa fa-share-alt"></i>
+                                        <div class="addthis_inline_share_toolbox"></div>
+                                    </div>
+                                    <div class="number_like">
+                                        <span><?= $likeIdea; ?></span>
+                                        <?= ($likeIdea >1) ? $block->escapeHtml(__(' Likes') ) : $block->escapeHtml(__(' Like') ) ?>
+                                    </div>
+                                    <?php if ( $block->isLogin()) : ?>
+                                    <div class="like_idea"  data-topic_id ="<?= $topic->getEntityId(); ?>"><i class="fa fa-thumbs-up"></i></div>
+                                    <?php endif; ?>
+                                    <?php if ( $block->isLogin()) { ?>
+                                        <div class="reply_message"><button><?= $block->escapeHtml(__('Reply') ) ?></button></div> 
+                                    <?php } else { ?> 
+                                        <div class="reply_message"><a href="<?= $login; ?>"><button><?= $block->escapeHtml(__('Reply') ) ?></button></a></div> 
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php if ( $block->isLogin()) : ?>
+                        <div class="report_form" style="display:none;">
+                            <div id="formcont">
+                                <h3><?= $block->escapeHtml(__('Report this article') )?></h3>
+                                <form class="form"
+                                    novalidate
+                                    action="#"
+                                    method="post"
+                                    data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+                                    enctype="multipart/form-data" 
+                                    data-mage-init='{"validation":{}}'> 
+                                    <p>
+                                        <input class="develop_id" name="develop_id" type="hidden"  value="<?= $topic->getDevelopId() ; ?>" />
+                                        <input class="customer_id" name="customer_id" type="hidden"  value="<?= $customer_id ; ?>"/>
+                                        <input class="forum_id" type="hidden" name="forum_id" value="<?= $topic->getEntityId(); ?>" />
+                                        <textarea class="report_content"  name="report_content" rows="4" cols="50"></textarea>
+                                        <input type="button" value="Send Report" class="report_post_save" />
+                                    </p>
+                                </form>
+                            </div>
+                            <div id="output"></div>
+                        </div>   
+                        <div class="reply_form" style="display:none;">
+                            <form class="form"
+                                novalidate
+                                action="<?= $add_comment_url;?>"
+                                method="post"
+                                data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+                                enctype="multipart/form-data" 
+                                data-mage-init='{"validation":{}}'> 
+                                    <textarea 
+                                    class="content_message"
+                                    name="message_comment" 
+                                    title="<?= $block->escapeHtmlAttr(__('Send message')) ?>" 
+                                    class="input-text"
+                                    data-validate="{required:true}">
+                                    </textarea> 
+                                    <input name="develop_id" type="hidden"  value="<?= $topic->getDevelopId() ; ?>" />
+                                    <input name="customer_id" type="hidden"  value="<?= $customer_id ; ?>"/>
+                                    <input name ="forum_id" type="hidden"  value = "<?= $topic->getEntityId(); ?>" />
+                                    <div class="submit"><input type="submit" value="Send" /></div>
+                            </form>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="comment_topic">
+                    <?php $comment_forums = $block->getCommentForums($topic->getEntityId()); ?>
+                    <?php  foreach( $comment_forums as $cmt) :
+                            $user_comment_id = $cmt->getEntityId();
+                            $customer_id = $cmt->getCustomerId();
+                            $profile = $block->getCustomerProfile($customer_id);
+                            $likes = $block->getCommentLikes($cmt->getEntityId());
+                        ?>        
+                            <div class="msg_topic_comment">
+                                <div class="avatar">
+                                    <?php  if ( $profile ) : ?>
+                                        <img width="50px" src="<?= $block->escapeHtmlAttr( $media_url.$profile->getAvatar()) ?>" alt="image" />
+                                    <?php endif; ?>
+                                </div>
+                                <div class="content_comment">
+                                    <span><?= ($cmt->getDescription()) ? $block->escapeHtml($cmt->getDescription()) : ''; ?></span>
+                                    <div><i><?= ($cmt->getCreatedAt()) ? $block->escapeHtml($block->getDateFormat($cmt->getCreatedAt())) : ''; ?></i></div>        
+                                    <div class="content_like">                                
+                                        <div class="number_like">
+                                            <span class="comment"><?= $likes; ?></span>
+                                            <?= ($likes && $likes >1) ? $block->escapeHtml(__(' Likes') ) : $block->escapeHtml(__(' Like') ) ?>
+                                        </div>
+                                        <?php if ( $block->isLogin()) : ?>
+                                            <div class="like" data-entity_id="<?= ($cmt->getEntityId()) ? $cmt->getEntityId() : '' ?>" data-comment_id ="<?= $cmt->getId(); ?>"><i class="fa fa-thumbs-up"></i></div>
+                                        <?php  endif; ?>
+                                    </div>
+                                </div>
+                            </div>     
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <hr/>
+        <?php } ?> 
+    </div>
+    <?php if($topics->count() ) : ?>
+        <div class="page_next_previous">
+            <div class="next_previous">
+                <a href="#"><span><?= $block->escapeHtml(__('<< Message List') ); ?></span></a>
+                <a href="#"><span><?= $block->escapeHtml(__('<< Previous Topic') ); ?></span></a>
+                <a href="#"><span><?= $block->escapeHtml(__('<< Next Topic') ); ?></span></a>
+            </div>
+            <div class="page_list">
+                <?php if ($block->getPagerHtml()): ?>
+                    <div class="order-products-toolbar toolbar bottom"><?php echo $block->getPagerHtml(); ?></div>
+                <?php endif ?>
+            </div>
+        </div>
+    <?php endif; ?>
+</div>
+<script type="text/javascript">
+require([
+        'jquery',
+        "mage/url",
+        'mage/adminhtml/wysiwyg/tiny_mce/setup'
+    ], function($,urlBuilder){
+        $(document).ready(function() {
+        $(".like").click(function(){
+            var comment_id = $(this).data('comment_id');
+            var entity_id = $(this).data('entity_id');
+            var url = urlBuilder.build('community/topic/like/');
+            var _self = $(this);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                showLoader: true, 
+                data: {
+                    comment_id: comment_id,
+                    entity_id: entity_id   
+                },
+                success: function(response) {
+                    _self.parent().find('.number_like span.comment').html(response.like_comment);
+                },
+                error: function (xhr, status, errorThrown) {
+                }
+            });
+        });
+        $(".like_idea").click(function(){
+            var topic_id = $(this).data('topic_id');
+            var idea_id = $(this).data('idea_id');
+            var url = urlBuilder.build('community/topic/like/');    
+            var _self = $(this);
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                showLoader: true, 
+                data: {
+                    topic_id: topic_id,
+                    idea_id: idea_id   
+                },
+                success: function(response) {
+                    _self.parent().find('.number_like span').html(response.like_idea);
+                },
+                error: function (xhr, status, errorThrown) {
+                } 
+            });
+        });
+        $('.addthis_inline_share_toolbox').hide();
+        $('.at-svc-facebook').remove();
+        $('.share').click(function(){
+            $(this).find('.addthis_inline_share_toolbox').slideToggle();
+        })
+        
+        $(".report_post_save").click(function(){
+            var customer_id = $(this).parent().find('.customer_id').val();
+            var develop_id = $(this).parent().find('.develop_id').val();
+            var forum_id = $(this).parent().find('.forum_id').val();
+            var report_content = $(this).parent().find('.report_content').val();
+            var self1 = $(this).closest('.idea_topics');
+            if(!$.trim(report_content)){
+                alert('You need enter the content');
+                return false;
+            }
+            var url = urlBuilder.build('communitydevelop/forum/report/');
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                showLoader: true, 
+                data: {
+                    forum_id: forum_id,
+                    customer_id: customer_id,
+                    report_content: report_content,
+                    develop_id: develop_id,
+                },
+                success: function(response) {
+                    self1.find('.report_form').hide();
+                    self1.find('.report_content').val('');
+                },
+                error: function (xhr, status, errorThrown) {
+                }
+            });
+        })
+
+        var url = BASE_URL +'communitydevelop/forum/countview/';
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            showLoader: true, 
+            data: {
+                develop_id: "<?= $develop['develop_id'] ?>"   
+            },
+            success: function(response) {
+            },
+            error: function (xhr, status, errorThrown) {
+            }
+        });
+        $('.report_post').click(function(){
+            $('.reply_form').hide();
+            $(this).closest('.action').find('.report_form').slideToggle();
+        });
+        $('.reply_message').click(function(){
+            $('.report_form').hide();
+            $(this).closest('.action').find('.reply_form').slideToggle();
+        });
+    });
+});
+</script>

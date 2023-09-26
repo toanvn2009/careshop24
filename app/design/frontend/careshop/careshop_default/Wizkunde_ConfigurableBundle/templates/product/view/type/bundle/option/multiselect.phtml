@@ -1,0 +1,165 @@
+<?php
+$_product = $block->getProduct();
+?>
+<style type="text/css">
+    .product.attribute.sku, .product-info-top-left .price-box.price-final_price{
+        display: none !important;
+    }
+</style>
+<script type="text/javascript">
+    require(['configurable'],function($){
+    })
+</script>
+<?php if($_product->getId() == '1145' || $_product->getId() == '1548'){ ?>
+<div class="container-configurable-color-functional-boxer">
+    <div class="custom-swatch-attribute-custom-functional-boxer">
+        <div class="box-select-common-functional-boxer">
+            <a href="#">
+                <span class="swatch-attribute-label"><?= __('Configurator');?></span>
+                <strong class="swatch-attribute-selected-option swatch-attribute-selected-option-custom-functional-boxer-color"></strong>
+            </a>
+        </div>
+    </div>
+    <div class="container-tab-color-functional-boxer" style="display: none;">
+<?php } ?>
+    <?php $_option      = $block->getOption(); ?>
+    <?php $_selections  = $_option->getSelections(); ?>
+    <?php $_default     = $_option->getDefaultSelection(); ?>
+    <?php list($_defaultQty, $_canChangeQty) = $block->getDefaultValues(); ?>
+    <div class="field option <?php echo ($_option->getRequired()) ? ' required': ''; ?>">
+        <label class="label" for="bundle-option-<?php echo $_option->getId() ?>">
+            <span><?php echo $block->escapeHtml($_option->getTitle()) ?></span>
+        </label>
+        <div class="control">
+            <div class="nested bundle-option-nested<?php if (!$_canChangeQty) echo ' qty-option-disabled' ?>">
+                <div class="field qty qty-holder">
+                    <label class="label" for="bundle-option-<?php echo $_option->getId() ?>-qty-input">
+                        <span><?php echo __('Selection Qty') ?></span>
+                    </label>
+                    <div class="control">
+                        <input <?php if (!$_canChangeQty) echo ' disabled="disabled"' ?>
+                            id="bundle-option-<?php echo $_option->getId() ?>-qty-input"
+                            class="input-text qty<?php if (!$_canChangeQty) echo ' qty-disabled' ?>"
+                            type="number"
+                            name="bundle_option_qty[<?php echo $_option->getId() ?>]"
+                            data-selector="bundle_option_qty[<?php echo $_option->getId() ?>]"
+                            data-validate="{required:true}"
+                            <?php echo ($_option->getRequired()) ? 'min="1"' : '' ?>
+                            value="<?php echo $_defaultQty ?>"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="select-images<?php echo ($block->getBundleHelper()->mustShowImages() == false) ? ' no-images' : '' ?>" data-role="select-option-<?php echo $_option->getId() ?>">
+                <?php if ($block->getBundleHelper()->mustShowImages() == true) : ?>
+                    <?php foreach($_selections as $selection) : ?>
+                        <a class="multi-select select-link" data-selection-id="<?php echo $selection->getSelectionId() ?>">
+                            <?php if($selection->getSelectionId() == 1){ ?>
+                            <span><?php echo __('1 Boxer') ?></span>
+                            <?php } ?>
+                            <?php if($selection->getSelectionId() == 2){ ?>
+                            <span><?php echo __('2 Boxers') ?></span>
+                            <?php } ?>
+                            <?php if($selection->getSelectionId() == 3){ ?>
+                            <span><?php echo __('3 Boxers') ?></span>
+                            <?php } ?>
+                            <?php if($selection->getSelectionId() == 4){ ?>
+                            <span><?php echo __('4 Boxers') ?></span>
+                            <?php } ?>
+                        </a>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+
+                <?php $extraClass = ($block->getBundleHelper()->getFrontendInputVisibility() != 'normal') ? 'data-is-visible' : 'data-is-hidden' ?>
+
+                <select multiple="multiple"
+                        size="5"
+                        id="bundle-option-<?= $block->escapeHtmlAttr($_option->getId()) ?>"
+                        name="bundle_option[<?= $block->escapeHtmlAttr($_option->getId()) ?>][]"
+                        data-selector="bundle_option[<?= $block->escapeHtmlAttr($_option->getId()) ?>][]"
+                        class="bundle-option-<?= $block->escapeHtmlAttr($_option->getId()) ?> <?= $extraClass ?> multiselect product bundle option bundle-option-select change-container-classname"
+                    <?php if ($_option->getRequired()) { echo 'data-validate={required:true}'; } ?>>
+                    <?php if (!$_option->getRequired()) : ?>
+                        <option value=""><?= $block->escapeHtml(__('None')) ?></option>
+                    <?php endif; ?>
+                    <?php foreach ($_selections as $_selection) : ?>
+                        <option value="<?= $block->escapeHtmlAttr($_selection->getSelectionId()) ?>"
+                            <?php if ($block->isSelected($_selection)) { echo ' selected="selected"'; } ?>
+                            <?php if (!$_selection->isSaleable()) { echo ' disabled="disabled"'; } ?>>
+                            <?= /* @noEscape */ $block->getSelectionQtyTitlePrice($_selection, false) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+
+            <script type="text/x-magento-init">
+                {
+                    "[data-role=select-option-<?php echo $_option->getId() ?>]": {
+                        "Wizkunde_ConfigurableBundle/js/bundle-option-selector": {
+                            "optionId": <?php echo $_option->getId() ?>
+                        }
+                    }
+                }
+            </script>
+
+            <?php foreach($_selections as $selection) : ?>
+                <div class="bundle-selection-data<?php if($selection->getSelectionId() == $block->getDefaultSelectionId()) echo " visible-selection" ?><?php if($selection->getSelectionId() == 1) echo " visible-selection-show" ?>" data-role="data-option-<?php echo $block->getOption()->getId() ?>" data-selection-id="<?php echo $selection->getSelectionId() ?>">
+                    <div class="bundle-option-you-save" style="z-index: 999999; position: relative; padding: 10px 0;">
+                        <?php if($selection->getSelectionId() == 1){ ?>
+                        <span class="fixed-discount-price-box-1">CHF 42.25/pc <?= __('You save'); ?> CHF 0.00 (0%)</span>
+                        <span class="fixed-discount-price-box-2" style="display: none;">CHF 54.00 instead of CHF 84.50 (CHF 27.00/pc). You save CHF 30.50 (36%)</span>
+                        <span class="fixed-discount-price-box-3" style="display: none;">CHF 63.00 instead of CHF 126.75 (CHF 21.00/pc). You save CHF 63.75 (50%)</span>
+                        <span class="fixed-discount-price-box-4" style="display: none;">CHF 69.00 instead of CHF 169.00 (CHF 17.25/pc). You save CHF 100.00 (59%)</span>
+                        <?php } ?>
+                    </div>
+                    <div class="bundle-option-label" style="z-index: 999999; position: relative; display: none;" data-role="bundle-option-label-<?php echo $block->getOption()->getId() ?>">
+                        <?php echo $selection->getName() ?>
+                    </div>
+
+                    <div style="display: none;" class="bundle-option-description<?php echo ($block->getBundleHelper()->mustShowDescription() == false) ? ' hidden' : ''?>" data-role="bundle-option-description-<?php echo $block->getOption()->getId() ?>">
+                        <?php echo $selection->getShortDescription() ?>
+                    </div>
+
+                    <div class="swatch-opt" data-swatch-id="<?php echo $block->getOption()->getId() ?>-<?php echo $selection->getSelectionId() ?>" data-option-id="<?php echo $block->getOption()->getId() ?>" data-sub-id="<?php echo $selection->getSelectionId() ?>" data-role="swatch-options-<?php echo $block->getOption()->getId() ?>"></div>
+                    <div class="swatch-opt-price" data-role="swatch-options-price-<?php echo $block->getOption()->getId() ?>"></div>
+                    <div class="bundle-custom-options product-custom-options-<?php echo $block->getOption()->getId() ?>"></div>
+
+                    <div class="bundle-custom-options-template" data-option-id="<?php echo $block->getOption()->getId() ?>" data-selection-id="<?php echo $selection->getSelectionId() ?>"><?php /* @escapeNotVerified */ echo $block->getConfigurableOptions($selection); ?></div>
+                    <div class="bundle-custom-options-template-bottom sco-updateable-content" data-option-id="<?php echo $block->getOption()->getId() ?>" data-selection-id="<?php echo $selection->getSelectionId() ?>"></div>
+                </div>
+
+            <?php if($block->isConfigurableSelection($selection)) : ?>
+            <?php $configurableRenderer = $block->getConfigurableRenderer($selection); ?>
+            <?php $jsonSwatchSizeConfig = $configurableRenderer->getJsonSwatchSizeConfig(); ?>
+
+            <?php
+            if($jsonSwatchSizeConfig == null) {
+                $jsonSwatchSizeConfig = '{"swatchImage":{"width":100,"height":100},"swatchThumb":{"height":110,"width":110}}';
+            }
+            ?>
+
+                <script type="text/x-magento-init">
+                        {
+                            "div[data-swatch-id='<?php echo $block->getOption()->getId() ?>-<?php echo $selection->getSelectionId() ?>']": {
+                                "Magento_Swatches/js/swatch-renderer": {
+                                    "jsonConfig": <?= /* @escapeNotVerified */ $swatchOptions = $configurableRenderer->getJsonConfig() ?>,
+                                    "jsonSwatchConfig": <?php /* @escapeNotVerified */
+                    echo $swatchOptions = $configurableRenderer->getJsonSwatchConfig(); ?>,
+                                    "mediaCallback": "<?= /* @escapeNotVerified */ $configurableRenderer->getMediaCallback() ?>",
+                                    "jsonSwatchImageSizeConfig": <?php /* @escapeNotVerified */  echo $jsonSwatchSizeConfig ?>,
+                                    "gallerySwitchStrategy": "prepend"
+                                }
+                            },
+                            "*" : {
+                                "Magento_Swatches/js/catalog-add-to-cart": {}
+                            }
+                        }
+                    </script>
+            <?php endif; ?>
+            <?php endforeach; ?>
+        </div>
+    </div>
+<?php if($_product->getId() == '1145' || $_product->getId() == '1548'){ ?>
+    </div>
+</div>
+<?php } ?>

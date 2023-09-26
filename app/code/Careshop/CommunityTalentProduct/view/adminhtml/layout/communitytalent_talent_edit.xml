@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Careshop\CommunityTalentProduct\Block\Adminhtml\Talent\Edit" name="community_talent_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Careshop\CommunityTalentProduct\Block\Adminhtml\Talent\Edit\Tabs" name="community_talent_tabs">
+                <block class="Careshop\CommunityTalentProduct\Block\Adminhtml\Talent\Edit\Tab\Talent" name="community_talent_edit_tab_talent"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">talent</argument>
+                    <argument name="block" xsi:type="string">community_talent_edit_tab_talent</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

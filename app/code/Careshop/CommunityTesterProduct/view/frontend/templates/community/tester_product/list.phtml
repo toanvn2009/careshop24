@@ -1,0 +1,124 @@
+<?php
+use Magento\Framework\App\Action\Action;
+
+?>
+
+<?php
+$_productCollection = $block->getLoadedProductCollection();
+$_helper = $this->helper(Magento\Catalog\Helper\Output::class);
+?>
+<?php if (!$_productCollection->count()) :?>
+    <div class="message info empty"><div><?= $block->escapeHtml(__('We can\'t find products matching the selection.')) ?></div></div>
+<?php else :?>
+    <?= $block->getToolbarHtml() ?>
+    <?= $block->getAdditionalHtml() ?>
+    <?php
+    $viewMode = 'grid';
+    $imageDisplayArea = 'category_page_grid';
+    $showDescription = false;
+    $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+    /**
+     * Position for actions regarding image size changing in vde if needed
+     */
+    $pos = $block->getPositioned();
+    ?>
+    <div class="products wrapper <?= /* @noEscape */ $viewMode ?> products-<?= /* @noEscape */ $viewMode ?>">
+        <ol class="products list items product-items">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_product) :
+                $link_product = $block->escapeUrl($_product->getProductUrl());
+            ?>
+            <li class="item product product-item">
+                <div class="product-item-info" data-container="product-<?= /* @noEscape */ $viewMode ?>">
+                    <?php
+                    $productImage = $block->getImage($_product, $imageDisplayArea);
+                    if ($pos != null) {
+                        $position = ' style="left:' . $productImage->getWidth() . 'px;'
+                            . 'top:' . $productImage->getHeight() . 'px;"';
+                    }
+                    ?>
+                    <?php // Product Image ?>
+                    <a href="<?= $link_product ?>"
+                       class="product photo product-item-photo"
+                       tabindex="-1">
+                        <?= $productImage->toHtml() ?>
+                    </a>
+                    <?php if ($customBlock = $block->getChildBlock('custom-block-container')): ?>
+                        <?= $customBlock->setProduct($_product)->getChildHtml() ?>
+                    <?php endif; ?>
+                    <div class="product details product-item-details">
+                        <?php if ($_product->isAvailable()) :?>
+                            <?= $block->getProductDetailsHtml($_product) ?>
+                        <?php endif; ?>
+                        <?php
+                            $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                        ?>
+                        <strong class="product name product-item-name">
+                            <a class="product-item-link"
+                               href="<?= $link_product ?>">
+                                <?= /* @noEscape */ $_helper->productAttribute($_product, $_product->getName(), 'name') ?>
+                            </a>
+                        </strong>
+                        <?= $block->getReviewsSummaryHtml($_product, $templateType) ?>
+                        <?php if($_product->getData('original_price')){ 
+                            $pricingHelper = $this->helper(\Magento\Framework\Pricing\Helper\Data::class);
+                        ?>
+                        <div class="original-price-instead-of-fixed">
+                            <?= __('Instead of').' '.$pricingHelper->currency($_product->getData('original_price'), true, false); ?>
+                        </div>
+                        <?php } ?>
+                        <?= /* @noEscape */ $block->getProductPrice($_product) ?>
+                        <div class="testers">
+                            <span class="lable"><?= __('Testers') ?></span>: <span class="count">4,678 out of 5,000</span>
+                        </div>
+                        <div class="deadline">
+                            <span class="lable"><?= __('Deadline') ?></span>: <span class="time">May 16, 2019</span>
+                        </div>
+                        <div class="product-item-inner">
+                            <div class="product description product-item-description"> 
+                                <a href="#"
+                                    data-product-id="<?= $_product->getId(); ?>"
+                                   title="<?= /* @noEscape */ $_productNameStripped ?>"
+                                   class="action more test-it-now"><?= $block->escapeHtml(__('TEST IT NOW')) ?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+<?php endif; ?>
+<script type="text/javascript">
+    require([
+        'jquery',
+        "mage/url",
+        'mage/adminhtml/wysiwyg/tiny_mce/setup'
+    ], function($,urlBuilder){
+        $(document).ready(function() {
+            var url = BASE_URL +'communitytester/tester/customer/';
+            var url_login = BASE_URL +'customer/account/login';
+            $(".test-it-now").click(function(){
+                var product_id = $(this).data('product-id');
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    showLoader: true, 
+                    data: {
+                        product_id: product_id
+                    },
+                    success: function(response) {
+                        if (response.error && response.login) {
+                            window.location.href = url_login;
+                        }
+                    },
+                    error: function (xhr, status, errorThrown) {
+                    }
+                });
+                return false;
+            });
+        });
+    });
+</script>

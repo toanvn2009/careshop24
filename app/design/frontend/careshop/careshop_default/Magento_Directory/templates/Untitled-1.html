@@ -1,0 +1,34 @@
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "Благодарим Ви за поръчката!"}}</p>
+        </td>
+    </tr>
+    <tr class="email-summary">
+        <td>
+            <p class="greeting">{{trans "Здравейте," }} {{trans "%customer_name," customer_name=$order_data.customer_name}}</p>
+        </td>
+    </tr>
+    <tr class="email-summary">
+        <td>
+            <p class="greeting">{{trans "Благодарим Ви за направената поръчка в %store_name." store_name=$store.frontend_name }</p>
+        </td>
+    </tr>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">   {{trans 'Номерът на Вашата поръчка е: <span class="no-link">#%increment_id</span>' increment_id=$order.increment_id |raw}}</p>
+        </td>
+    </tr>
+    <tr class="email-intro">
+        <td>
+            <p class="greeting">{{trans "За да ни изпратите съобщение или проследете статуса на поръчката,"}}</p>
+        </td>
+    </tr>
+    
+    
+   
+</table>
+
+{{template config_path="design/email/footer_template"}}
